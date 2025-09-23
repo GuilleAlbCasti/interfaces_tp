@@ -1,5 +1,31 @@
-html, body {
+html {
     background-image: url(../static/fondo.webp);
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+main {
+    border: 1px #fff solid;
+    margin: 20px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+}
+
+section {
+    border: 1px #e5e916 solid;
+    height: 500px;
+    margin-top: 50px;
+}
+
+.robot {
+    border: none;
+}
+
+.login-principal {
+    width: 394px;
+    height: 514px;
+    border-radius: 12px;
+    background-color: #03045E;
+    box-shadow: ;
 }
