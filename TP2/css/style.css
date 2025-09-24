@@ -9,7 +9,8 @@
 }
 
 body {
-    background-color: #6B6CA7; 
+    background-color: #1d1165;
+    font-family: Arial, sans-serif;
 }
 
 /**************** Mobil First***************/
@@ -17,45 +18,55 @@ header {
     align-items: center;
     width: 100%;
     background-color: #03045E;
+    
+}
+.grid_nav {
+        display: grid;
+        grid-template-areas: "hmenu logo login";
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 50px;
 }
 
+.hmenu {
+    grid-area: hmenu;
+}
+.logo { 
+    grid-area: logo;
+}
+.banner1{ 
+    grid-area: banner1; 
+}
+.buscar { 
+    grid-area: buscar;
+}
+.login {
+    grid-area: login;
+    text-align: center;
+}
 nav {
   width: 100%;
   display: flex;
 }
     
-.banner1, .banner2 {
+.banner1, .banner2, .buscar, .carrito {
     display: none;
 }
 
 
-@media (max-width: 459px) {
-    .hmenu, .logo, .carrito, .login, img {
-        width: 25px;
-        height: 25px;
+.hmenu, .logo, img {
+        width: 45px;
+        height: 45px;
         margin: auto;
     }
+
+
+.hmenu {
+    margin-left:10px;  
 }
 
+ 
 
-.hmenu, .login {
-    margin-left:2px;
-    margin-right:2px;
-}
 
-.carrito {
-    margin-right: 5px;
-}  
-
-.input-buscar { 
-    width: 80%;
-    height: 15px;
-    padding-left: 10px;
-    font-size: 8px;
-    text-align:initial;
-    border-radius: 15px;
-   
-}
 
 /*------------footer mobile-----------*/
 footer {
@@ -97,14 +108,14 @@ footer {
 h3 {
     padding-left: 5px;
     white-space: nowrap;
-    font-family: 'Anton', sans-serif;
-    color: #F6853E;
+    font-family: Anton, sans-serif;
+    color: #ff5722;
     justify-self:left;
     font-size: 12px;
 }
 
 /*
-*-----Descktop -------------------------------
+*------------------Descktop -------------------------------
 */
 @media (min-width: 460px){
     .grid_nav {
@@ -112,6 +123,7 @@ h3 {
         grid-template-areas: "hmenu logo banner1 buscar banner2 carrito login";
         grid-template-columns: 0.5fr 1.5fr 4fr 4fr 4fr 1fr 1fr;
         grid-template-rows: 60px;
+      
         }
 
  
@@ -145,23 +157,15 @@ h3 {
     display: flex;
 }
 
-.logo img {
-    display: block;
-    margin: 0 auto;
-    max-height: 100%;
-    max-width: 100%;
-}
 
 
 .banner1{ 
     grid-area: banner1; 
+    
 }
 
-.banner1, .banner2 {
-    white-space: nowrap;
-    font-family: 'Anton', sans-serif;
-    color: #F6853E;
-    font-size: 20px;
+.banner1 h2, .banner2 h2 {
+    margin-top: 0%;
 }
 
 .buscar { 
@@ -197,16 +201,9 @@ h3 {
 
 .login {
     justify-content: center;
-    align-items: center;
-    height: 100%;
+    display: flex;
+   
     
-}
-
-.login img {
-     display: block;
-    margin: 0 auto;
-    max-height: 100%;
-    max-width: 100%;
 }
 
 
