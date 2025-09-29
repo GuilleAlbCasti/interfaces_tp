@@ -5,21 +5,20 @@ html {
 }
 
 main {
-    border: 1px #fff solid;
     margin: 20px;
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-section {
-    border: 1px #e5e916 solid;
-    height: 500px;
-    margin-top: 50px;
+footer {
+    width: 100%;
+    background-color: #03045E;
 }
 
-.robot {
-    border: none;
+section {
+    height: 500px;
+    margin-top: 50px;
 }
 
 .login-marco-principal,
@@ -33,7 +32,6 @@ section {
 }
 
 .login-marco-principal {
-    border: none;
     width: 394px;
     height: 514px;
     border-radius: 12px;
