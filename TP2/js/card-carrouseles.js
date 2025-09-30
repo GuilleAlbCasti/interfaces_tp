@@ -20,25 +20,25 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   const tituloCategoria = document.createElement('h2');
   tituloCategoria.textContent = "Juegos de la Categoria " + genero;
   main.appendChild(tituloCategoria);
-  
+
   // Crear contenedor del carrusel
   const carruselContainer = document.createElement('div');
   carruselContainer.className = 'carousel-container';
-  
+
   // Botón anterior
   const btnAnterior = document.createElement('button');
   btnAnterior.className = 'carousel-nav carousel-prev';
   btnAnterior.innerHTML = '';
-  
+
   // Contenedor de las cards
   const contenedorXcategoria = document.createElement('article');
   contenedorXcategoria.className = 'categoria';
-  
+
   // Botón siguiente
   const btnSiguiente = document.createElement('button');
   btnSiguiente.className = 'carousel-nav carousel-next';
   btnSiguiente.innerHTML = '';
-  
+
   // Agregar elementos al carrusel
   carruselContainer.appendChild(btnAnterior);
   carruselContainer.appendChild(contenedorXcategoria);
@@ -49,7 +49,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
     const juegoDiv = crearCard(juego, 'card');
     contenedorXcategoria.appendChild(juegoDiv);
   });
-  
+
   // Configurar funcionalidad del carrusel
   setupCarruselCategoria(contenedorXcategoria, btnAnterior, btnSiguiente);
 }
@@ -58,12 +58,12 @@ function setupCarruselCategoria(contenedor, btnAnterior, btnSiguiente) {
   let currentIndex = 0;
   const cardsToShow = 6; // Número de cards visibles
   const cardWidth = 225; // Ancho de la carta + margenes
-  
+
   function updateCarrusel() {
     const offset = -currentIndex * cardWidth;
     contenedor.style.transform = `translateX(${offset}px)`;
   }
-  
+
   function nextSlide() {
     const totalCards = contenedor.children.length;
     const maxIndex = totalCards - cardsToShow;
@@ -72,34 +72,56 @@ function setupCarruselCategoria(contenedor, btnAnterior, btnSiguiente) {
       updateCarrusel();
     }
   }
-  
+
   function prevSlide() {
     if (currentIndex > 0) {
       currentIndex--;
       updateCarrusel();
     }
   }
-  
+
   // Event listeners
   btnSiguiente.addEventListener('click', nextSlide);
   btnAnterior.addEventListener('click', prevSlide);
 }
 function crearCard(juego, estilo) {
   const juegoDiv = document.createElement('div');
-  juegoDiv.className = estilo;
-  juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
-  juegoDiv.innerHTML = `
+  // Harcodeo para agregar el peg solitaire espacial
+  if (juego.name === "Limbo") {
+    juego.name = "Peg Solitaire Espacial";
+    juego.background_image = "img/pegSolitaireEspacial.png";
+    juegoDiv.className = estilo;
+    juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
+    juegoDiv.innerHTML = `
   <h2>${juego.name}</h2>
   ${(() => {
-      let html = '<p> Generos: ';
-      for (let i = 0; i < juego.genres.length; i++) {
-        html += `${juego.genres[i].name} `;
-      }
-      return html + '</p>';
-    })()}
+        let html = '<p> Generos: ';
+        for (let i = 0; i < juego.genres.length; i++) {
+          html += `${juego.genres[i].name} `;
+        }
+        return html + '</p>';
+      })()}
+  <p> Valoracion: ${juego.rating} / 5</p>
+  <a href="juego.html" class="btn-ver-mas">Ver más</a>
+  `;
+  } else {
+    juegoDiv.className = estilo;
+    juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
+    juegoDiv.innerHTML = `
+  <h2>${juego.name}</h2>
+  ${(() => {
+        let html = '<p> Generos: ';
+        for (let i = 0; i < juego.genres.length; i++) {
+          html += `${juego.genres[i].name} `;
+        }
+        return html + '</p>';
+      })()}
   <p> Valoracion: ${juego.rating} / 5</p>
   <button class="btn-ver-mas">Ver más</button>
   `;
+
+  }
+
   return juegoDiv;
 }
 // Función para filtrar juegos por género
