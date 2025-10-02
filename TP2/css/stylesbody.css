@@ -2,17 +2,17 @@
 
 
 .card {
-    border: 1px solid #ccc;
+    
     border-radius: 20px;
-    width: 200px;
-    height: 250px;
-    padding: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+    width: calc(100vw - 60px); /* Casi todo el ancho de la pantalla en móvil */
+    min-width: 280px; /* Ancho mínimo */
+    height: 380px; /* Más alta en móvil */
+    padding: 10px 10px 20px 10px; /* Padding-bottom para espacio abajo */
+    margin: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* Contenido abajo en móvil */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -22,8 +22,10 @@
     overflow: hidden;
     transition: all 0.3s ease;
     flex-shrink: 0;
+    scroll-snap-align: center; /* Centra cada card al hacer scroll */
 }
 
+/* Degradado oscuro en el fondo para mejorar legibilidad en móvil */
 .card::before {
     content: '';
     position: absolute;
@@ -31,7 +33,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0);
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,      /* Claro arriba */
+        rgba(0, 0, 0, 0.4) 30%,     /* Semi-transparente */
+        rgba(0, 0, 0, 0.85) 100%    /* Muy oscuro abajo */
+    );
     border-radius: 20px;
     z-index: 1;
     transition: background 0.3s ease;
@@ -40,11 +47,16 @@
 .card > * {
     position: relative;
     z-index: 2;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1; /* Visible por defecto en móvil */
+    transform: translateY(0); /* Sin desplazamiento en móvil */
     transition: all 0.3s ease;
+    /* Text-shadow más fuerte para mejor legibilidad */
+    text-shadow: 
+        2px 2px 8px rgba(0, 0, 0, 0.95),
+        0 0 10px rgba(0, 0, 0, 0.8);
 }
 
+/* En móvil no hay cambios en hover */
 .card:hover::before {
     background: rgba(0, 0, 0, 0.7);
 }
@@ -55,7 +67,103 @@
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: scale(1.0); /* Sin escala en móvil */
+}
+
+/*Loader y spiner*/
+#loader { 
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    background-color: #1D1165; 
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#loader h2 {
+    font-size: 20px;
+    color: #ff5722;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+
+#logo-spiner {
+    width: 150px;
+    height: 150px;
+    animation: girar 2s linear infinite;
+}
+
+@keyframes girar {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.spinner {
+    width: 80%;
+    max-width: 300px;
+    height: 30px;
+    border-radius: 20px;
+    background:
+        repeating-linear-gradient(135deg,#48479A 0 10px,#FF5722 0 20px) 0/0%   no-repeat,
+        repeating-linear-gradient(135deg,#ddd    0 10px,#eee    0 20px) 0/100%;
+    animation: l3 5s infinite;
+}
+@keyframes l3 {
+    0% { background-size: 0%; }
+    25% { background-size: 40%; }
+    50% { background-size: 70%; }
+    75% { background-size: 90%; }
+    100% { background-size: 100%; }
+}
+
+
+
+/* Efectos skew al navegar con las flechas */
+.card-skew-right {
+    animation: skewRight 0.5s ease;
+}
+
+.card-skew-left {
+    animation: skewLeft 0.5s ease;
+}
+
+@keyframes skewRight {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    50% {
+        transform: skew(5deg, 4deg) translateX(10px);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+@keyframes skewLeft {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    50% {
+        transform: skew(-5deg, -2deg) translateX(-10px);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
 }
 
 .categoria {
@@ -63,9 +171,22 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     background-color: #48479A;
-    transition: transform 0.5s ease;
+    overflow-x: auto;
+    scroll-behavior: smooth;
     gap: 0;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    scroll-snap-type: x mandatory; /* Snap obligatorio al hacer scroll */
+    padding: 20px 0;
+    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    -ms-overflow-style: none; /* Ocultar scrollbar en IE/Edge */
 }
+
+/* Ocultar scrollbar en Chrome/Safari */
+.categoria::-webkit-scrollbar {
+    display: none;
+}
+
+
 
 /* Estilos para el carrusel */
 .carousel-container {
@@ -81,40 +202,34 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 87, 34, 0.9);
-    color: white;
+    background: transparent;
     border: none;
-    width: 60px;
-    height: 60px;
     cursor: pointer;
-    font-size: 0;
     z-index: 10;
     transition: all 0.3s ease;
-    display: flex;
+    display: none; /* Oculto por defecto en móvil */
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
-.carousel-nav::before {
-    content: '';
-    width: 0;
-    height: 0;
+.carousel-nav img {
+    width: 38px;
+    height: 68px;
     transition: all 0.3s ease;
 }
 
 .carousel-prev {
     left: 10px;
-    clip-path: polygon(100% 0%, 40% 50%, 100% 100%, 80% 100%, 0% 50%, 80% 0%);
 }
 
 .carousel-next {
     right: 10px;
-    clip-path: polygon(0% 0%, 60% 50%, 0% 100%, 20% 100%, 100% 50%, 20% 0%);
 }
 
-.carousel-nav:hover {
-    background: rgba(255, 87, 34, 1);
-    transform: translateY(-50%) scale(1.1);
+.carousel-nav:hover img {
+    transform: scale(1.15);
+    filter: brightness(1.2);
 }
 #carrousel {
     display: flex;
@@ -143,18 +258,63 @@
 }
 
 .btn-ver-mas {
-    position: absolute;
-    bottom: 10px;
-    padding: 8px 16px;
+    position: static; /* Static en móvil para respetar el orden del HTML */
+    padding: 12px 24px; /* Más grande en móvil */
     background-color: #ff5722;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1; /* Visible por defecto en móvil */
+    transform: translateY(0); /* Sin desplazamiento en móvil */
     transition: all 0.3s ease;
+    z-index: 3; /* Asegurar que esté por encima */
+    margin-top: 10px; /* Separación de la valoración */
+    font-size: 20px; /* Texto más grande en móvil */
+    font-weight: 500; /* Un poco más grueso */
 }
+
+/* Estilos para las estrellas de valoración */
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 10px;
+}
+
+.star {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.star-full {
+    color: #FFD700; /* Amarillo dorado */
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.8);
+}
+
+.star-half {
+    color: #FFD700;
+    opacity: 0.5;
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.8);
+}
+
+.star-empty {
+    color: #FFD700;
+    opacity: 0.3;
+}
+
+.rating-number {
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.valoracion-label {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
 h2 {
     margin: 0;
     font-family: Anton, sans-serif;
@@ -162,15 +322,85 @@ h2 {
     text-align: left;
     margin-top: 20px;
     padding-left: 20px;
-   /* background: #F6853E;
-    background: linear-gradient(90deg,rgba(246, 133, 62, 1) 0%, rgba(253, 189, 149, 1) 50%);*/
 }
 
-
-
-/*------------------Descktop -------------------------------*/
-@media (min-width: 460px){
-
-
+/*------------------Desktop -------------------------------*/
+@media (min-width: 768px) {
+    /* Restaurar tamaño de cards en desktop */
+    .card {
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        height: 250px;
+        padding: 5px;
+        margin: 5px;
+        scroll-snap-align: none;
+        justify-content: center; /* Centrado en desktop */
+    }
     
+    /* Botón absolute en desktop para el efecto hover */
+    .btn-ver-mas {
+        position: absolute;
+        bottom: 10px;
+        margin-top: 0;
+        opacity: 0; /* Oculto por defecto */
+        transform: translateY(20px); /* Desplazado hacia abajo */
+        padding: 8px 16px; /* Tamaño original en desktop */
+        font-size: 14px; /* Tamaño de texto original */
+        font-weight: normal; /* Peso normal en desktop */
+    }
+    
+    /* Quitar scroll-snap en desktop */
+    .categoria {
+        scroll-snap-type: none;
+        padding: 0;
+    }
+    
+    /* Ocultar información de las cards por defecto en desktop */
+   .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0); /* Sin fondo oscuro en móvil */
+    border-radius: 20px;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+    
+    .card > * {
+        opacity: 0; /* Oculto por defecto */
+        transform: translateY(20px); /* Desplazado hacia abajo */
+    }
+    
+    /* Mostrar información en hover en desktop */
+    .card:hover::before {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .card:hover > * {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .card:hover .btn-ver-mas {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .card:hover {
+        transform: scale(1.05); /* Efecto de escala en desktop */
+    }
+    
+    /* Mostrar flechas de navegación en desktop */
+    .carousel-nav {
+        display: flex;
+    }
+    
+    /* Deshabilitar scroll manual en desktop (solo con flechas) */
+    .categoria {
+        overflow-x: hidden;
+    }
 }

@@ -1,3 +1,6 @@
+//Manejo de cards y carrouseles
+
+//Arreglo global para almacenar los juegos
 juegos = [];
 
 // Función para cargar datos de juegos desde la API
@@ -28,7 +31,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Botón anterior
   const btnAnterior = document.createElement('button');
   btnAnterior.className = 'carousel-nav carousel-prev';
-  btnAnterior.innerHTML = '';
+  btnAnterior.innerHTML = '<img src="img/flechaizquierda.svg" alt="Anterior">';
 
   // Contenedor de las cards
   const contenedorXcategoria = document.createElement('article');
@@ -37,7 +40,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Botón siguiente
   const btnSiguiente = document.createElement('button');
   btnSiguiente.className = 'carousel-nav carousel-next';
-  btnSiguiente.innerHTML = '';
+  btnSiguiente.innerHTML = '<img src="img/flechaderecha.svg" alt="Siguiente">';
 
   // Agregar elementos al carrusel
   carruselContainer.appendChild(btnAnterior);
@@ -53,41 +56,78 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Configurar funcionalidad del carrusel
   setupCarruselCategoria(contenedorXcategoria, btnAnterior, btnSiguiente);
 }
-// Función para configurar el carrusel de una categoría
+// Función para configurar el carrusel de una categoría (versión simplificada)
 function setupCarruselCategoria(contenedor, btnAnterior, btnSiguiente) {
-  let currentIndex = 0;
-  const cardsToShow = 6; // Número de cards visibles
   const cardWidth = 225; // Ancho de la carta + margenes
+  const cards = contenedor.querySelectorAll('.card');
 
-  function updateCarrusel() {
-    const offset = -currentIndex * cardWidth;
-    contenedor.style.transform = `translateX(${offset}px)`;
-  }
+  // Navegar hacia adelante
+  btnSiguiente.addEventListener('click', () => {
+    // Aplicar efecto skew hacia la derecha
+    cards.forEach(card => {
+      card.classList.add('card-skew-right');
+    });
+    
+    contenedor.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+    
+    // Remover efecto después de la animación
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.classList.remove('card-skew-right');
+      });
+    }, 500);
+  });
 
-  function nextSlide() {
-    const totalCards = contenedor.children.length;
-    const maxIndex = totalCards - cardsToShow;
-    if (currentIndex < maxIndex) {
-      currentIndex++;
-      updateCarrusel();
-    }
-  }
+  // Navegar hacia atrás
+  btnAnterior.addEventListener('click', () => {
+    // Aplicar efecto skew hacia la izquierda
+    cards.forEach(card => {
+      card.classList.add('card-skew-left');
+    });
 
-  function prevSlide() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateCarrusel();
-    }
-  }
+    contenedor.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
 
-  // Event listeners
-  btnSiguiente.addEventListener('click', nextSlide);
-  btnAnterior.addEventListener('click', prevSlide);
+    // Remover efecto después de la animación
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.classList.remove('card-skew-left');
+      });
+    }, 500);
+  });
 }
+
+// Función para generar estrellas de valoración
+function generarEstrellas(rating) {
+  const maxEstrellas = 5;
+  const estrellasLlenas = Math.floor(rating); // Estrellas completas
+  const tieneMedia = rating % 1 >= 0.5; // Si tiene media estrella
+  let html = '<div class="rating-stars">';
+  
+  // Agregar estrellas llenas
+  for (let i = 0; i < estrellasLlenas; i++) {
+    html += '<span class="star star-full">★</span>';
+  }
+  
+  // Agregar media estrella si corresponde
+  if (tieneMedia && estrellasLlenas < maxEstrellas) {
+    html += '<span class="star star-half">★</span>';
+  }
+  
+  // Agregar estrellas vacías
+  const estrellasVacias = maxEstrellas - estrellasLlenas - (tieneMedia ? 1 : 0);
+  for (let i = 0; i < estrellasVacias; i++) {
+    html += '<span class="star star-empty">★</span>';
+  }
+  
+  html += `<span class="rating-number">${rating}</span>`;
+  html += '</div>';
+  return html;
+}
+
 function crearCard(juego, estilo) {
   const juegoDiv = document.createElement('div');
   // Harcodeo para agregar el peg solitaire espacial
-  if (juego.name === "Limbo") {
+  if (juego.name === "Little Nightmares") {
     juego.name = "Peg Solitaire Espacial";
     juego.background_image = "img/pegSolitaireEspacial.png";
     juegoDiv.className = estilo;
@@ -95,13 +135,14 @@ function crearCard(juego, estilo) {
     juegoDiv.innerHTML = `
   <h2>${juego.name}</h2>
   ${(() => {
-        let html = '<p> Generos: ';
+        let html = '<p> ';
         for (let i = 0; i < juego.genres.length; i++) {
           html += `${juego.genres[i].name} `;
         }
         return html + '</p>';
       })()}
-  <p> Valoracion: ${juego.rating} / 5</p>
+  <p class="valoracion-label"></p>
+  ${generarEstrellas(juego.rating)}
   <a href="juego.html" class="btn-ver-mas">Ver más</a>
   `;
   } else {
@@ -110,13 +151,14 @@ function crearCard(juego, estilo) {
     juegoDiv.innerHTML = `
   <h2>${juego.name}</h2>
   ${(() => {
-        let html = '<p> Generos: ';
+        let html = '<p> ';
         for (let i = 0; i < juego.genres.length; i++) {
           html += `${juego.genres[i].name} `;
         }
         return html + '</p>';
       })()}
-  <p> Valoracion: ${juego.rating} / 5</p>
+  <p class="valoracion-label"></p>
+  ${generarEstrellas(juego.rating)}
   <button class="btn-ver-mas">Ver más</button>
   `;
 
@@ -168,3 +210,10 @@ async function inicializar() {
 
 inicializar();
 
+//Lógica del loader
+const loader = document.getElementById('loader');
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loader.style.display = 'none';
+  }, 5000);
+});
