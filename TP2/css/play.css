@@ -43,6 +43,7 @@ h3 {
      font-family: 'Anton', sans-serif;
     color: #F6853E;
     font-size: 20px;
+    margin-left: 0px;
 }
 
 p {
@@ -72,6 +73,11 @@ img {
     padding: 5 px;
     width: auto;
 }
+.game img {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
 .instrucciones {
         grid-area: instrucciones;
         margin: 5px;
@@ -86,7 +92,7 @@ img {
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        border: 1px solid aliceblue;
+        
     }
 
 article, .peg_solitaire, .list_img_2 {
@@ -168,26 +174,31 @@ li img {
     }
 
     p {
-        font-size: medium;
-        
+        font-size: medium;   
     }
-    .instrucciones p {
-        font-size: medium;
-    }
+  
+   
+
     article, .peg_solitaire, .list_img_2 {
     display: block;
     }
 
     .instrucciones {
         grid-area: instrucciones;
-        margin: 5px;
-        
+           
         
     }
-   
+    .instrucciones li {
+        color:#d9d9d9;
+    }
     .list_img {
         grid-area: list_img;
-        color: aliceblue;
+        display: flex;
+        justify-content: flex-start;
+        
+    }
+    .list_img img {
+        border-radius: 10px;
     }
 
     .list_img_2 {
@@ -208,15 +219,36 @@ li img {
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        border: 1px solid aliceblue;
-    }
-   
-   ul li img {
-        width: 100%;
-        height: 150px;
-        margin: 5px;
+        border: 1px solid #EB9158;
+        margin: 10px;
+        border-radius: 10px;
     }
     
+    .comentario_1 {
+        border: 1px solid #f9f9f9;
+    }
+
+  section span:first-of-type {
+      font-weight: bold;
+      color: #EA5A00;
+
+  }
+
+    .instrucciones, ul li img {
+          margin: 5px;
+       margin-left: 35px;
+    }
+
+   ul li img {
+        
+        width: 300px;
+        height: 180px;
+      
+    }
+    
+    section li img {
+        border-radius: 50%;
+    }
     .comentario_1_header{
         display: flex;
         justify-content: space-between;
@@ -225,8 +257,31 @@ li img {
         
     }
 
-   .btn_pubilcar {
-        margin-top: 15%;
+    #comentario_1{
+        margin-top: 10%;
+    }
+
+
+
+    .comentario_second img {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+/* Pulgar abajo: rota 45° horario */
+.comentario_second img[src*="pulgar-abajo"]:active {
+  transform: rotate(45deg);
+}
+
+/* Pulgar arriba: rota 45° antihorario */
+.comentario_second img[src*="pulgar-arriba"]:active {
+  transform: rotate(-45deg);
+}
+
+
+
+   .btn_publicar {
+        margin-top: 5%;
         
    }
 
@@ -239,5 +294,52 @@ li img {
         width: 240px;
         height: 150px;
         margin: 5px;
+        border-radius: 10px;
     }
+
+    .btn{
+       background-color: #1d1165;
+    position: relative;
+      color: #d9d9d9; 
+        font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+    }
+
+.btn:hover {
+  border: 1px solid #d9d9d9;
+  padding: 5px 5px;
+
+  border-radius: 10px;
+  font-weight: bold;
+  
+}
+/* Efecto bomba al click */
+.btn:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: explode 0.8s ease-out;
+  pointer-events: none;
+}
+
+/* Animación bomba */
+@keyframes explode {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+
+
+}
+
+
 }
