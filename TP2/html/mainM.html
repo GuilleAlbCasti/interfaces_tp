@@ -20,7 +20,9 @@
     <header>
         <nav class="grid_nav">
             <div class="hmenu">
-                <img src="..\img\menu-abierto.png" alt="">
+                <button id="btn-menu" class="btn-menu">
+                    <img id="menu-icon" src="..\img\menu-abierto.png" alt="Menú">
+                </button>
             </div>
             <div class="logo">
                 <img src="..\img\logo.png" alt="">
@@ -38,9 +40,37 @@
                 <img src="..\img\carrito-de-compras2.png" alt="">
             </div>
             <div class="login">
-                <img  src="..\img\cuenta.png" alt="">
+                <button id="btn-banner">
+                    <img id="login-img"  src="..\img\javi.jpg" alt="">
+                </button>
             </div>
         </nav>
+        
+        <!-- Menú desplegable fuera del grid -->
+        <ul id="menu" class="botones">
+            <li><img class="nav-li" src="../img/Panel-Iconos-Recientes.png" alt=""></img>Recientes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Destacado.png" alt="">Destacados</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Accion.png" alt="">Acción</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Aventura.png" alt="">Aventura</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Deporte.png" alt="">Deportes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Playing cards.png" alt="">Cartas</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Strategy.png" alt="">Estrategia</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Clasic.png" alt="">Clasicos</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Inicio.png" alt="">Inicio</li>
+        </ul>
+
+        <!-- Banner Gamer -->
+         <ul id="banner" class="banner-gamer">
+            <li><img id="banner-img" src="../img/javi.jpg" alt=""></li>
+            <li><h2>¡Hola Javier!</h2></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
+         </ul>
+
+
+
     </header>
 
     <main>
@@ -50,7 +80,8 @@
 
     </main>
         <script src="../js/card-carrouseles.js"></script>
-
+        <script src="../js/hamburguesa.js"></script>
+   
     <footer class="gridFooter">
 
         <div class="col-up">
