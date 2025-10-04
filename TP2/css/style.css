@@ -10,6 +10,19 @@
     border-radius: 12px;
     border: none;
     background-color: #A7B1B5;
+    transition: box-shadow 0.2s;
+    padding: 0px 15px;
+}
+
+.input-default:hover{
+    box-shadow: 0 0 5px 2px #A7B1B5;
+}
+
+.input-default:focus {
+    background-color: #5C666A;
+    outline: none;
+    box-shadow: none;
+    text-align: center;
 }
 
 .label-titular {
@@ -64,9 +77,14 @@
     align-self: flex-start;
     line-height: 20px;
     margin-top: 5px;
+    transition: transform 0.15s;
 }
 
-.label-aternativo {
+.label-auxiliar:hover {
+    transform: scale(1.1);
+}
+
+.label-alternativo {
     text-align:right;
     width: 100%;
     color: #A39797;
@@ -76,6 +94,14 @@
     text-transform: uppercase;
     line-height: 15px;
     margin-bottom: 10px;
+    transition: transform 0.18s;
+    transform-origin: right;
+}
+
+.label-alternativo:hover {
+    transform: scale(1.1);
+    color:#fff;
+    font-weight: 300;
 }
 
 .boton-principal {
@@ -91,6 +117,17 @@
     text-transform: uppercase;
     letter-spacing: 0.16em;
     cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.boton-principal:hover {
+    box-shadow: 0 0 10px 2px #F6853ECC;
+    transform: scale(1.05);
+}
+
+.boton-principal:active {
+    background-color: #F46B15;
+    transform: scale(0.95);
 }
 
 .boton-accesoRapido {
@@ -112,9 +149,34 @@
     justify-content: center;
     gap: 10px;
     padding: 4px 10px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.boton-accesoRapido:hover {
+    box-shadow: 0 0 10px 2px #3f474acc;
+    transform: scale(1.05);
+}
+
+.boton-accesoRapido:active {
+    background-color: #1B1D1D;
+    transform: scale(0.95);
 }
 
 .imagen-icono {
     width: 37px;
     height: 37px;
+}
+
+.movimientoAlternado {
+  display: inline-block;
+  animation: mover 1s ease-in-out infinite alternate;
+}
+
+@keyframes mover {
+  0% {
+    transform: translateX(-8px);
+  }
+  100% {
+    transform: translateX(8px);
+  }
 }
