@@ -1,7 +1,18 @@
+/* ---------------- ESTILOS GENERALES ---------------- */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.visited {
+  color: inherit;
 }
 
 .input-default {
@@ -105,6 +116,9 @@
 }
 
 .boton-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 122px;
     height: 44px;
     border-radius: 12px;
@@ -167,16 +181,38 @@
     height: 37px;
 }
 
-.movimientoAlternado {
+/* ---------------- ANIMACIONES ---------------- */
+
+.desplazamientosAlternados {
   display: inline-block;
-  animation: mover 1s ease-in-out infinite alternate;
+  animation: desplazar 1s ease-in-out infinite alternate;
 }
 
-@keyframes mover {
+@keyframes desplazar {
   0% {
-    transform: translateX(-8px);
+    transform: translateX(-4px);
   }
   100% {
-    transform: translateX(8px);
+    transform: translateX(4px);
+  }
+}
+
+.retumbar {
+    animation: retumbar 3s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes retumbar {
+  0%, 90%, 100% {
+    transform: scale(1) translateX(0) rotate(0deg);
+  }
+  93% {
+    transform: scale(1.1) translateX(5px) rotate(5deg);
+  }
+  96% {
+    transform: scale(0.95) translateX(-5px) rotate(-12deg);
+  }
+  98% {
+    transform: scale(1.05) translateX(3px) rotate(5deg);
   }
 }
