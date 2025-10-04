@@ -1,0 +1,113 @@
+html {
+    background-image: url(../img/fondo.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    margin: 20px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+section {
+    height: 500px;
+    margin-top: 50px;
+}
+
+footer {
+    width: 100%;
+    background-color: #03045E;
+}
+
+.registro-marco-principal,
+.registro-marco-principal-encabezado,
+.registro-marco-principal-cuerpo,
+.registro-marco-principal-cuerpo-logo,
+.registro-marco-principal-cuerpo-form,
+.registro-marco-secundario,
+.registro-marco-secundario-subdivision {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registro-marco-principal {
+    width: 594px;
+    height: auto;
+    border-radius: 12px;
+    background-color: #03045E;
+    box-shadow: 0 0px 40px 10px #A29C9C;
+    padding: 40px 40px;
+}
+
+.registro-marco-principal-encabezado {
+    flex-direction: row;
+}
+
+.registro-marco-principal-encabezado-logo {
+    margin-top: -40px;
+    margin-bottom: -60px;
+}
+
+.registro-marco-principal-encabezado-logo img {
+    width: auto;
+    height: 330px;
+}
+
+.registro-marco-principal-encabezado-frase {
+    padding: 0 30px;
+}
+
+.registro-marco-secundario {
+    align-items: baseline;
+    justify-content: center;
+    gap: 30px;
+    border: none;
+}
+
+.registro-marco-secundario-subdivision {
+    justify-content: center;
+    border: none;
+    width: 347px;
+    max-width: 347px;
+    height: auto;
+    margin: 20px;
+    border-radius: 12px;
+    background-color: #5C666A;
+    box-shadow: 0px 0px 8px 2px #A29C9C;
+    padding: 15px 40px;
+    box-sizing: border-box;
+}
+
+#label-titular-varianteColor {
+    color: #D9D9D9;
+    font-weight: 200;
+    font-size: 26px;
+    padding: 15px 0;
+}
+
+#label-auxiliar-varianteTextTransform {
+    text-transform: lowercase;
+
+}
+
+#label-auxiliar-varianteTextTransform::first-letter {
+    text-transform: uppercase;
+}
+
+#label-alternativo-varianteTextTransform {
+    text-transform: lowercase;
+    font-size: 12px;
+}
+
+/* ------------ PARA HACER TRANSPARENTE LA FECHA DEL DATEPICKER ------------ */
+
+input[type="date"]:invalid::-webkit-datetime-edit {
+  color: transparent;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    color: inherit;
+}

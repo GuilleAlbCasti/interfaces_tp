@@ -188,6 +188,11 @@ a.visited {
   animation: desplazar 1s ease-in-out infinite alternate;
 }
 
+.retumbar {
+    animation: retumbar 5s ease-in-out infinite;
+    transform-origin: center;
+}
+
 @keyframes desplazar {
   0% {
     transform: translateX(-4px);
@@ -195,11 +200,6 @@ a.visited {
   100% {
     transform: translateX(4px);
   }
-}
-
-.retumbar {
-    animation: retumbar 3s ease-in-out infinite;
-    transform-origin: center;
 }
 
 @keyframes retumbar {
