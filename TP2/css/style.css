@@ -185,7 +185,7 @@ a.visited {
 }
 
 .retumbar {
-    animation: retumbar 5s ease-in-out infinite;
+    animation: retumbar 2s ease-in-out infinite;
     transform-origin: center;
 }
 
@@ -199,7 +199,7 @@ a.visited {
 }
 
 @keyframes retumbar {
-  0%, 90%, 100% {
+  0%, 80%, 100% {
     transform: scale(1) translateX(0) rotate(0deg);
   }
   93% {
