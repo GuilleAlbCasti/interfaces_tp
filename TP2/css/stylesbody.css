@@ -218,6 +218,13 @@
     height: 68px;    
 }
 
+/* Estilos para las flechas del carrusel GRANDE (destacados) */
+.carrousel-btn-left img,
+.carrousel-btn-right img {
+    width: 38px;
+    height: 68px;
+}
+
 
 
 .carousel-prev {

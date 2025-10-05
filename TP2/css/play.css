@@ -31,7 +31,7 @@ body {
 }
 
 
-#breadcrumb {
+.breadcrumb {
     grid-area: section;
     display: flex;
     align-items: flex-start;
@@ -39,17 +39,17 @@ body {
     margin-left: 5px;
 
 }
-#breadcrumb a {
+.breadcrumb a {
     color: #EA5A00;
     font-size: 16px;
     font-family: 'Anton', sans-serif;
     margin-right: 5px;
 }
-#breadcrumb a:last-child {
+.breadcrumb a:last-child {
     color: white;
 }
 
-#breadcrumb a:hover {
+.breadcrumb a:hover {
     text-decoration: underline;
 }
 
@@ -304,12 +304,22 @@ li img {
   transform: rotate(-45deg);
 }
 
+hr {
+    padding: 0px;
+    margin: 0px;
+}
 
+ .comentario_textarea {
+    background-color: #1d1165;
+    color: #d9d9d9;
+    margin-top: 5px;
+    font-size: 16px;
+    
+ }
 
-   .btn_publicar {
-        margin-top: 5%;
-        
-   }
+ .btn_publicar {
+    margin-bottom: 5px;
+ }
 
     .list_img_2_ul {
         display: flex;
