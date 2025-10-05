@@ -1,14 +1,14 @@
 /* ------------ ESTILOS PARA LA PÁGINA DE REGISTRO ------------ */
-html {
-    background-color: transparent;
-}
-
-main {
+body {
     background-image: url(../img/fondo.webp);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+}
+
+main {
+    margin: 20px;
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
