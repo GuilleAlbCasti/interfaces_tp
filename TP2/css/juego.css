@@ -293,6 +293,11 @@ li img {
   transition: transform 0.3s ease;
   cursor: pointer;
 }
+.comentario_second img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 6px rgba(211, 204, 204, 0.5));
+}
+
 
 /* Pulgar abajo: rota 45° horario */
 .comentario_second img[src*="pulgar-abajo"]:active {

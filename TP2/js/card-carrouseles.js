@@ -151,7 +151,7 @@ function crearCard(juego, estilo) {
       })()}
   <p class="valoracion-label"></p>
   ${generarEstrellas(juego.rating)}
-  <a href="juego.html" class="btn-ver-mas">Ver más</a>
+  <a href="html/juego.html" class="btn-ver-mas">Ver más</a>
   `;
   } else {
     juegoDiv.className = estilo;
