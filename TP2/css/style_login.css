@@ -1,14 +1,15 @@
 /* ---------------- ESTILOS USADOS EN EL LOGIN ---------------- */
 
 html {
+    background-color: transparent;
+}
+
+main {
     background-image: url(../img/fondo.webp);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-}
-
-main {
     margin: 20px;
     height: 100%;
     display: grid;

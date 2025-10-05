@@ -1,4 +1,8 @@
 /* ------------ ESTILOS PARA LA PÁGINA DE REGISTRO ------------ */
+html {
+    background-color: transparent;
+}
+
 main {
     background-image: url(../img/fondo.webp);
     background-size: cover;
@@ -61,7 +65,7 @@ footer {
 
 .registro-marco-principal-cuerpo-form {
     width: 85%;
-    max-width: 85%;
+    max-width: 306px;
 }
 
 .registro-marco-secundario-subdivision {
