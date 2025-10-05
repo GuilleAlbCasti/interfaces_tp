@@ -131,6 +131,7 @@ input[type="date"]::-webkit-datetime-edit {
 
 #password-rules {
     width: 100%;
+    margin: 5px 0px;
 }
 
 #password-rules li {
