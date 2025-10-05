@@ -118,7 +118,23 @@ input[type="date"]::-webkit-datetime-edit {
     color: inherit;
 }
 
+/* ------------ PARA ADAPTAR EL CAPTCHA EN EL FORM ------------ */
+
 .g-recaptcha {
     transform: scale(0.85);
     margin: 10px 0;
+}
+
+/* ------------ PARA COLOREAR LOS REQUISITOS DE LA CONTRASEÑA ------------ */
+
+#password-rules li {
+    list-style: none;
+}
+
+#password-rules li.valid {
+    color: green;
+}
+
+#password-rules li.invalid {
+    color: red;
 }

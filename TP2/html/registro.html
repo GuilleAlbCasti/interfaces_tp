@@ -57,7 +57,12 @@
                     <label for="password" class="label-auxiliar"
                         id="label-auxiliar-varianteTextTransform">contraseña</label>
                     <input type="password" class="input-default" id="password">
-                    <span></span> <!--ACA ES PARA RESPETAR LOS PARAMETERTOS DE LA CONTRASEÑA-->
+                    <ul id="password-rules">
+                        <li>La contraseña debe tener al menos 8 caracteres</li>
+                        <li>Contener letras y números</li>
+                        <li>Incluir un carácter especial</li>
+                        <li>Evitar patrones evidentes (1234, qwerty, etc.)</li>
+                    </ul>
                     <label for="re-password" class="label-auxiliar" id="label-auxiliar-varianteTextTransform">repetir
                         contraseña</label>
                     <input type="password" class="input-default" id="re-password">
@@ -78,6 +83,7 @@
         <div class="gridFooter" id="funcion_footer"></div>
     </footer>
     <script src="../js/carga_footer.js"></script>
+    <script src="../js/contraseniasRequisitos.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 
