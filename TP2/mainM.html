@@ -37,7 +37,9 @@
                 <h2>&lt;&lt; TU ZONA DE ACCIÓN &gt;&gt; </h2>
             </div>
             <div class="carrito">
-                <img src="..\img\carrito-de-compras2.png" alt="">
+                <button class="" id="btn-carrito">
+                    <img src="..\img\carrito-de-compras2.png" alt="">
+                </button>
             </div>
             <div class="login">
                 <button id="btn-banner">
@@ -59,6 +61,20 @@
             <li><img class="nav-li" src="../img/Panel-Iconos-Inicio.png" alt="">Inicio</li>
         </ul>
 
+        <!-- Form Carrito fuera del grid -->
+         <!-- Cambiarlo por el estilo general, eso es solo una prueba -->
+        <div id="cartForm" class="cart-form hidden">
+            <form>
+                <h3>Finalizar compra</h3>
+                <input type="text" placeholder="Nombre"  />
+                <input type="email" placeholder="Email" />
+                <button class="cart-confirm" type="submit">Confirmar</button>
+            </form>
+        </div>
+
+
+
+
         <!-- Banner Gamer -->
          <ul id="banner" class="banner-gamer">
             <li><img id="banner-img" src="../img/javi.jpg" alt=""></li>
@@ -74,14 +90,31 @@
     </header>
 
     <main>
-        <section id="carrousel"></section>
+        <div id="loader">
+            <img id="logo-spiner" src="img\logo.png" alt="Logo ">
+            <h2>Cargando...</h2>
+            <div class="spinner"></div>
+        </div>
+        <h2 id="destacados">Juegos Destacados</h2>
+        <div class="carrousel-wrapper">
+            <button class="carrousel-btn carrousel-btn-left" aria-label="Anterior"></button>
+            <section id="carrousel"></section>
+            <button class="carrousel-btn carrousel-btn-right" aria-label="Siguiente"></button>
+        </div>
 
         <section id="cards"></section>
 
     </main>
-        <script src="../js/card-carrouseles.js"></script>
-        <script src="../js/hamburguesa.js"></script>
+
+
+
+        <script src="js/juego.js"></script>
+        <script src="js/card-carrouseles.js"></script>
+        <script src="js/hamburguesa.js"></script>
    
+
+
+
     <footer class="gridFooter">
 
         <div class="col-up">

@@ -18,7 +18,7 @@ header {
     align-items: center;
     width: 100%;
     background-color: #03045E;
-    position: relative; /* Agregado para posicionamiento del menú */
+    
 }
 .grid_nav {
         display: grid;
@@ -26,6 +26,10 @@ header {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 50px;
 }
+
+ 
+
+
 
 .hmenu {
     grid-area: hmenu;
@@ -41,21 +45,8 @@ header {
 }
 .login {
     grid-area: login;
-    text-align: right;
-    padding-right: 10px;
+    text-align: center;
 }
-
-button {
-    background-color: #03045E;
-    cursor: pointer;
-}
-
-#login-img {
-    border-radius: 50%;
-    
-}
-
-    
 nav {
   width: 100%;
   display: flex;
@@ -65,9 +56,7 @@ nav {
     display: none;
 }
 
-.hidden {
-    display: none;
-}
+
 .hmenu, .logo, img {
         width: 45px;
         height: 45px;
@@ -79,142 +68,9 @@ nav {
     margin-left:10px;  
 }
 
- /*-----Menu Hamburguesa-------------------------------*/
-
-.btn-menu {
-   background-color: #03045E;
-    cursor: pointer;
-    
-}
-
-.botones {
-    position: absolute;
-    top: 50px; /* Altura del nav en mobile */
-    left: 0;
-    width: 160px;
-    background-color: #03045E;
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    padding: 5px;
-    list-style: none;
-    display: none;
-    z-index: 1000; /*El menú desplegable aparezca por encima*/
-    
-}
-
-
-
-
-
-.nav-li-cerrar{
-    display: flex;
-}
-
-/* Estilos para los elementos del menú */
-.botones li {
-     display: flex;
-  align-items: center;
-  gap: 5px; /* Espacio entre ícono y texto */
-  color: #f9f9f9;
-    padding: 5px 0 5px 5px;
-    margin-top: 10px;
-    align-items: center;
-    cursor: pointer;
-  font-size: 20px;
-
-}
-
-.botones li img {
-  width: 20px;
-  height: 20px;
  
-}
 
 
-
-
-
-.botones li:hover{
-    color: #F6853E;
-}
-
-/* Cambiar color de las imágenes en hover */
-.botones li:hover img {
-    filter: brightness(0) saturate(100%) invert(58%) sepia(87%) saturate(2800%) hue-rotate(13deg) brightness(90%) contrast(95%);
-}
-/*
-¿Cómo funciona?
-brightness(90%): Reducido el brillo para que coincida mejor con el texto
-invert(58%): Reducido para un tono más oscuro
-sepia(87%): Aplica un efecto sepia
-saturate(2800%): Menos saturación para un color más natural
-hue-rotate(13deg): Rota el matiz para obtener el naranja exacto
-contrast(95%): Ligero ajuste de contraste
-*/
-
-/*-----Banner Gamer-------------------------------*/
-.banner-gamer {
-    position: absolute;
-    top: 0; /* Altura del nav en desktop */
-    right: 0;
-    width: 50%;
-    display: none; /* Oculto por defecto */
-    flex-direction: column;
-    justify-content: center;
-    padding: 3px;
-    list-style: none;
-    background-color: #03045E;
-    z-index: 1000; /*El menú desplegable aparezca por encima*/
-}
-
-.banner-gamer li img {
-  width: 20px;
-  height: 20px;
-  padding-right: 5px;
- }
-
- #banner-img{
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    
- }
-
- .banner-gamer h2 {
-    color: #a7b1b5;
-    font-family: 'Monserrat', sans-serif;
-    font-size: 18px;
-    margin: 5px;
-   
- }
-
- .banner-gamer li {  
-    display: flex;
-    padding: 3px 0 3px 0px;
-    margin-top: 5px;
-    cursor: pointer;
-    font-size: 15px;
-}
-.banner-gamer a {
-    color: #a7b1b5;
-    
-    
-}
-
-.banner-cerrar{
-    display: flex;
-}
-
-/* Estilo normal del logo con transición suave */
-.logo {
-    transition: transform 0.3s ease;
-}
-
-/* Desplazar logo hacia la izquierda cuando el banner está abierto (solo mobile) */
-.banner-activo .logo {
-    transform: translateX(-75%);
-}
 
 /*------------footer mobile-----------*/
 footer {
@@ -266,11 +122,6 @@ h3 {
 *------------------Descktop -------------------------------
 */
 @media (min-width: 460px){
-    /* Desactivar el desplazamiento del logo en desktop */
-    .banner-activo .logo {
-        transform: none !important;
-    }
-    
     .grid_nav {
         display: grid;
         grid-template-areas: "hmenu logo banner1 buscar banner2 carrito login";
@@ -279,10 +130,7 @@ h3 {
       
         }
 
-    /* Ajustar posición del menú para desktop */
-    .botones {
-        top: 60px; /* Altura del nav en desktop */
-    }
+ 
 
 .col1, .col2, .col3, .col4, .col5 {
         display: block; 
@@ -353,86 +201,13 @@ h3 {
     margin: auto;
     justify-items: center;
     align-items: center;
-    
-    
 }
-
-/*****Animacion carrito **************/
-
-
-
-.cart-animate {
-    position: fixed;
-    transition: transform 0.6s ease, top 0.6s ease, left 0.6s ease;
-    z-index: 1000;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(10);
-}
-
-/*****Animacion carrito Form**************/
-.cart-center {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(2.5);
-}
-
-.hidden {
-  display: none;
-}
-
-.cart-form {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  
-  z-index: 999;
-}
-
-
-.cart-confirm {
-    background-color: #03045E;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-
-
 
 .login {
     justify-content: center;
     display: flex;
    
     
-}
-
-
-/*-----Banner Gamer-------------------------------*/
-.banner-gamer {
-    width: 250px;
-}
-.banner-gamer h2 {
-    font-size: 25px;
-   }
-.banner-gamer li {  
-    font-size: 20px;
-}
-
-/*-----Menu Hamburguesa-------------------------------*/
-.botones {
-    width: 150px;
-}
-
-
-.botones li {   
-  font-size: 20px;
 }
 
 

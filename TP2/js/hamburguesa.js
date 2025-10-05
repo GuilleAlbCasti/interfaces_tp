@@ -64,3 +64,34 @@ function cerrarBanner() {
         header.classList.remove("banner-activo");
     }
 }
+
+//Carrito de compras
+let btnCarrito = document.querySelector("#btn-carrito");
+let carrito = document.querySelector(".carrito"); // Corregido: usar clase en lugar de ID
+let cartForm = document.querySelector("#cartForm");
+
+if (btnCarrito && carrito && cartForm) {
+    btnCarrito.addEventListener('click', efectoCarrito);
+    
+    // Cerrar formulario al enviar (submit)
+    const form = cartForm.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevenir el envío real del formulario
+            cartForm.classList.add('hidden');
+           
+        });
+    }
+}
+
+function efectoCarrito() {
+    carrito.classList.add('cart-animate');
+
+    // Después de la animación, mostrar el formulario
+    setTimeout(() => {
+        carrito.classList.remove('cart-animate');
+        // Mostrar el formulario del carrito
+        cartForm.classList.remove('hidden');
+    }, 1200);
+}
+

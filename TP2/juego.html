@@ -16,14 +16,18 @@
         rel="stylesheet">
 
 
-    <title>Ladrizone</title>
+    <title>LadriZone - Tu Zona de Juego</title>
 </head>
 
 <body >
-     <header>
+   
+
+    <header>
         <nav class="grid_nav">
             <div class="hmenu">
-                <img src="..\img\menu-abierto.png" alt="">
+                <button id="btn-menu" class="btn-menu">
+                    <img id="menu-icon" src="..\img\menu-abierto.png" alt="Menú">
+                </button>
             </div>
             <div class="logo">
                 <img src="..\img\logo.png" alt="">
@@ -38,18 +42,69 @@
                 <h2>&lt;&lt; TU ZONA DE ACCIÓN &gt;&gt; </h2>
             </div>
             <div class="carrito">
-                <img src="..\img\carrito-de-compras2.png" alt="">
+                <button class="" id="btn-carrito">
+                    <img src="..\img\carrito-de-compras2.png" alt="">
+                </button>
             </div>
             <div class="login">
-                <img  src="..\img\cuenta.png" alt="">
+                <button id="btn-banner">
+                    <img id="login-img"  src="..\img\javi.jpg" alt="">
+                </button>
             </div>
         </nav>
+        
+        <!-- Menú desplegable fuera del grid -->
+        <ul id="menu" class="botones">
+            <li><img class="nav-li" src="../img/Panel-Iconos-Recientes.png" alt=""></img>Recientes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Destacado.png" alt="">Destacados</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Accion.png" alt="">Acción</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Aventura.png" alt="">Aventura</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Deporte.png" alt="">Deportes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Playing cards.png" alt="">Cartas</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Strategy.png" alt="">Estrategia</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Clasic.png" alt="">Clasicos</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Inicio.png" alt="">Inicio</li>
+        </ul>
+
+        <!-- Form Carrito fuera del grid -->
+         <!-- Cambiarlo por el estilo general, eso es solo una prueba -->
+        <div id="cartForm" class="cart-form hidden">
+            <form>
+                <h3>Finalizar compra</h3>
+                <input type="text" placeholder="Nombre"  />
+                <input type="email" placeholder="Email" />
+                <button class="cart-confirm" type="submit">Confirmar</button>
+            </form>
+        </div>
+
+
+
+
+        <!-- Banner Gamer -->
+         <ul id="banner" class="banner-gamer">
+            <li><img id="banner-img" src="../img/javi.jpg" alt=""></li>
+            <li><h2>¡Hola Javier!</h2></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
+         </ul>
+
+
+
     </header>
+
 
     <main class="grid_body">  
 
     <section class="breadcrumb">
-        <h3>Aqui va el Breadcrumb</h3>
+        <a class="bread-naranja" href="mainM.html">
+                <h4>Home /</h4>
+            </a><a class="bread-naranja" href="">
+                <h4>Adventure /</h4>
+            </a><a class="bread-Blanco" href="">
+                <h4>Peg Solitaire Espacial</h4>
+            </a>
     </section>
 
     <aside class="game">
@@ -59,13 +114,18 @@
     </aside>
 
     <article class="list_img">
-        <ul>
-            <li><img src="../img/Captura de pantalla.png" alt=""></li>
-            <li><img src="../img/Captura de pantalla.png" alt=""></li>
-            <li><img src="../img/Captura de pantalla.png" alt=""></li>
-        </ul>
+       <ul>
+                <li><img src="img/pegSolitaireEspacial2.png" alt=""></li>
+                <li><img src="img/pegSolitaireEspacial3.png" alt=""></li>
+                <li><img src="img/pegSolitaireEspacial4.png" alt=""></li>
+            </ul>
     </article>
 
+    <article id="lista_juegos_similares" class="juegos_similares list_img_2">
+            <h3>Juegos similares</h3>
+    </article>
+
+    <!--
     <article class="list_img_2">
         <ul class="list_img_2_ul">
             <li><img src="../img/Captura de pantalla.png" alt=""></li>
@@ -80,7 +140,7 @@
             <li><img src="../img/Captura de pantalla.png" alt=""></li>
         </ul>
     </article>
-
+    -->
 
     <section class="instrucciones">
         <h3>Instrucciones</h3>
@@ -113,7 +173,8 @@
             <div class="comentario_1_header">
                 <div>
                 <p><span>Juan Perez</span></p>
-                <p id="comentario_1">Escribe aquí tu comentario...</p>
+               <textarea name="comentario" id="texto_comentario" cols="90" rows="2"
+                            placeholder="Escribe aqui tu comentario..."></textarea>
 
                 <button class=" btn btn_publicar" type="button">Publicar...</button>
                 </div>
@@ -226,7 +287,9 @@
     </section>
     </main>
 
-      <footer class="gridFooter">
+   
+
+    <footer class="gridFooter">
 
         <div class="col-up">
             <hr class="linea">
@@ -280,6 +343,10 @@
             <p>Copyright © - LadriZone, Inc. Games ©</p>
         </div>
     </footer>
+
+    <script src="js/card-carrouseles.js"></script>
+    <script src="js/hamburguesa.js"></script>
+    <script src="js/juego.js"></script>
 
 </body>
 
