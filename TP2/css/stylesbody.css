@@ -215,9 +215,10 @@
 
 .carousel-nav img {
     width: 38px;
-    height: 68px;
-    transition: all 0.3s ease;
+    height: 68px;    
 }
+
+
 
 .carousel-prev {
     left: 10px;
@@ -231,30 +232,142 @@
     transform: scale(1.15);
     filter: brightness(1.2);
 }
+
+/* Wrapper del carrusel con gradientes fijos */
+.carrousel-wrapper {
+    position: relative;
+    background-color: #1d1165;
+    overflow: hidden; /* Para ocultar el scroll del wrapper */
+}
+
+/* Botones transparentes laterales - Solo desktop */
+.carrousel-btn {
+    display: none; /* Ocultos en móvil por defecto */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 440px; /* Altura de las cards */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 11;
+    transition: background 0.3s ease;
+}
+
+.carrousel-btn:hover {
+    background: rgba(0, 0, 0, 0.377);
+}
+
+.carrousel-btn-left {
+    left: 0;
+}
+
+.carrousel-btn-right {
+    right: 0;
+}
+
+/* Gradientes fijos en los bordes del wrapper - ya no necesarios con botones */
+.carrousel-wrapper::before,
+.carrousel-wrapper::after {
+    display: none;
+}
+
+/* Carrusel principal con efecto 3D - Mobile First */
+#destacados {
+   
+    text-align: center;
+    margin: 0px;
+    
+}
+
 #carrousel {
     display: flex;
-    flex-wrap: nowrap;      
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 40px 10px;
     background-color: #1d1165;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    perspective: 1000px;
 }
+
+
+
 .carrousel-item {
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    width: 300px;
-    height: 400px;
-    padding: 5px;
-    margin: 16px;
+    border: 1px solid #48479A;
+    border-radius: 10px;
+    width: calc(100vw - 80px); /* Casi todo el ancho en móvil */
+    min-width: 280px;
+    max-width: 350px;
+    height: 450px;
+    padding: 0px;
+    flex-shrink: 0;
+    scroll-snap-align: center; /* Centra cada item al hacer scroll */
+    /* Propiedades para mostrar contenido */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    color: white;
+    
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    /* Efecto 3D con sombras volumétricas */
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(72, 71, 154, 0.3);
+}
+
+/* Degradado en carrousel items para legibilidad */
+.carrousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.carrousel-item > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Efecto 3D cuando se interactúa con el item */
+.carrousel-item:hover {
+    transform: scale(1.02) translateZ(20px);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 87, 34, 0.4);
+}
+
+/* Efectos de inclinación 3D al scrollear */
+.carrousel-wrapper.scrolling-left .carrousel-item {
+    transform: perspective(1000px) rotateY(5deg);
+    transition: transform 0.3s ease;
+}
+
+.carrousel-wrapper.scrolling-right .carrousel-item {
+    transform: perspective(1000px) rotateY(-5deg);
+    transition: transform 0.3s ease;
 }
 
 .btn-ver-mas {
@@ -349,6 +462,21 @@ h2 {
         font-size: 14px; /* Tamaño de texto original */
         font-weight: normal; /* Peso normal en desktop */
     }
+
+    /* Efectos hover y active del botón en desktop */
+    .btn-ver-mas:hover {
+        background-color: #ff6b3d;
+        transform: scale(1.05) translateY(0);
+        box-shadow: 0 0 15px rgba(255, 87, 34, 0.6);
+    }
+    /* Efecto de brillo intenso */
+    .btn-ver-mas:active {
+          transform: scale(1.2) translateY(0);
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 30px rgba(255, 87, 34, 0.6);
+    background-color: #ff8a50;
+    }
     
     /* Quitar scroll-snap en desktop */
     .categoria {
@@ -396,11 +524,84 @@ h2 {
     
     /* Mostrar flechas de navegación en desktop */
     .carousel-nav {
+        
         display: flex;
     }
-    
+    .carousel-nav img:hover {
+        transform: scale(1.02) translateY(0);
+        filter: brightness(1.5);
+
+    }
+    .carousel-nav img:active {
+        transform: scale(0.95) translateY(0);
+        
+        filter: brightness(2);
+    }
+
     /* Deshabilitar scroll manual en desktop (solo con flechas) */
     .categoria {
         overflow-x: hidden;
+    }
+
+    /* Mostrar botones de navegación del carrusel en desktop */
+    .carrousel-btn {
+        display: block;
+    }
+
+    /* Carrusel principal en desktop - mantiene scroll */
+    #carrousel {
+        gap: 0 25px 0 25px;        
+        justify-content: flex-start;
+        overflow-x: auto;
+        cursor: grab;
+        padding: 20px;
+        scroll-snap-type: x proximity;
+    }
+
+    #carrousel:active {
+        cursor: grabbing;
+    }
+
+    .carrousel-item {
+        width: 320px; /* Tamaño medio */
+        max-width: 320px;
+        min-width: 320px;
+        height: 440px;
+        scroll-snap-align: center; /* Centra al hacer scroll */
+    }
+
+    .carrousel-item:hover {
+        transform: scale(1.05) translateZ(30px) rotateY(2deg);
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.8),
+            0 0 40px rgba(255, 87, 34, 0.6);
+        z-index: 4;
+    }
+
+    /* Botón oculto por defecto en carrousel grande */
+    .carrousel-wrapper #carrousel .carrousel-item .btn-ver-mas {
+        opacity: 0;
+        transform: translateY(20px);
+        position: absolute;
+        bottom: 20px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    /* Botón visible en hover del carrousel grande */
+    .carrousel-wrapper #carrousel .carrousel-item:hover .btn-ver-mas {
+        opacity: 1;
+        margin-bottom: 180px;
+        transform: translateY(0) scale(1.5);
+        box-shadow: 0 0 20px rgba(255, 87, 34, 0.7);
+        background-color: #ff6b3d;
+    }
+
+    .carrousel-wrapper #carrousel .carrousel-item .btn-ver-mas:active {
+        transform: translateY(0) scale(1.02);
+        box-shadow: 
+            0 0 20px rgba(255, 215, 0, 0.8),
+            0 0 30px rgba(255, 87, 34, 0.6);
+        background-color: #ff8a50;
     }
 }
