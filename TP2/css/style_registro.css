@@ -87,6 +87,13 @@ footer {
     box-sizing: border-box;
 }
 
+.label-alternativo {
+    text-align:left;
+    transform-origin: left;
+    margin-top: 10px;
+    color:#D9D9D9
+}
+
 #label-titular-varianteColor {
     color: #D9D9D9;
     font-weight: 200;
@@ -127,14 +134,30 @@ input[type="date"]::-webkit-datetime-edit {
 
 /* ------------ PARA COLOREAR LOS REQUISITOS DE LA CONTRASEÑA ------------ */
 
+#password-rules {
+    width: 100%;
+}
+
 #password-rules li {
     list-style: none;
+    color: yellow
 }
 
 #password-rules li.valid {
-    color: green;
+    color: #54FF4B;
 }
 
 #password-rules li.invalid {
     color: red;
+}
+
+#iconoAdvertencia {
+    color: #EEFA00;
+}
+
+#mensajeError {
+    display: none;
+    color: #EEFA00;
+    font-size: 8px;
+    margin-top: 4px;
 }

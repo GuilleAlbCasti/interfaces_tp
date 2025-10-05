@@ -73,6 +73,13 @@ footer {
     box-sizing: border-box;
 }
 
+.label-alternativo {
+    text-align:right;
+    transform-origin: right;
+    line-height: 15px;
+    margin-bottom: 10px;
+}
+
 #boton-google {
     width: 189px;
     padding-left: 0px;
