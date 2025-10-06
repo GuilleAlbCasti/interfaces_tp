@@ -46,6 +46,7 @@ passwordInput.addEventListener('input', () => {
 
 const form = document.querySelector('.registro-marco-principal-cuerpo-form');
 form.addEventListener('submit', (e) => {
+    e.preventDefault();
     const pwd = passwordInput.value;
     const rePwd = rePasswordInput.value;
 
@@ -58,7 +59,6 @@ form.addEventListener('submit', (e) => {
     const coincide = pwd === rePwd;
 
     if (!(regla1 && regla2 && regla3 && regla4 && coincide)) {
-        e.preventDefault();
         mensajeError.style.display = "block";
         mensajeError.textContent = coincide
             ? "⚠️ La contraseña no cumple todos los requisitos."
@@ -66,7 +66,7 @@ form.addEventListener('submit', (e) => {
         rePasswordInput.focus();
     } else {
         mensajeError.style.display = "none";
+        window.location.href = "../html/main.html";
     }
     
-    window.location.href = "../html/main.html";
 });
