@@ -65,11 +65,33 @@
        
         <div id="cartForm" class="cart-form hidden">
             <form>
-                <h3>Finalizar compra</h3>
-                <h4>Peg Solitary Spacial  &nbsp;&nbsp;   u$10</p4>
-                <hr style="padding: 10px;">
-                <input class="text_Form" type="text" placeholder="Introduzca Password" />
-                <button class="cart-confirm" type="submit">Confirmar</button>
+                <h3>Mi Carrito</h3>
+                <hr class="linea-carrito">
+                <div class="cart-item">
+                    <img src="../img/Juego - Red Read.jpeg" alt="">
+                    <p>Red Read Redemption</p>
+                    <p>u$10</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+               
+                <div class="cart-item">
+                    <img src="../img/Juego -Bioshok.jpeg" alt="">
+                    <p>Bioshock</p>
+                    <p>u$12</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+              
+                <div class="cart-item">
+                    <img src="../img/Juego -Mortal Combat.jpeg" alt="">
+                    <p>Mortal Kombat</p>
+                    <p>u$8</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+                    <hr class="linea-carrito">
+               <div class="btn-cart">
+
+                   <button class="cart-confirm" type="submit">Finalizar Compra</button>
+               </div>
             </form>
         </div>
 
@@ -83,7 +105,7 @@
             <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
             <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
             <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
-            <li><a href="#"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
+            <li><a href="/index.html"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
          </ul>
 
 
@@ -91,11 +113,9 @@
     </header>
 
     <main>
-        <!-- esto debe ir al index de Guillermo -->
-        <!-- una vez que termina el spinner ingresar para loguearte y luego va al home -->
-
+        
       <div id="loader">
-            <img id="logo-spiner" src="img\logo.png" alt="Logo ">
+            <img id="logo-spiner" src="../img/logo.png" alt="Logo ">
             <h2>Cargando...</h2>
             <div class="spinner"></div>
         </div>
@@ -116,10 +136,9 @@
 
 
 
-        <script src="js/juego.js"></script>
-        <script src="js/card-carrouseles.js"></script>
-        <script src="js/hamburguesa.js"></script>
-   
+        <script src="../js/juego.js"></script>
+        <script src="../js/card-carrouseles.js"></script>
+        <script src="../js/hamburguesa.js"></script>
 
 
 

@@ -67,4 +67,6 @@ form.addEventListener('submit', (e) => {
     } else {
         mensajeError.style.display = "none";
     }
+    
+    window.location.href = "../html/main.html";
 });

@@ -39,7 +39,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Botón anterior
   const btnAnterior = document.createElement('button');
   btnAnterior.className = 'carousel-nav carousel-prev';
-  btnAnterior.innerHTML = '<img src="img/flechaizquierda.svg" alt="Anterior">';
+  btnAnterior.innerHTML = '<img src="../img/flechaizquierda.svg" alt="Anterior">';
 
   // Contenedor de las cards
   const contenedorXcategoria = document.createElement('article');
@@ -48,7 +48,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Botón siguiente
   const btnSiguiente = document.createElement('button');
   btnSiguiente.className = 'carousel-nav carousel-next';
-  btnSiguiente.innerHTML = '<img src="img/flechaderecha.svg" alt="Siguiente">';
+  btnSiguiente.innerHTML = '<img src="../img/flechaderecha.svg" alt="Siguiente">';
 
   // Agregar elementos al carrusel chico
   carruselContainer.appendChild(btnAnterior);
@@ -137,7 +137,7 @@ function crearCard(juego, estilo) {
   // Harcodeo para agregar el peg solitaire espacial
   if (juego.name === "Portal 2") {
     juego.name = "Peg Solitaire Espacial";
-    juego.background_image = "img/pegSolitaireEspacial.png";
+    juego.background_image = "../img/pegSolitaireEspacial.png";
     juegoDiv.className = estilo;
     juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
     juegoDiv.innerHTML = `
@@ -151,7 +151,7 @@ function crearCard(juego, estilo) {
       })()}
   <p class="valoracion-label"></p>
   ${generarEstrellas(juego.rating)}
-  <a href="html/juego.html" class="btn-ver-mas">Ver más</a>
+  <a href="../html/juego.html" class="btn-ver-mas">Ver más</a>
   `;
   } else {
     juegoDiv.className = estilo;
@@ -232,8 +232,8 @@ function setupCarrouselButtons() {
   if (!carrousel || !btnLeft || !btnRight) return;
 
   // Agregar las flechas SVG a los botones
-  btnLeft.innerHTML = '<img src="img/flechaizquierda.svg" alt="Anterior">';
-  btnRight.innerHTML = '<img src="img/flechaderecha.svg" alt="Siguiente">';
+  btnLeft.innerHTML = '<img src="../img/flechaizquierda.svg" alt="Anterior">';
+  btnRight.innerHTML = '<img src="../img/flechaderecha.svg" alt="Siguiente">';
 
   // Botón izquierdo - scroll hacia atrás
   btnLeft.addEventListener('click', () => {

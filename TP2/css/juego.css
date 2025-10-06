@@ -187,7 +187,7 @@ li img {
             "section section section"
             "aside aside instrucciones"
             "aside aside list_img"
-            "main_section main_section list_img_2"
+            "main_section main_section lista_juegos_similares"
             "footer footer footer";
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto;
@@ -381,6 +381,29 @@ hr {
 
 
 }
+
+
+#lista_juegos_similares {
+        grid-area: lista_juegos_similares;       
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual tamaño */
+        gap: 15px; /* Espacio entre elementos */
+        align-items: start;
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+
+    #lista_juegos_similares h3 {
+        grid-column: 1 / -1; 
+        text-align: center;
+        width: 100%;
+    }
+
+    #lista_juegos_similares img {
+        border-radius: 10px;
+        width: 220px;
+        height: 140px;
+    }
 
 
 }

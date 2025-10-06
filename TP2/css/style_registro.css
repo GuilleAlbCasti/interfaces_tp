@@ -47,6 +47,7 @@ footer {
 
 .registro-marco-principal-encabezado {
     flex-direction: row;
+    margin-bottom: 40px;
 }
 
 .registro-marco-principal-encabezado-logo {
@@ -56,7 +57,7 @@ footer {
 
 .registro-marco-principal-encabezado-logo img {
     width: auto;
-    height: 200px;
+    height: 150px;
 }
 
 .registro-marco-principal-encabezado-frase {
