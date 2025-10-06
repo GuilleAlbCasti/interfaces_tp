@@ -1,0 +1,617 @@
+/*------------------Mobile First -------------------------------*/
+
+
+.card {
+    
+    border-radius: 20px;
+    width: calc(100vw - 60px); /* Casi todo el ancho de la pantalla en móvil */
+    min-width: 280px; /* Ancho mínimo */
+    height: 380px; /* Más alta en móvil */
+    padding: 10px 10px 20px 10px; /* Padding-bottom para espacio abajo */
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Contenido abajo en móvil */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    scroll-snap-align: center; /* Centra cada card al hacer scroll */
+}
+
+/* Degradado oscuro en el fondo para mejorar legibilidad en móvil */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,      /* Claro arriba */
+        rgba(0, 0, 0, 0.4) 30%,     /* Semi-transparente */
+        rgba(0, 0, 0, 0.85) 100%    /* Muy oscuro abajo */
+    );
+    border-radius: 20px;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+.card > * {
+    position: relative;
+    z-index: 2;
+    opacity: 1; /* Visible por defecto en móvil */
+    transform: translateY(0); /* Sin desplazamiento en móvil */
+    transition: all 0.3s ease;
+    /* Text-shadow más fuerte para mejor legibilidad */
+    text-shadow: 
+        2px 2px 8px rgba(0, 0, 0, 0.95),
+        0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* En móvil no hay cambios en hover */
+.card:hover::before {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.card:hover > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: scale(1.0); /* Sin escala en móvil */
+}
+
+/*Loader y spiner*/
+#loader { 
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    background-color: #1D1165; 
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#loader h2 {
+    font-size: 20px;
+    color: #ff5722;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+
+#logo-spiner {
+    width: 150px;
+    height: 150px;
+    animation: girar 2s linear infinite;
+}
+
+@keyframes girar {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.spinner {
+    width: 80%;
+    max-width: 300px;
+    height: 30px;
+    border-radius: 20px;
+    background:
+        repeating-linear-gradient(135deg,#48479A 0 10px,#FF5722 0 20px) 0/0%   no-repeat,
+        repeating-linear-gradient(135deg,#ddd    0 10px,#eee    0 20px) 0/100%;
+    animation: l3 5s infinite;
+}
+@keyframes l3 {
+    0% { background-size: 0%; }
+    25% { background-size: 40%; }
+    50% { background-size: 70%; }
+    75% { background-size: 90%; }
+    100% { background-size: 100%; }
+}
+
+
+
+/* Efectos skew al navegar con las flechas */
+.card-skew-right {
+    animation: skewRight 0.5s ease;
+}
+
+.card-skew-left {
+    animation: skewLeft 0.5s ease;
+}
+
+@keyframes skewRight {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    50% {
+        transform: skew(5deg, 4deg) translateX(10px);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+@keyframes skewLeft {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    50% {
+        transform: skew(-5deg, -2deg) translateX(-10px);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+.categoria {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background-color: #48479A;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 0;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    scroll-snap-type: x mandatory; /* Snap obligatorio al hacer scroll */
+    padding: 20px 0;
+    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    -ms-overflow-style: none; /* Ocultar scrollbar en IE/Edge */
+}
+
+/* Ocultar scrollbar en Chrome/Safari */
+.categoria::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+/* Estilos para el carrusel */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #48479A;
+    padding: 5px 25px;
+    box-sizing: border-box;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    display: none; /* Oculto por defecto en móvil */
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.carousel-nav img {
+    width: 38px;
+    height: 68px;    
+}
+
+/* Estilos para las flechas del carrusel GRANDE (destacados) */
+.carrousel-btn-left img,
+.carrousel-btn-right img {
+    width: 38px;
+    height: 68px;
+}
+
+.carrousel-btn-left img,
+.carrousel-btn-right img:hover {
+    filter: drop-shadow(0 4px 8px rgba(244, 242, 242, 0.952));
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+.carousel-nav:hover img {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+}
+
+/* Wrapper del carrusel con gradientes fijos */
+.carrousel-wrapper {
+    position: relative;
+    background-color: #1d1165;
+    overflow: hidden; /* Para ocultar el scroll del wrapper */
+}
+
+/* Botones transparentes laterales - Solo desktop */
+.carrousel-btn {
+    display: none; /* Ocultos en móvil por defecto */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 440px; /* Altura de las cards */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 11;
+    transition: background 0.3s ease;
+}
+
+.carrousel-btn:hover {
+    background: rgba(0, 0, 0, 0.377);
+}
+
+.carrousel-btn-left {
+    left: 0;
+}
+
+.carrousel-btn-right {
+    right: 0;
+}
+
+/* Gradientes fijos en los bordes del wrapper - ya no necesarios con botones */
+.carrousel-wrapper::before,
+.carrousel-wrapper::after {
+    display: none;
+}
+
+/* Carrusel principal con efecto 3D - Mobile First */
+#destacados {
+   
+    text-align: center;
+    margin: 0px;
+    
+}
+
+#carrousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 40px 10px;
+    background-color: #1d1165;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    perspective: 1000px;
+}
+
+
+
+.carrousel-item {
+    border: 1px solid #48479A;
+    border-radius: 10px;
+    width: calc(100vw - 80px); /* Casi todo el ancho en móvil */
+    min-width: 280px;
+    max-width: 350px;
+    height: 450px;
+    padding: 0px;
+    flex-shrink: 0;
+    scroll-snap-align: center; /* Centra cada item al hacer scroll */
+    /* Propiedades para mostrar contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    /* Efecto 3D con sombras volumétricas */
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(72, 71, 154, 0.3);
+}
+
+/* Degradado en carrousel items para legibilidad */
+.carrousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.carrousel-item > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Efecto 3D cuando se interactúa con el item */
+.carrousel-item:hover {
+    transform: scale(1.02) translateZ(20px);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 87, 34, 0.4);
+}
+
+/* Efectos de inclinación 3D al scrollear */
+.carrousel-wrapper.scrolling-left .carrousel-item {
+    transform: perspective(1000px) rotateY(5deg);
+    transition: transform 0.3s ease;
+}
+
+.carrousel-wrapper.scrolling-right .carrousel-item {
+    transform: perspective(1000px) rotateY(-5deg);
+    transition: transform 0.3s ease;
+}
+
+.btn-ver-mas {
+    position: static; /* Static en móvil para respetar el orden del HTML */
+    padding: 12px 24px; /* Más grande en móvil */
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    opacity: 1; /* Visible por defecto en móvil */
+    transform: translateY(0); /* Sin desplazamiento en móvil */
+    transition: all 0.3s ease;
+    z-index: 3; /* Asegurar que esté por encima */
+    margin-top: 10px; /* Separación de la valoración */
+    font-size: 20px; /* Texto más grande en móvil */
+    font-weight: 500; /* Un poco más grueso */
+}
+
+/* Estilos para las estrellas de valoración */
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-bottom: 10px;
+}
+
+.star {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.star-full {
+    color: #FFD700; /* Amarillo dorado */
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.8);
+}
+
+.star-half {
+    color: #FFD700;
+    opacity: 0.5;
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.8);
+}
+
+.star-empty {
+    color: #FFD700;
+    opacity: 0.3;
+}
+
+.rating-number {
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.valoracion-label {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+h2 {
+    margin: 0;
+    font-family: Anton, sans-serif;
+    color: #ff5722;
+    text-align: left;
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+/*------------------Desktop -------------------------------*/
+@media (min-width: 768px) {
+    /* Restaurar tamaño de cards en desktop */
+    .card {
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        height: 250px;
+        padding: 5px;
+        margin: 5px;
+        scroll-snap-align: none;
+        justify-content: center; /* Centrado en desktop */
+    }
+    
+    /* Botón absolute en desktop para el efecto hover */
+    .btn-ver-mas {
+        position: absolute;
+        bottom: 10px;
+        margin-top: 0;
+        opacity: 0; /* Oculto por defecto */
+        transform: translateY(20px); /* Desplazado hacia abajo */
+        padding: 8px 16px; /* Tamaño original en desktop */
+        font-size: 14px; /* Tamaño de texto original */
+        font-weight: normal; /* Peso normal en desktop */
+    }
+
+    /* Efectos hover y active del botón en desktop */
+    .btn-ver-mas:hover {
+        background-color: #ff6b3d;
+        transform: scale(1.05) translateY(0);
+        box-shadow: 0 0 15px rgba(255, 87, 34, 0.6);
+    }
+    /* Efecto de brillo intenso */
+    .btn-ver-mas:active {
+          transform: scale(1.2) translateY(0);
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 30px rgba(255, 87, 34, 0.6);
+    background-color: #ff8a50;
+    }
+    
+    /* Quitar scroll-snap en desktop */
+    .categoria {
+        scroll-snap-type: none;
+        padding: 0;
+    }
+    
+    /* Ocultar información de las cards por defecto en desktop */
+   .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0); /* Sin fondo oscuro en móvil */
+    border-radius: 20px;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+    
+    .card > * {
+        opacity: 0; /* Oculto por defecto */
+        transform: translateY(20px); /* Desplazado hacia abajo */
+    }
+    
+    /* Mostrar información en hover en desktop */
+    .card:hover::before {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .card:hover > * {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .card:hover .btn-ver-mas {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .card:hover {
+        transform: scale(1.05); /* Efecto de escala en desktop */
+    }
+    
+    /* Mostrar flechas de navegación en desktop */
+    .carousel-nav {
+        
+        display: flex;
+    }
+    .carousel-nav img:hover {
+        transform: scale(1.02) translateY(0);
+        filter: brightness(1.5);
+
+    }
+    .carousel-nav img:active {
+        transform: scale(0.95) translateY(0);
+        
+        filter: brightness(2);
+    }
+
+    /* Deshabilitar scroll manual en desktop (solo con flechas) */
+    .categoria {
+        overflow-x: hidden;
+    }
+
+    /* Mostrar botones de navegación del carrusel en desktop */
+    .carrousel-btn {
+        display: block;
+    }
+
+    /* Carrusel principal en desktop - mantiene scroll */
+    #carrousel {
+        gap: 0 25px 0 25px;        
+        justify-content: flex-start;
+        overflow-x: auto;
+        cursor: grab;
+        padding: 20px;
+        scroll-snap-type: x proximity;
+    }
+
+    #carrousel:active {
+        cursor: grabbing;
+    }
+
+    .carrousel-item {
+        width: 320px; /* Tamaño medio */
+        max-width: 320px;
+        min-width: 320px;
+        height: 440px;
+        scroll-snap-align: center; /* Centra al hacer scroll */
+    }
+
+    .carrousel-item:hover {
+        transform: scale(1.05) translateZ(30px) rotateY(2deg);
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.8),
+            0 0 40px rgba(255, 87, 34, 0.6);
+        z-index: 4;
+    }
+
+    /* Botón oculto por defecto en carrousel grande */
+    .carrousel-wrapper #carrousel .carrousel-item .btn-ver-mas {
+        opacity: 0;
+        transform: translateY(20px);
+        position: absolute;
+        bottom: 20px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    /* Botón visible en hover del carrousel grande */
+    .carrousel-wrapper #carrousel .carrousel-item:hover .btn-ver-mas {
+        opacity: 1;
+        margin-bottom: 180px;
+        transform: translateY(0) scale(1.5);
+        box-shadow: 0 0 20px rgba(255, 87, 34, 0.7);
+        background-color: #ff6b3d;
+    }
+
+    .carrousel-wrapper #carrousel .carrousel-item .btn-ver-mas:active {
+        transform: translateY(0) scale(1.02);
+        box-shadow: 
+            0 0 20px rgba(255, 215, 0, 0.8),
+            0 0 30px rgba(255, 87, 34, 0.6);
+        background-color: #ff8a50;
+    }
+}

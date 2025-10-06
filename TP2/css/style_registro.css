@@ -47,6 +47,10 @@ footer {
 
 .registro-marco-principal-encabezado {
     flex-direction: row;
+<<<<<<< HEAD
+=======
+    margin-bottom: 40px;
+>>>>>>> daniel
 }
 
 .registro-marco-principal-encabezado-logo {
@@ -56,7 +60,11 @@ footer {
 
 .registro-marco-principal-encabezado-logo img {
     width: auto;
+<<<<<<< HEAD
     height: 330px;
+=======
+    height: 150px;
+>>>>>>> daniel
 }
 
 .registro-marco-principal-encabezado-frase {
