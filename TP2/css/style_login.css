@@ -1,0 +1,89 @@
+/* ---------------- ESTILOS USADOS EN EL LOGIN ---------------- */
+
+body {
+    background-image: url(../img/fondo.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+main {
+    margin: 20px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: transparent;
+}
+
+section {
+    height: 500px;
+    margin-top: 50px;
+}
+
+footer {
+    width: 100%;
+    background-color: #03045E;
+}
+
+.login-marco-principal,
+.login-marco-principal-logo,
+.login-marco-principal-form,
+.login-marco-secundario,
+.login-marco-secundario-subdivision {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-marco-principal {
+    width: 394px;
+    height: 514px;
+    border-radius: 12px;
+    background-color: #03045E;
+    box-shadow: 0 0px 40px 10px #A29C9C;
+}
+
+.login-marco-principal-logo {
+  
+    margin-bottom: 0px;
+}
+
+.login-marco-principal-logo img {
+    width: auto;
+    height: 250px;
+}
+
+.login-marco-secundario {
+    align-items: baseline;
+    justify-content: center;
+    gap: 30px;
+    border: none;
+
+}
+
+.login-marco-secundario-subdivision {
+    justify-content: center;
+    border: none;
+    width: 347px;
+    max-width: 347px;
+    height: auto;
+    margin: 20px;
+    border-radius: 12px;
+    background-color: #5C666A;
+    box-shadow: 0px 0px 8px 2px #A29C9C;
+    padding: 15px 40px;
+    box-sizing: border-box;
+}
+
+.label-alternativo {
+    text-align:right;
+    transform-origin: right;
+    line-height: 15px;
+    margin-bottom: 10px;
+}
+
+#boton-google {
+    width: 189px;
+    padding-left: 0px;
+}

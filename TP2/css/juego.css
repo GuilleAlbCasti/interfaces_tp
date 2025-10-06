@@ -1,0 +1,410 @@
+/* Estilos globales */
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+body {
+    background-color: #1d1165;
+    font-family: Arial, sans-serif;
+}
+
+/**************** Mobil First***************/
+
+.grid_body {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "section"
+        "aside"
+        "instrucciones"
+        "main_section"
+        "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+   
+    
+}
+
+
+.breadcrumb {
+    grid-area: section;
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 0 0 0;
+    margin-left: 5px;
+
+}
+.breadcrumb a {
+    color: #EA5A00;
+    font-size: 16px;
+    font-family: 'Anton', sans-serif;
+    margin-right: 5px;
+}
+.breadcrumb a:last-child {
+    color: white;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.juego-valorado:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+      
+}
+
+
+h3 {
+     font-family: 'Anton', sans-serif;
+    color: #F6853E;
+    font-size: 20px;
+    margin-left: 0px;
+}
+
+p {
+    color: #d9d9d9; 
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;   
+    justify-content: center;
+    align-items: center;
+}
+
+.main_section {
+    grid-area: main_section;
+    
+}
+
+main img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.game {
+    grid-area: aside;
+    justify-content: center;
+    align-items: center;
+    margin: 5 px;
+    padding: 5 px;
+    width: auto;
+}
+.game img {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+.instrucciones {
+        grid-area: instrucciones;
+        margin: 5px;
+}
+   .instrucciones p {
+        text-align: left;
+        font-size: 12px;
+    }
+   
+.comentarios, .comentario_1 {
+        grid-area: comentarios;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        
+    }
+
+article, .peg_solitaire, .list_img_2 {
+    display: none;
+}
+
+li img {
+        width: 30px;
+        height: 30px;
+    }
+
+
+    time {
+        font-size: smaller;
+        color: #d9d9d9; 
+    }
+
+    .comentario_first {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px;
+        width: 10%;
+        height: auto;
+       
+    }
+
+.comentario_first img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen sin deformarla */
+  display: block; /* Elimina espacios fantasmas debajo de la imagen */
+}
+
+ 
+.comentario_1 > div:not(.comentario_first),
+.comentarios > div:not(.comentario_first) {
+  flex: 1; /* Ocupa el resto del espacio disponible */
+}
+
+  .comentario_1_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0 5px 0px;
+    }
+
+   
+
+    time {
+        margin-right: 5px;
+    }
+    .comentario_second {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        margin: 5px;
+       
+    }
+    .avatar_nombre {
+        display: flex;
+        
+    }
+/* ================== DESKTOP 1440px+ ================== */
+@media (min-width: 460px) {
+    .grid_body {
+        grid-template-areas: 
+            "header header header"
+            "section section section"
+            "aside aside instrucciones"
+            "aside aside list_img"
+            "main_section main_section lista_juegos_similares"
+            "footer footer footer";
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        
+       
+    }
+
+    p {
+        font-size: medium;   
+    }
+  
+   
+
+    article, .peg_solitaire, .list_img_2 {
+    display: block;
+    }
+
+    .instrucciones {
+        grid-area: instrucciones;
+           
+        
+    }
+    .instrucciones li {
+        color:#d9d9d9;
+    }
+    .list_img {
+        grid-area: list_img;
+        display: flex;
+        justify-content: flex-start;
+        
+    }
+    .list_img img {
+            border-radius: 10px;
+           width: 300px;
+            height: 180px;
+            margin: 5px; 
+    }
+
+
+
+    
+    .list_img_2 {
+        grid-area: list_img_2;
+    }
+    .main_section {
+        grid-area: main_section;
+        
+    }
+    .peg_solitaire {
+        grid-area: peg_solitaire;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+   
+    .comentarios, .comentario_1 {
+        grid-area: comentarios;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        border: 1px solid #EB9158;
+        margin: 10px;
+        border-radius: 10px;
+    }
+    
+    .comentario_1 {
+        border: 1px solid #f9f9f9;
+    }
+    
+
+  section span:first-of-type {
+      font-weight: bold;
+      color: #EA5A00;
+
+  }
+
+    .instrucciones ul li img {
+          margin: 5px;
+       margin-left: 35px;
+       width: 300px;
+        height: 180px;
+    }
+
+   
+    
+    section li img {
+        border-radius: 50%;
+    }
+    .comentario_1_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0 5px 0px;
+        
+    }
+
+    #comentario_1{
+        margin-top: 10%;
+    }
+
+
+
+    .comentario_second img {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.comentario_second img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 6px rgba(211, 204, 204, 0.5));
+}
+
+
+/* Pulgar abajo: rota 45° horario */
+.comentario_second img[src*="pulgar-abajo"]:active {
+  transform: rotate(45deg);
+}
+
+/* Pulgar arriba: rota 45° antihorario */
+.comentario_second img[src*="pulgar-arriba"]:active {
+  transform: rotate(-45deg);
+}
+
+hr {
+    padding: 0px;
+    margin: 0px;
+}
+
+ .comentario_textarea {
+    background-color: #1d1165;
+    font-family: 'Lato', sans-serif;
+    color: #d9d9d9;
+    margin-top: 5px;
+    font-size: 16px;
+    
+ }
+
+ .btn_publicar {
+    margin-bottom: 5px;
+ }
+
+    .list_img_2_ul {
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    .list_img_2 a img {
+        width: 240px;
+        height: 150px;
+        margin: 5px;
+        border-radius: 10px;
+    }
+
+    .btn{
+       background-color: #1d1165;
+    position: relative;
+      color: #d9d9d9; 
+        font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+    }
+
+.btn:hover {
+  border: 1px solid #d9d9d9;
+  padding: 5px 5px;
+
+  border-radius: 10px;
+  font-weight: bold;
+  
+}
+/* Efecto bomba al click */
+.btn:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: explode 0.8s ease-out;
+  pointer-events: none;
+}
+
+/* Animación bomba */
+@keyframes explode {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+
+
+}
+
+
+#lista_juegos_similares {
+        grid-area: lista_juegos_similares;       
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas de igual tamaño */
+        gap: 15px; /* Espacio entre elementos */
+        align-items: start;
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+
+    #lista_juegos_similares h3 {
+        grid-column: 1 / -1; 
+        text-align: center;
+        width: 100%;
+    }
+
+    #lista_juegos_similares img {
+        border-radius: 10px;
+        width: 220px;
+        height: 140px;
+    }
+
+
+}
