@@ -1,5 +1,6 @@
 
 // FUNCIÓN PARA MOSTRAR EL FOOTER
+/*
 document.addEventListener('DOMContentLoaded', function() {
     fetch('../html/footer.html')
         .then(response => response.text())
@@ -7,3 +8,5 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('funcion_footer').innerHTML = data;
         });
 });
+
+*/

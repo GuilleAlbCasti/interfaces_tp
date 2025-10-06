@@ -543,7 +543,7 @@ h3 {
     color: #d9d9d9; 
     font-family: 'Monserrat', sans-serif;
     font-size: 14px;
-    
+    cursor: pointer;
 }
 
 .col2_li:first-of-type {

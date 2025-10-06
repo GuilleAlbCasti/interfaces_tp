@@ -225,7 +225,10 @@
     height: 68px;
 }
 
-
+.carrousel-btn-left img,
+.carrousel-btn-right img:hover {
+    filter: drop-shadow(0 4px 8px rgba(244, 242, 242, 0.952));
+}
 
 .carousel-prev {
     left: 10px;
