@@ -158,3 +158,10 @@ input[type="date"]::-webkit-datetime-edit {
     font-size: 8px;
     margin-top: 4px;
 }
+
+#mensajeErrorEmail {
+    display: none;
+    color: #EEFA00;
+    font-size: 8px;
+    margin-top: 4px;
+}

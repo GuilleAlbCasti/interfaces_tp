@@ -83,7 +83,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+
 }
 
 #loader h2 {
@@ -97,8 +97,8 @@
 
 
 #logo-spiner {
-    width: 150px;
-    height: 150px;
+    width: auto;
+    height: 400px;
     animation: girar 2s linear infinite;
 }
 
@@ -613,5 +613,9 @@ h2 {
             0 0 20px rgba(255, 215, 0, 0.8),
             0 0 30px rgba(255, 87, 34, 0.6);
         background-color: #ff8a50;
+    }
+
+    .spinner {
+        margin-bottom: 120px;
     }
 }

@@ -51,7 +51,8 @@
                     <input type="date" class="input-default" id="edad" required>
                     <label for="email" class="label-auxiliar" id="label-auxiliar-varianteTextTransform">correo
                         electrónico</label>
-                    <input type="email" class="input-default" id="email">
+                    <input type="email" class="input-default" id="email" required>
+                    <p class="label-alternativo" id="mensajeErrorEmail"><!-- ESPACIO PARA MENSAJE DE ERROR DEL EMAIL --></p>
                     <label for="password" class="label-auxiliar"
                         id="label-auxiliar-varianteTextTransform">contraseña</label>
                     <input type="password" class="input-default" id="password">
@@ -83,8 +84,7 @@
             </div>
         </section>
     </main>
-      <footer class="gridFooter">
-
+    <footer class="gridFooter">
         <div class="col-up">
             <hr class="linea">
         </div>
@@ -121,7 +121,6 @@
             <li class="col2_li">Reportar un Problema</li>
 
         </div>
-
         <div class="col6 borde-parcial">
             <h3>Contáctenos</h3>
             <div class="col6_img">
@@ -130,7 +129,6 @@
                 <img src="..\img\whatsapp.png" alt="">
             </div>
         </div>
-
         <div class="col_dwn">
             <p>“Al navegar por LadriZone, estás aceptando nuestras reglas del juego."</p>
             <p>LadriZone ™ y © 2025 Todos los derechos reservados.</p>
@@ -140,6 +138,7 @@
 
     <script src="../js/carga_footer.js"></script>
     <script src="../js/contraseniasRequisitos.js"></script>
+    <script src="../js/emailRequisitos.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 
