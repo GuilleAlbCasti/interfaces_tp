@@ -96,7 +96,7 @@
 
 
 
-#logo-spiner {
+/* #logo-spiner {
     width: auto;
     height: 400px;
     animation: girar 2s linear infinite;
@@ -109,7 +109,7 @@
     100% {
         transform: rotate(360deg);
     }
-}
+} */
 
 
 
@@ -618,4 +618,51 @@ h2 {
     .spinner {
         margin-bottom: 120px;
     }
+}
+/* 
+REQUERIMIENTO DE JAVIER */
+
+.padre1 {
+    width: 100px;
+    height: 100px;
+    background-color: #D9D9D9;
+    position: relative;
+    z-index: 0;
+}
+
+.hijo1 {
+    width: 50%;
+    height: 50%;
+    background-color: #F46B15;
+    position: absolute;
+    z-index: 1;
+    animation: recorrido infinite 4s;
+}
+
+@keyframes recorrido {
+    0% {
+        transform: translateX(0%) translateY(0%);
+    }
+    25% {
+        transform: translateX(100%) translateY(0%);
+    }   
+    50% {
+        transform: translateX(100%) translateY(100%);
+    }
+    75% {
+        transform: translateX(0%) translateY(100%);
+    }
+    100% {
+        transform: translateX(0%) translateY(0%);
+    }
+}
+
+.porcentaje {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
 }
