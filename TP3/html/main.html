@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/stylesbody.css">
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+
+    <header>
+        <nav class="grid_nav">
+            <div class="hmenu">
+                <button id="btn-menu" class="btn-menu">
+                    <img id="menu-icon" src="..\img\menu-abierto.png" alt="Menú">
+                </button>
+            </div>
+            <div class="logo" >
+                <img src="..\img\logo.png" id="logo-menu" alt="">
+            </div>
+            <div class="banner1">
+                <h2> &lt;&lt; TU ZONA DE JUEGO &gt;&gt; </h2>
+            </div>
+            <div class="buscar">
+                <input class="input-buscar" type="text" placeholder="Buscar...">
+            </div>
+            <div class="banner2">
+                <h2>&lt;&lt; TU ZONA DE ACCIÓN &gt;&gt; </h2>
+            </div>
+            <div class="carrito">
+                <button class="" id="btn-carrito">
+                    <img src="..\img\carrito-de-compras2.png" alt="">
+                </button>
+            </div>
+            <div class="login">
+                <button id="btn-banner">
+                    <img id="login-img"  src="../img/Avatar-User.jpg" alt="">
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Menú desplegable fuera del grid -->
+        <ul id="menu" class="botones">
+            <li><img class="nav-li" src="../img/Panel-Iconos-Recientes.png" alt=""></img>Recientes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Destacado.png" alt="">Destacados</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Accion.png" alt="">Acción</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Aventura.png" alt="">Aventura</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Deporte.png" alt="">Deportes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Playing cards.png" alt="">Cartas</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Strategy.png" alt="">Estrategia</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Clasic.png" alt="">Clasicos</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Inicio.png" alt="">Inicio</li>
+        </ul>
+
+        <!-- Form Carrito fuera del grid -->
+       
+        <div id="cartForm" class="cart-form hidden">
+            <form>
+                <h3>Mi Carrito</h3>
+                <hr class="linea-carrito">
+                <div class="cart-item">
+                    <img src="../img/Juego - Red Read.jpeg" alt="">
+                    <p>Red Read Redemption</p>
+                    <p>u$10</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+               
+                <div class="cart-item">
+                    <img src="../img/Juego -Bioshok.jpeg" alt="">
+                    <p>Bioshock</p>
+                    <p>u$12</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+              
+                <div class="cart-item">
+                    <img src="../img/Juego -Mortal Combat.jpeg" alt="">
+                    <p>Mortal Kombat</p>
+                    <p>u$8</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+                    <hr class="linea-carrito">
+               <div class="btn-cart">
+
+                   <button class="cart-confirm" type="submit">Finalizar Compra</button>
+               </div>
+            </form>
+        </div>
+
+
+
+
+        <!-- Banner Gamer -->
+         <ul id="banner" class="banner-gamer">
+            <li><img id="banner-img" src="../img/Avatar-User.jpg" alt=""></li>
+            <li><h2>¡Hola Johnny!</h2></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
+            <li><a href="../index.html"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
+         </ul>
+
+
+
+    </header>
+
+    <main>
+        <div id="loader">
+            <img id="logo-spiner" src="../img/logo.png" alt="Logo">
+            <h2>Cargando...</h2>
+            <div class="spinner"></div>
+        </div>
+        <h2 id="destacados">Juegos Destacados</h2>
+       
+
+        
+        <!-- el main comenzaria aqui -->
+        <div class="carrousel-wrapper">
+            <button class="carrousel-btn carrousel-btn-left" aria-label="Anterior"></button>
+            <section id="carrousel"></section>
+            <button class="carrousel-btn carrousel-btn-right" aria-label="Siguiente"></button>
+        </div>
+
+        <section id="cards"></section>
+
+    </main>
+
+
+
+        <script src="../js/juego.js"></script>
+        <script src="../js/card-carrouseles.js"></script>
+        <script src="../js/hamburguesa.js"></script>
+
+
+
+    <footer class="gridFooter">
+
+        <div class="col-up">
+            <hr class="linea">
+        </div>
+        <div class="col1">
+            <img src="..\img\logo.png" alt="">
+        </div>
+        <div class="col2 borde-parcial">
+            <h3>Navegación</h3>
+            <div class="col2_li_div">
+                <li class="col2_li">Inicio</li>
+                <li class="col2_li">Categorias</li>
+                <li class="col2_li">Juegos Populares</li>
+                <li class="col2_li">Nuevos Lanzamientos</li>
+            </div>
+        </div>
+        <div class="col3 borde-parcial">
+            <h3>Acerca de Nosotros</h3>
+            <li class="col2_li">Contactos</li>
+            <li class="col2_li">Datos Breves</li>
+            <li class="col2_li">Noticias</li>
+
+        </div>
+        <div class="col4 borde-parcial">
+            <h3>Información</h3>
+            <li class="col2_li">Politica de Privacidad</li>
+            <li class="col2_li">Terminos y Condiciones</li>
+            <li class="col2_li">Politicas de cookies</li>
+
+        </div>
+        <div class="col5 borde-parcial">
+            <h3>Soporte</h3>
+            <li class="col2_li">FAQ</li>
+            <li class="col2_li">Centro de Atencion</li>
+            <li class="col2_li">Reportar un Problema</li>
+
+        </div>
+
+        <div class="col6 borde-parcial">
+            <h3>Contáctenos</h3>
+            <div class="col6_img">
+                <img src="..\img\instagram.png" alt="">
+                <img src="..\img\facebook.png" alt="">
+                <img src="..\img\whatsapp.png" alt="">
+            </div>
+        </div>
+
+        <div class="col_dwn">
+            <p>“Al navegar por LadriZone, estás aceptando nuestras reglas del juego."</p>
+            <p>LadriZone ™ y © 2025 Todos los derechos reservados.</p>
+            <p>Copyright © - LadriZone, Inc. Games ©</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
