@@ -15,7 +15,7 @@
     <title>LadriZone - Tu Zona de Juego</title>
 </head>
 
-<body >
+<body>
     <header>
         <nav class="grid_nav">
             <div class="hmenu">
@@ -26,7 +26,7 @@
             <div class="logo">
                 <a href="main.html">
                     <img src="..\img\logo.png" id="logo-menu" alt="">
-                </a>   
+                </a>
             </div>
             <div class="banner1">
                 <h2> &lt;&lt; TU ZONA DE JUEGO &gt;&gt; </h2>
@@ -44,10 +44,10 @@
             </div>
             <div class="login">
                 <button id="btn-banner">
-                    <img id="login-img"  src="..\img\Avatar-User.jpg" alt="">
+                    <img id="login-img" src="..\img\Avatar-User.jpg" alt="">
                 </button>
             </div>
-        </nav>        
+        </nav>
         <!-- Menú desplegable fuera del grid -->
         <ul id="menu" class="botones">
             <li><img class="nav-li" src="../img/Panel-Iconos-Recientes.png" alt=""></img>Recientes</li>
@@ -70,108 +70,110 @@
                     <p>Red Read Redemption</p>
                     <p>u$10</p>
                     <button class="cart-remove" type="button">X</button>
-                </div>     
+                </div>
                 <div class="cart-item">
                     <img src="../img/Juego -Bioshok.jpeg" alt="">
                     <p>Bioshock</p>
                     <p>u$12</p>
                     <button class="cart-remove" type="button">X</button>
-                </div>   
+                </div>
                 <div class="cart-item">
                     <img src="../img/Juego -Mortal Combat.jpeg" alt="">
                     <p>Mortal Kombat</p>
                     <p>u$8</p>
                     <button class="cart-remove" type="button">X</button>
                 </div>
-                    <hr class="linea-carrito">
-               <div class="btn-cart">
-                   <button class="cart-confirm" type="submit">Finalizar Compra</button>
-               </div>
+                <hr class="linea-carrito">
+                <div class="btn-cart">
+                    <button class="cart-confirm" type="submit">Finalizar Compra</button>
+                </div>
             </form>
         </div>
         <!-- Banner Gamer -->
-         <ul id="banner" class="banner-gamer">
+        <ul id="banner" class="banner-gamer">
             <li><img id="banner-img" src="../img/Avatar-User.jpg" alt=""></li>
-            <li><h2>¡Hola Johnny!</h2></li>
+            <li>
+                <h2>¡Hola Johnny!</h2>
+            </li>
             <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
             <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
             <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
             <li><a href="../index.html"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
-         </ul>
+        </ul>
     </header>
-    <main class="grid_body">  
+    <main class="grid_body">
         <section class="breadcrumb">
             <a class="bread-naranja" href="../html/main.html">
-                    <h4>Home /</h4>
-                </a><a class="bread-naranja" href="">
-                    <h4>Adventure /</h4>
-                </a><a class="bread-Blanco" href="">
-                    <h4>Blocka</h4>
-                </a>
+                <h4>Home /</h4>
+            </a><a class="bread-naranja" href="">
+                <h4>Adventure /</h4>
+            </a><a class="bread-Blanco" href="">
+                <h4>Blocka</h4>
+            </a>
         </section>
         <!-- Area del juego -->
         <aside class="game">
-            <div class="game-container">        
-                <canvas id="blockaCanvas" width="890" height="690" ></canvas>
+            <div class="game-container">
+                <canvas id="blockaCanvas" width="890" height="690"></canvas>
             </div>
         </aside>
         <article class="list_img">
             <ul>
-                <li><img src="../img/pegSolitaireEspacial2.png" alt=""></li>
-                <li><img src="../img/pegSolitaireEspacial3.png" alt=""></li>
-                <li><img src="../img/pegSolitaireEspacial4.png" alt=""></li>
+                <li><img src="../img/blockaSimilar1.jpg" alt=""></li>
+                <li><img src="../img/blockaSimilar2.webp" alt=""></li>
             </ul>
         </article>
         <article id="lista_juegos_similares" class="juegos_similares list_img_2">
-                <h3>Juegos similares</h3>
+            <h3>¡Los juegos más jugados del momento!</h3>
         </article>
         <section class="instrucciones">
             <h3>Instrucciones</h3>
-            <li>1: "Llena el espacio. El centro está vacío."</li>
-            <li>2: "Un ping salta sobre otro y cae en el hueco."</li>
-            <li>3: "El ping saltado desaparece."</li>
-            <li>4: "Sigue saltando ping."</li>
-            <li>5: "¡Ganas si queda 1 ping en el centro!"</li>
+            <ol>
+                <li>La imagen se divide en varias piezas rotadas aleatoriamente.</li>
+                <li>Haz CLICK IZQUIERDO en una pieza para rotarla hacia la izquierda.</li>
+                <li>Haz CLICK DERECHO en una pieza para rotarla hacia la derecha.</li>
+                <li>Rota todas las piezas hasta formar la imagen correcta.</li>
+                <li>Cuando completes el puzzle, se mostrará la imagen original.</li>
+            </ol>
         </section>
         <section class="main_section">
-            <section class="peg_solitaire">
-                <h3>Peg Solitaire Espacial</h3>
-                <p>Peg Solitaire Espacial es una variante del clásico juego de mesa Peg Solitaire, ambientada en un entorno
-                    espacial futurista. El objetivo del juego es eliminar todas las piezas (pings) del tablero excepto una,
-                    siguiendo las reglas tradicionales de salto y eliminación. La temática espacial añade un toque visual
-                    atractivo, con gráficos que representan un tablero flotante en el espacio y piezas diseñadas como
-                    pequeños satélites o naves espaciales. El juego desafía la lógica y la estrategia del jugador,
-                    ofreciendo diferentes niveles de dificultad y tableros con configuraciones variadas para mantener el
-                    interés y la rejugabilidad.</p>
+            <section class="descripcionJuego">
+                <h3>BLOCKA - Famosos de la Tecnología</h3>
+                <p>Blocka es un divertido juego de puzzle que reúne imágenes de los hombres más influyentes de la
+                    tecnología. El objetivo es completar cada imagen rotando las piezas hasta formar la figura correcta.
+                    Cada nivel presenta una imagen diferente con filtros aplicados que desafían tu percepción y
+                    concentración. Los filtros desaparecen al completar el nivel, revelando la imagen original. Podés
+                    elegir jugar con 4, 6 u 8 piezas; más piezas significan mayor dificultad y un reto más desafiante.
+                    Blocka combina entretenimiento y habilidad visual, ofreciendo múltiples niveles y un desafío
+                    creciente para poner a prueba tu rapidez y lógica.</p>
             </section>
             <section class="comentario_1">
                 <div class="comentario_first">
-                    <li><img src="../img/Avatar-User.jpg" alt="avatar"></li>
+                    <li><img src="../img/Avatar-User.jpg" alt="avatar" id="fotoPerfil"></li>
                 </div>
                 <div class="comentario_1_header">
                     <div>
-                    <p><span>Johnny</span></p>
-                   <textarea class="comentario_textarea" name="comentario" id="texto_comentario" cols="90" rows="2"
-                                placeholder="Escribe aqui tu comentario..."></textarea>             
-                     <hr>   
-                    <button class=" btn btn_publicar" type="button">Publicar...</button>
-                </div>
+                        <p><span>Johnny</span></p>
+                        <textarea class="comentario_textarea" name="comentario" id="texto_comentario" cols="90" rows="2"
+                            placeholder="Escribe aqui tu comentario..."></textarea>
+                        <hr>
+                        <button class=" btn btn_publicar" type="button">Publicar...</button>
+                    </div>
             </section>
             <section class="comentarios">
                 <div class="comentario_first">
-                    <li><img src="../img/javi.jpg" alt="avatar"></li>
+                    <li><img src="../img/foto1.jpg" alt="avatar" id="fotoPerfil"></li>
                 </div>
                 <div>
                     <div class="comentario_1_header">
-                        <p><span>Javito</span></p>
-                        <time>18/06/2024</time>
+                        <p><span>Lucas M.</span></p>
+                        <time>16/10/2024</time>
                     </div>
-                    <p>Vi el final antes de empezar....Derroté el tablero en 12 movimientos... El universo me aplaudió.
-                        <br>El juego solo confirmó lo que ya sabía: soy leyenda.</p>
+                    <p>"Me encantó Blocka, los filtros en cada nivel lo hacen mucho más desafiante. ¡No podía dejar de jugar hasta completar todas las imágenes!"</p>
                     <div class="comentario_second">
                         <li><img src="../img/pulgar-abajo.png" alt=""></li>
                         <li>
-                            <p>110</p>
+                            <p>65</p>
                         </li>
                         <li><img src="../img/pulgar-arriba.png" alt=""></li>
                         <li>
@@ -182,18 +184,18 @@
             </section>
             <section class="comentarios">
                 <div class="comentario_first">
-                    <li><img src="../img/fede.jpg" alt="avatar"></li>
+                    <li><img src="../img/foto2.jpg" alt="avatar" id="fotoPerfil"></li>
                 </div>
                 <div>
                     <div class="comentario_1_header">
-                        <p><span>Fede</span></p>
-                        <time>16/06/2024</time>
+                        <p><span>Sofía</span></p>
+                        <time>02/09/2024</time>
                     </div>
-                    <p>Yo lo jugué mientras cocinaba. Perdí, pero la lasaña salió perfecta. Prioridades, chicos.</p>
+                    <p>"El juego es muy entretenido y visualmente atractivo. Lo único es que los niveles con más piezas me costaron bastante, ¡pero eso lo hace más divertido!"</p>
                     <div class="comentario_second">
                         <li><img src="../img/pulgar-abajo.png" alt=""></li>
                         <li>
-                            <p>47</p>
+                            <p>112</p>
                         </li>
                         <li><img src="../img/pulgar-arriba.png" alt=""></li>
                         <li>
@@ -204,15 +206,15 @@
             </section>
             <section class="comentarios">
                 <div class="comentario_first">
-                    <li><img src="../img/cristian.jpg" alt="avatar"></li>
+                    <li><img src="../img/foto3.jpg" alt="avatar" id="fotoPerfil"></li>
                 </div>
                 <div>
                     <div class="comentario_1_header">
-                        <p><span>Il Capo</span></p>
+                        <p><span>Martin P.</span></p>
                         <time>15/06/2024</time>
                     </div>
-                    <p>Jugué con música épica de fondo. Me sentí en una película...Me pasé el nivel final sin saber cómo...
-                        <br>Creo que fue intervención divina o un bug amistoso. </p>
+                    <p>"¡Genial! Me gustó poder elegir la cantidad de piezas y ver cómo la imagen se revelaba al final. Perfecto para un rato de desafío rápido.
+                    </p>
                     <div class="comentario_second">
                         <li><img src="../img/pulgar-abajo.png" alt=""></li>
                         <li>
@@ -227,14 +229,14 @@
             </section>
             <section class="comentarios">
                 <div class="comentario_first">
-                    <li><img src="../img/rambo.jpg" alt="avatar"></li>
+                    <li><img src="../img/foto4.jpg" alt="avatar" id="fotoPerfil"></li>
                 </div>
                 <div>
                     <div class="comentario_1_header">
-                        <p><span>John Salchichon</span></p>
+                        <p><span>Valentina Miranda</span></p>
                         <time>12/06/2024</time>
                     </div>
-                    <p>“Este juego es como la batalla: te movés, te disparan, y si no pensás, te atrapa.”</p>
+                    <p>"Blocka combina estrategia y rapidez. Los filtros me hicieron pensar un poco más antes de mover las piezas, me pareció muy creativo."</p>
                     <div class="comentario_second">
                         <li><img src="../img/pulgar-abajo.png" alt=""></li>
                         <li>
@@ -246,6 +248,30 @@
                         </li>
                     </div>
                 </div>
+                
+            </section>
+                        <section class="comentarios">
+                <div class="comentario_first">
+                    <li><img src="../img/foto5.jpg" alt="avatar" id="fotoPerfil"></li>
+                </div>
+                <div>
+                    <div class="comentario_1_header">
+                        <p><span>Tomás F.</span></p>
+                        <time>05/03/2024</time>
+                    </div>
+                    <p>"Juego súper adictivo. Cada nivel es diferente y los famosos de la tecnología son un detalle divertido. Recomiendo jugarlo con 8 piezas para un verdadero reto."</p>
+                    <div class="comentario_second">
+                        <li><img src="../img/pulgar-abajo.png" alt=""></li>
+                        <li>
+                            <p>79</p>
+                        </li>
+                        <li><img src="../img/pulgar-arriba.png" alt=""></li>
+                        <li>
+                            <button class="btn" type="button">Responder</button>
+                        </li>
+                    </div>
+                </div>
+                
             </section>
         </section>
     </main>

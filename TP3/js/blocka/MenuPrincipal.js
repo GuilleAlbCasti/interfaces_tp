@@ -41,23 +41,23 @@ class MenuPrincipal {
         });
 
         // Botón Instrucciones
-        this.botones.push({
-            id: 'instrucciones',
-            x: centroX - anchoBton / 2,
-            y: inicioY + espacio,
-            ancho: anchoBton,
-            alto: altoBton,
-            texto: 'Instrucciones',
-            color: '#2196F3',
-            colorHover: '#0b7dda',
-            hover: false
-        });
+        // this.botones.push({
+        //     id: 'instrucciones',
+        //     x: centroX - anchoBton / 2,
+        //     y: inicioY + espacio,
+        //     ancho: anchoBton,
+        //     alto: altoBton,
+        //     texto: 'Instrucciones',
+        //     color: '#2196F3',
+        //     colorHover: '#0b7dda',
+        //     hover: false
+        // });
 
         // Botón Piezas
         this.botones.push({
             id: 'piezas',
             x: centroX - anchoBton / 2,
-            y: inicioY + espacio * 2,
+            y: inicioY + espacio,
             ancho: anchoBton,
             alto: altoBton,
             texto: 'Piezas: ' + this.piezasSeleccionadas,
