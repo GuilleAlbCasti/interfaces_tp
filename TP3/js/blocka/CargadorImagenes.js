@@ -44,8 +44,8 @@ class CargadorImagenes {
                 }
             };
             
-            // Empezar a cargar
-            img.src = '../../img/' + nombre;
+            // Empezar a cargar  -> img.src = '../../img/' + nombre;
+            img.src = '../img/' + nombre;
             this.imagenes[i] = img;
         }
     }
