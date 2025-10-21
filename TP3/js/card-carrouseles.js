@@ -156,7 +156,7 @@ function crearCard(juego, estilo) {
     }
   else if (juego.name === "God of War (2018)") {
     juego.name = "Blocka";
-    juego.background_image = "../img/fondo puzzle.jpg";
+    juego.background_image = "../img/fondoPuzzle.jpg";
     juegoDiv.className = estilo;
     juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
     juegoDiv.innerHTML = `

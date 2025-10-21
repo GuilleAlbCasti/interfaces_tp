@@ -17,7 +17,7 @@ class MenuPrincipal {
         this.imagenFondo.onload = () => {
             this.imagenCargada = true;
         };
-        this.imagenFondo.src = '../../img/fondo puzzle.jpg';
+        this.imagenFondo.src = '../img/fondoPuzzle.jpg';
     }
 
     crearBotones() {

@@ -3,12 +3,12 @@ class CargadorImagenes {
     constructor() {
         this.imagenes = [];
         this.nombresImagenes = [
-            'bill Gates.jpg',
-            'elon musk.jpg',
-            'jeff bezos.jpg',
-            'jensen huang.jpg',
-            'linus torvalds.jpg',
-            'steve jobs.jpg'
+            'billGates.jpg',
+            'elonMusk.jpg',
+            'jeffBezos.jpg',
+            'jensenHuang.jpg',
+            'linusTorvalds.jpg',
+            'steveJobs.jpg'
         ];
         this.todasCargadas = false;
         this.funcionCuandoTermine = null;
