@@ -175,7 +175,7 @@ class MenuPrincipal {
 
         // Nota
         ctx.fillStyle = '#ffffff';
-        ctx.font = '16px Arial';
+        ctx.font = '20px Arial';
         ctx.fillText('Haz clic en "Piezas" para cambiar la dificultad', this.anchoCanvas / 2, this.altoCanvas - 40);
     }
 
