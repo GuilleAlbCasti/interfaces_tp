@@ -5,10 +5,27 @@ juegos = [];
 
 //Lógica del loader
 const loader = document.getElementById('loader');
+const loaderText = document.querySelector('#loader h2');
+let porcentaje = 0;
+const tiempoTotal = 5000; // 5 segundos
+const intervalo = 50; // Actualizar cada 50ms
+const incremento = (intervalo / tiempoTotal) * 100;
+
 window.addEventListener('load', () => {
+  const intervaloCarga = setInterval(() => {
+    porcentaje += incremento;
+    if (porcentaje >= 100) {
+      porcentaje = 100;
+      loaderText.textContent = 'Cargando... 100%';
+      clearInterval(intervaloCarga);
+    } else {
+      loaderText.textContent = `Cargando... ${Math.floor(porcentaje)}%`;
+    }
+  }, intervalo);
+
   setTimeout(() => {
     loader.style.display = 'none';
-  }, 5000);
+  }, tiempoTotal);
 });
 
 // Función para cargar datos de juegos desde la API

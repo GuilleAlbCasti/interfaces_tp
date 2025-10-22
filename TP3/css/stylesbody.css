@@ -86,31 +86,6 @@
 
 }
 
-#loader h2 {
-    font-size: 20px;
-    color: #ff5722;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-
-
-#logo-spiner {
-    width: auto;
-    height: 400px;
-    animation: girar 2s linear infinite;
-}
-
-@keyframes girar {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 
 
 .spinner {
