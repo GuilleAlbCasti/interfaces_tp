@@ -1,15 +1,27 @@
 // Clase que representa una pieza del puzzle
 class Pieza {
-    constructor(imagenCompleta, x, y, ancho, alto, origenX, origenY, anchoOrigen, altoOrigen, indice, nivel) {
+    constructor(imagenCompleta, x, y, anchoContenedor, altoContenedor, anchoImagen, altoImagen, offsetX, offsetY, origenX, origenY, anchoOrigen, altoOrigen, indice, nivel) {
         this.imagenCompleta = imagenCompleta;
+        // Posición y tamaño del contenedor cuadrado (área de rotación)
         this.x = x;
         this.y = y;
-        this.ancho = ancho;
-        this.alto = alto;
+        this.ancho = anchoContenedor;
+        this.alto = altoContenedor;
+        
+        // Dimensiones de la imagen rectangular dentro del contenedor
+        this.anchoImagen = anchoImagen;
+        this.altoImagen = altoImagen;
+        
+        // Offset para centrar la imagen en el contenedor
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        
+        // Coordenadas de origen en la imagen original
         this.origenX = origenX;
         this.origenY = origenY;
         this.anchoOrigen = anchoOrigen;
         this.altoOrigen = altoOrigen;
+        
         this.indice = indice;
         this.nivel = nivel;
         
@@ -39,6 +51,10 @@ class Pieza {
         return this.rotacionActual === this.rotacionCorrecta;
     }
 
+    colocarEnPosicionCorrecta() {
+        this.rotacionActual = this.rotacionCorrecta;
+    }
+
     contienePunto(mouseX, mouseY) {
         return mouseX >= this.x && mouseX <= this.x + this.ancho &&
                mouseY >= this.y && mouseY <= this.y + this.alto;
@@ -47,22 +63,28 @@ class Pieza {
     dibujar(ctx, mostrarOriginal) {
         ctx.save();
         
-        // Trasladar al centro para rotar
-        ctx.translate(this.x + this.ancho / 2, this.y + this.alto / 2);
+        // Trasladar al centro del contenedor para rotar
+        const centroX = this.x + this.ancho / 2;
+        const centroY = this.y + this.alto / 2;
+        ctx.translate(centroX, centroY);
         ctx.rotate((this.rotacionActual * Math.PI) / 180);
         
-        // Dibujar la porción de la imagen
+        // Dibujar la porción de la imagen centrada en el contenedor
         ctx.drawImage(
             this.imagenCompleta,
             this.origenX, this.origenY, this.anchoOrigen, this.altoOrigen,
-            -this.ancho / 2, -this.alto / 2, this.ancho, this.alto
+            -this.anchoImagen / 2, -this.altoImagen / 2, this.anchoImagen, this.altoImagen
         );
         
         ctx.restore();
         
         // Aplicar filtro si no está completado
         if (!mostrarOriginal) {
-            // Obtener los píxeles de la pieza
+            // Obtener los píxeles del área de la imagen (no del contenedor completo)
+            const xImagen = this.x + this.offsetX;
+            const yImagen = this.y + this.offsetY;
+            
+            // Solo aplicar filtro al área donde está la imagen
             const datosImagen = ctx.getImageData(this.x, this.y, this.ancho, this.alto);
             
             // Aplicar filtro según el nivel
@@ -72,7 +94,7 @@ class Pieza {
             ctx.putImageData(datosConFiltro, this.x, this.y);
         }
         
-        // Dibujar borde
+        // Dibujar borde del contenedor
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 2;
         ctx.strokeRect(this.x, this.y, this.ancho, this.alto);

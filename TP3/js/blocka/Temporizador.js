@@ -21,6 +21,13 @@ class Temporizador {
         this.estaActivo = false;
     }
 
+    restarTiempo(segundos) {
+        // Restar tiempo moviendo el tiempo de inicio hacia adelante
+        if (this.estaActivo) {
+            this.tiempoInicio = this.tiempoInicio - (segundos * 1000);
+        }
+    }
+
     obtenerSegundosRestantes() {
         // Si no está activo, devolver el tiempo inicial
         if (!this.estaActivo) {
@@ -116,10 +123,29 @@ class Temporizador {
     }
 
     dibujar(ctx, x, y) {
-        // Color fijo negro durante todo el tiempo
-        ctx.fillStyle = '#333';
+        // Configurar fuente
         ctx.font = 'bold 24px Arial';
         ctx.textAlign = 'center';
+        
+        // Sombra
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        // Borde negro
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.strokeText('Tiempo: ' + this.obtenerTiempoFormateado(), x, y);
+        
+        // Relleno blanco
+        ctx.fillStyle = 'white';
         ctx.fillText('Tiempo: ' + this.obtenerTiempoFormateado(), x, y);
+        
+        // Limpiar efectos
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
     }
 }

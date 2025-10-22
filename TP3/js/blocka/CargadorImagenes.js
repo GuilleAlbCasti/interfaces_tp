@@ -3,12 +3,17 @@ class CargadorImagenes {
     constructor() {
         this.imagenes = [];
         this.nombresImagenes = [
-            'billGates.jpg',
-            'elonMusk.jpg',
-            'jeffBezos.jpg',
-            'jensenHuang.jpg',
-            'linusTorvalds.jpg',
-            'steveJobs.jpg'
+             'blockaFoto1.jpg',
+             'blockaFoto2.jpg',
+             'blockaFoto3.jpg',
+             'blockaFoto4.jpg',
+             'blockaFoto5.jpg',
+             'blockaFoto6.jpg',
+             'blockaFoto7.jpg',
+             'blockaFoto8.jpg',
+             'blockaFoto9.jpg',
+             'blockaFoto10.jpg'
+
         ];
         this.todasCargadas = false;
         this.funcionCuandoTermine = null;

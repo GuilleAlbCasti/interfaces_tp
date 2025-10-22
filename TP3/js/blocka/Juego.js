@@ -30,6 +30,15 @@ class Juego {
         // Tiempo al completar nivel
         this.tiempoAlCompletar = '';
         
+        // Sistema de ayuda
+        this.ayudaDisponible = true;
+        this.botonAyuda = null;
+        this.crearBotonAyuda();
+        
+        // Fondo
+        this.imagenFondo = new Image();
+        this.imagenFondo.src = '../img/fondoPuzzle.jpg';
+        
         // Botones de pantalla completada
         this.botonesCompletado = [];
         this.crearBotonesCompletado();
@@ -43,6 +52,32 @@ class Juego {
         
         // Cargar imágenes
         this.cargarImagenes();
+    }
+
+    // Método auxiliar para dibujar texto con estilo
+    dibujarTextoConEstilo(texto, x, y, tamaño, colorRelleno, grosorBorde, shadowBlur, shadowOffset) {
+        this.ctx.font = `bold ${tamaño}px Arial`;
+        
+        // Sombra
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.shadowBlur = shadowBlur;
+        this.ctx.shadowOffsetX = shadowOffset;
+        this.ctx.shadowOffsetY = shadowOffset;
+        
+        // Borde negro
+        this.ctx.strokeStyle = '#000000';
+        this.ctx.lineWidth = grosorBorde;
+        this.ctx.strokeText(texto, x, y);
+        
+        // Relleno
+        this.ctx.fillStyle = colorRelleno;
+        this.ctx.fillText(texto, x, y);
+        
+        // Limpiar efectos
+        this.ctx.shadowColor = 'transparent';
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
     }
 
     cargarImagenes() {
@@ -94,10 +129,15 @@ class Juego {
                 this.estadoActual = this.MENU;
             }
         } else if (this.estadoActual === this.JUGANDO) {
-            const pieza = this.puzzle.obtenerPiezaEn(pos.x, pos.y);
-            if (pieza) {
-                pieza.rotarIzquierda();
-                this.verificarCompletado();
+            // Verificar si hizo click en el botón de ayuda
+            if (this.clickEnBotonAyuda(pos.x, pos.y)) {
+                this.usarAyuda();
+            } else {
+                const pieza = this.puzzle.obtenerPiezaEn(pos.x, pos.y);
+                if (pieza) {
+                    pieza.rotarIzquierda();
+                    this.verificarCompletado();
+                }
             }
         } else if (this.estadoActual === this.COMPLETADO) {
             this.manejarClickCompletado(pos.x, pos.y);
@@ -127,6 +167,9 @@ class Juego {
         } else if (this.estadoActual === this.INSTRUCCIONES) {
             // Detecta si el mouse está sobre el botón "Volver"
             this.pantallaInstrucciones.manejarMovimientoMouse(pos.x, pos.y);
+        } else if (this.estadoActual === this.JUGANDO) {
+            // Detecta si el mouse está sobre el botón de ayuda
+            this.actualizarHoverBotonAyuda(pos.x, pos.y);
         } else if (this.estadoActual === this.COMPLETADO) {
             // Detecta si el mouse está sobre los botones "Menú" o "Siguiente"
             this.actualizarHoverBotonesCompletado(pos.x, pos.y);
@@ -148,6 +191,46 @@ class Juego {
         this.temporizador.reiniciar();
         this.temporizador.iniciar();
         this.estadoActual = this.JUGANDO;
+        // Resetear la ayuda para el nuevo nivel
+        this.ayudaDisponible = true;
+    }
+
+    clickEnBotonAyuda(x, y) {
+        const btn = this.botonAyuda;
+        return (x >= btn.x && x <= btn.x + btn.ancho &&
+                y >= btn.y && y <= btn.y + btn.alto);
+    }
+
+    actualizarHoverBotonAyuda(x, y) {
+        if (this.ayudaDisponible) {
+            this.botonAyuda.hover = this.clickEnBotonAyuda(x, y);
+        } else {
+            this.botonAyuda.hover = false;
+        }
+    }
+
+    usarAyuda() {
+        // Solo se puede usar si está disponible
+        if (!this.ayudaDisponible) {
+            return;
+        }
+
+        // Buscar una pieza incorrecta
+        const piezaIncorrecta = this.puzzle.obtenerPiezaIncorrecta();
+        
+        if (piezaIncorrecta) {
+            // Colocar la pieza en la posición correcta
+            piezaIncorrecta.colocarEnPosicionCorrecta();
+            
+            // Restar 5 segundos al temporizador
+            this.temporizador.restarTiempo(5);
+            
+            // Marcar la ayuda como usada
+            this.ayudaDisponible = false;
+            
+            // Verificar si se completó el puzzle
+            this.verificarCompletado();
+        }
     }
 
     verificarCompletado() {
@@ -197,6 +280,20 @@ class Juego {
                 hover: false
             }
         ];
+    }
+
+    crearBotonAyuda() {
+        this.botonAyuda = {
+            x: this.canvas.width/2 + 100,
+            y: 15,
+            ancho: 100,
+            alto: 35,
+            texto: '💡 Ayuda',
+            color: '#4CAF50',
+            colorHover: '#45a049',
+            colorDeshabilitado: '#BDBDBD',
+            hover: false
+        };
     }
 
     crearBotonesPerdido() {
@@ -293,7 +390,7 @@ class Juego {
 
     dibujar() {
         // Limpiar canvas
-        this.ctx.fillStyle = 'white';
+        this.ctx.fillStyle = '#e8e8e8ff';
         this.ctx.fillRect(0, 0, this.ancho, this.alto);
         
         if (this.estadoActual === this.MENU) {
@@ -312,23 +409,23 @@ class Juego {
 
     dibujarJugando() {
         // Fondo
-        this.ctx.fillStyle = '#e8e8e8';
+        this.ctx.drawImage(this.imagenFondo, 0, 0, this.ancho, this.alto);
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7 )';
         this.ctx.fillRect(0, 0, this.ancho, this.alto);
         
         // Nivel
-        this.ctx.fillStyle = '#333';
-        this.ctx.font = 'bold 28px Arial';
         this.ctx.textAlign = 'left';
-        this.ctx.fillText('Nivel ' + this.nivelActual, 20, 40);
+        this.dibujarTextoConEstilo('Nivel ' + this.nivelActual, 20, 40, 28, 'white', 3, 4, 2);
         
         // Timer
         this.temporizador.dibujar(this.ctx, this.ancho / 2, 40);
         
         // Instrucción
-        this.ctx.font = '18px Arial';
         this.ctx.textAlign = 'right';
-        this.ctx.fillStyle = '#666';
-        this.ctx.fillText('Click Izq: ↶ | Click Der: ↷', this.ancho - 20, 40);
+        this.dibujarTextoConEstilo('Click Izq: ↶ | Click Der: ↷', this.ancho - 20, 40, 18, 'white', 2, 3, 1);
+        
+        // Botón de ayuda
+        this.dibujarBotonAyuda();
         
         // Puzzle
         if (this.puzzle) {
@@ -336,9 +433,46 @@ class Juego {
         }
     }
 
+    dibujarBotonAyuda() {
+        const btn = this.botonAyuda;
+        
+        // Determinar el color según el estado
+        let color;
+        if (!this.ayudaDisponible) {
+            color = btn.colorDeshabilitado;
+        } else if (btn.hover) {
+            color = btn.colorHover;
+        } else {
+            color = btn.color;
+        }
+        
+        // Sombra
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.shadowBlur = 8;
+        
+        // Fondo del botón
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(btn.x, btn.y, btn.ancho, btn.alto);
+        
+        this.ctx.shadowColor = 'transparent';
+        this.ctx.shadowBlur = 0;
+        
+        // Borde
+        this.ctx.strokeStyle = 'white';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(btn.x, btn.y, btn.ancho, btn.alto);
+        
+        // Texto
+        this.ctx.fillStyle = this.ayudaDisponible ? 'white' : '#757575';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(btn.texto, btn.x + btn.ancho / 2, btn.y + btn.alto / 2 + 6);
+        }
+
     dibujarCompletado() {
         // Fondo
-        this.ctx.fillStyle = '#e8e8e8';
+        this.ctx.drawImage(this.imagenFondo, 0, 0, this.ancho, this.alto);
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
         this.ctx.fillRect(0, 0, this.ancho, this.alto);
         
         // Puzzle completado
@@ -347,24 +481,14 @@ class Juego {
         }
         
         // Mensaje
-        this.ctx.fillStyle = '#FFD700';
-        this.ctx.font = 'bold 56px Arial';
         this.ctx.textAlign = 'center';
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.shadowBlur = 10;
-        this.ctx.fillText('¡COMPLETADO!', this.ancho / 2, this.alto / 2 - 80);
-        
-        this.ctx.shadowColor = 'transparent';
-        this.ctx.shadowBlur = 0;
+        this.dibujarTextoConEstilo('¡COMPLETADO!', this.ancho / 2, this.alto / 2 - 80, 56, '#FFD700', 4, 10, 4);
         
         // Tiempo - Mostrar el tiempo que tardó en completar el nivel
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = 'bold 36px Arial';
-        this.ctx.fillText('Tiempo: ' + this.tiempoAlCompletar, this.ancho / 2, this.alto / 2 - 10);
+        this.dibujarTextoConEstilo('Tiempo: ' + this.tiempoAlCompletar, this.ancho / 2, this.alto / 2 - 10, 36, 'white', 3, 6, 3);
         
         // Nivel
-        this.ctx.font = '28px Arial';
-        this.ctx.fillText('Nivel ' + this.nivelActual + ' completado', this.ancho / 2, this.alto / 2 + 40);
+        this.dibujarTextoConEstilo('Nivel ' + this.nivelActual + ' completado', this.ancho / 2, this.alto / 2 + 40, 28, 'white', 2, 5, 2);
         
         // Botones
         for (let i = 0; i < this.botonesCompletado.length; i++) {
@@ -397,33 +521,24 @@ class Juego {
 
     dibujarPerdido() {
         // Fondo
-        this.ctx.fillStyle = '#e8e8e8';
+        this.ctx.drawImage(this.imagenFondo, 0, 0, this.ancho, this.alto);
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
         this.ctx.fillRect(0, 0, this.ancho, this.alto);
         
-        // Puzzle sin completar
+        // Puzzle incompleto
         if (this.puzzle) {
             this.puzzle.dibujar(this.ctx);
         }
         
-        // Mensaje principal
-        this.ctx.fillStyle = '#FF0000';
-        this.ctx.font = 'bold 56px Arial';
+        // Mensaje
         this.ctx.textAlign = 'center';
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.shadowBlur = 10;
-        this.ctx.fillText('¡SE ACABÓ EL TIEMPO!', this.ancho / 2, this.alto / 2 - 80);
-        
-        this.ctx.shadowColor = 'transparent';
-        this.ctx.shadowBlur = 0;
+        this.dibujarTextoConEstilo('¡SE ACABÓ EL TIEMPO!', this.ancho / 2, this.alto / 2 - 80, 56, '#FF0000', 4, 10, 4);
         
         // Mensaje secundario
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = 'bold 36px Arial';
-        this.ctx.fillText('¡Perdiste!', this.ancho / 2, this.alto / 2 - 10);
+        this.dibujarTextoConEstilo('¡Perdiste!', this.ancho / 2, this.alto / 2 - 10, 36, 'white', 3, 6, 3);
         
         // Nivel
-        this.ctx.font = '28px Arial';
-        this.ctx.fillText('Nivel ' + this.nivelActual, this.ancho / 2, this.alto / 2 + 40);
+        this.dibujarTextoConEstilo('Nivel ' + this.nivelActual, this.ancho / 2, this.alto / 2 + 40, 28, 'white', 2, 5, 2);
         
         // Botones
         for (let i = 0; i < this.botonesPerdido.length; i++) {

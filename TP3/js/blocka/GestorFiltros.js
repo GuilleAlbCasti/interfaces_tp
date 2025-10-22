@@ -35,8 +35,14 @@ class GestorFiltros {
     }
 
     static aplicarFiltroPorNivel(imageData, nivel) {
+        // Nivel 1: Sin filtro 
+        if (nivel === 1) {
+            return imageData;
+        }
+        
+        // Niveles 2+: Rotar entre filtros
         const filtros = ['grises', 'brillo', 'negativo'];
-        const tipoFiltro = filtros[(nivel - 1) % 3];
+        const tipoFiltro = filtros[(nivel - 2) % 3]; // -2 porque empezamos desde nivel 2
         
         if (tipoFiltro === 'grises') {
             return this.aplicarEscalaGrises(imageData);
