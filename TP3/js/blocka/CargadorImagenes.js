@@ -18,6 +18,7 @@ class CargadorImagenes {
         this.todasCargadas = false;
         this.funcionCuandoTermine = null;
         this.cuantasCargadas = 0;
+        this.imagenesUsadas = []; // Array para rastrear índices de imágenes ya usadas
     }
 
     cargarTodas(funcionCuandoTermine) {
@@ -56,7 +57,29 @@ class CargadorImagenes {
     }
 
     obtenerImagenAleatoria() {
-        const indiceAleatorio = Math.floor(Math.random() * this.imagenes.length);
+        // Si ya usamos todas las imágenes, resetear
+        if (this.imagenesUsadas.length >= this.imagenes.length) {
+            this.imagenesUsadas = [];
+        }
+        
+        // Crear array de índices disponibles (no usados)
+        const indicesDisponibles = [];
+        for (let i = 0; i < this.imagenes.length; i++) {
+            if (!this.imagenesUsadas.includes(i)) {
+                indicesDisponibles.push(i);
+            }
+        }
+        
+        // Seleccionar un índice aleatorio de los disponibles
+        const indiceAleatorio = indicesDisponibles[Math.floor(Math.random() * indicesDisponibles.length)];
+        
+        // Marcar esta imagen como usada
+        this.imagenesUsadas.push(indiceAleatorio);
+        
         return this.imagenes[indiceAleatorio];
+    }
+    
+    resetearImagenesUsadas() {
+        this.imagenesUsadas = [];
     }
 }

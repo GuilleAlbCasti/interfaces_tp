@@ -87,8 +87,8 @@ class Pieza {
             // Solo aplicar filtro al área donde está la imagen
             const datosImagen = ctx.getImageData(this.x, this.y, this.ancho, this.alto);
             
-            // Aplicar filtro según el nivel
-            const datosConFiltro = GestorFiltros.aplicarFiltroPorNivel(datosImagen, this.nivel);
+            // Aplicar filtro según el nivel, pasando el índice de la pieza para el nivel random
+            const datosConFiltro = GestorFiltros.aplicarFiltroPorNivel(datosImagen, this.nivel, this.indice);
             
             // Volver a dibujar con el filtro aplicado
             ctx.putImageData(datosConFiltro, this.x, this.y);

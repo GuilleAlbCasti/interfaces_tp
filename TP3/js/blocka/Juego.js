@@ -182,6 +182,8 @@ class Juego {
     comenzarJuego() {
         this.nivelActual = 1;
         this.tamañoCuadricula = this.menu.obtenerTamañoCuadricula();
+        // Resetear las imágenes usadas al comenzar un nuevo juego
+        this.cargadorImagenes.resetearImagenesUsadas();
         this.iniciarNivel();
     }
 

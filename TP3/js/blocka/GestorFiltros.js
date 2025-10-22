@@ -34,13 +34,18 @@ class GestorFiltros {
         return imageData;
     }
 
-    static aplicarFiltroPorNivel(imageData, nivel) {
+    static aplicarFiltroPorNivel(imageData, nivel, indicePieza = null) {
         // Nivel 1: Sin filtro 
         if (nivel === 1) {
             return imageData;
         }
         
-        // Niveles 2+: Rotar entre filtros
+        // Nivel 5 en adelante: Random (cada pieza con filtro diferente)
+        if (nivel >= 5) {
+            return this.aplicarFiltroAleatorio(imageData, indicePieza);
+        }
+        
+        // Niveles 2-4: Rotar entre filtros
         const filtros = ['grises', 'brillo', 'negativo'];
         const tipoFiltro = filtros[(nivel - 2) % 3]; // -2 porque empezamos desde nivel 2
         
@@ -51,6 +56,34 @@ class GestorFiltros {
         } else if (tipoFiltro === 'negativo') {
             return this.aplicarNegativo(imageData);
         } else {
+            return imageData;
+        }
+    }
+    
+    static aplicarFiltroAleatorio(imageData, indicePieza) {
+        // Array de filtros posibles (incluye "sin filtro")
+        const filtrosDisponibles = ['ninguno', 'grises', 'brillo', 'negativo'];
+        
+        // Si tenemos índice de pieza, usarlo para generar un filtro "consistente" para esa pieza
+        // Si no, generar uno aleatorio
+        let filtroSeleccionado;
+        if (indicePieza !== null) {
+            // Usar el índice de pieza para seleccionar un filtro de forma "pseudo-aleatoria" pero consistente
+            filtroSeleccionado = filtrosDisponibles[indicePieza % filtrosDisponibles.length];
+        } else {
+            // Selección completamente aleatoria
+            filtroSeleccionado = filtrosDisponibles[Math.floor(Math.random() * filtrosDisponibles.length)];
+        }
+        
+        // Aplicar el filtro seleccionado
+        if (filtroSeleccionado === 'grises') {
+            return this.aplicarEscalaGrises(imageData);
+        } else if (filtroSeleccionado === 'brillo') {
+            return this.aplicarBrillo(imageData);
+        } else if (filtroSeleccionado === 'negativo') {
+            return this.aplicarNegativo(imageData);
+        } else {
+            // 'ninguno' - retornar sin cambios
             return imageData;
         }
     }
