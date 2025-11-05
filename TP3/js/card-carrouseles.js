@@ -3,13 +3,7 @@
 //Arreglo global para almacenar los juegos
 juegos = [];
 
-//Lógica del loader
-const loader = document.getElementById('loader');
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    loader.style.display = 'none';
-  }, 5000);
-});
+
 
 // Función para cargar datos de juegos desde la API
 async function cargarDatosDeJuegos() {
@@ -64,6 +58,7 @@ async function mostrarJuegos(juegosXcaregoria, genero) {
   // Configurar funcionalidad de los carrouseles chicos
   setupCarruselCategoria(contenedorXcategoria, btnAnterior, btnSiguiente);
 }
+
 // Función para configurar el carrusel de una categoría (versión simplificada)
 function setupCarruselCategoria(contenedor, btnAnterior, btnSiguiente) {
   const cardWidth = 225; // Ancho de la carta + margenes
@@ -171,6 +166,24 @@ function crearCard(juego, estilo) {
   <p class="valoracion-label"></p>
   ${generarEstrellas(juego.rating)}
   <a href="../html/blocka.html" class="btn-ver-mas">Ver más</a>
+  `;
+  }else if (juego.name === "Grand Theft Auto: San Andreas") {
+    juego.name = "Super Peg Solitaire";
+    juego.background_image = "../img/pegSolitaireEspacial2.png";
+    juegoDiv.className = estilo;
+    juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
+    juegoDiv.innerHTML = `
+  <h2>${juego.name}</h2>
+  ${(() => {
+        let html = '<p> ';
+        for (let i = 0; i < juego.genres.length; i++) {
+          html += `${juego.genres[i].name} `;
+        }
+        return html + '</p>';
+      })()}
+  <p class="valoracion-label"></p>
+  ${generarEstrellas(juego.rating)}
+  <a href="../html/juegoPeg.html" class="btn-ver-mas">Ver más</a>
   `;
   }
   else {

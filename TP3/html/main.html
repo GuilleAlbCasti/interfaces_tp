@@ -113,11 +113,40 @@
     </header>
 
     <main>
-        <div id="loader">
-            <img id="logo-spiner" src="../img/logo.png" alt="Logo">
+        <!-- <div id="loader">
+            <div id="spinercuadrado"></div>
+           
             <h2>Cargando...</h2>
-            <div class="spinner"></div>
+            <div class="spinner"></div> 
+        </div> -->
+
+         <!-- Contenedor principal del loading -->
+    <div id="loadingContainer" class="loading-container">
+        
+        <!-- Cambiado de spinner circular a cuadrado animado -->
+        <!-- Cuadrado animado que recorre su contorno -->
+        <svg class="square-loader" viewBox="0 0 100 100">
+            <!-- Cuadrado de fondo (hueco) -->
+            <rect class="square-bg" x="10" y="10" width="80" height="80" />
+            <!-- Cuadrado animado que recorre el contorno -->
+            <rect class="square-animated" x="10" y="10" width="80" height="80" />
+        </svg>
+        
+        <!-- Barra de progreso -->
+        <div class="progress-bar-container">
+            <div id="progressBar" class="progress-bar"></div>
         </div>
+        
+        <!-- Porcentaje de carga -->
+        <div id="loadingPercentage" class="loading-percentage">0%</div>
+        
+        <!-- Texto informativo -->
+        <div class="loading-text">Cargando...</div>
+        
+    </div>
+
+
+
         <h2 id="destacados">Juegos Destacados</h2>
        
 
@@ -138,6 +167,7 @@
         <script src="../js/juego.js"></script>
         <script src="../js/card-carrouseles.js"></script>
         <script src="../js/hamburguesa.js"></script>
+        <script src="../js/Loader.js"></script>
 
 
 

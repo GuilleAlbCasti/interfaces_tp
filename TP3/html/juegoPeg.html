@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/juego.css">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/stylesbody.css">
+    <link rel="stylesheet" href="../css/peg-solitaire.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+
+    <title>LadriZone - Tu Zona de Juego</title>
+</head>
+
+<body >
+   
+
+    <header>
+        <nav class="grid_nav">
+            <div class="hmenu">
+                <button id="btn-menu" class="btn-menu">
+                    <img id="menu-icon" src="..\img\menu-abierto.png" alt="Menú">
+                </button>
+            </div>
+            <div class="logo">
+                <a href="main.html">
+                    <img src="..\img\logo.png" id="logo-menu" alt="">
+                </a>   
+            </div>
+            <div class="banner1">
+                <h2> &lt;&lt; TU ZONA DE JUEGO &gt;&gt; </h2>
+            </div>
+            <div class="buscar">
+                <input class="input-buscar" type="text" placeholder="Buscar...">
+            </div>
+            <div class="banner2">
+                <h2>&lt;&lt; TU ZONA DE ACCIÓN &gt;&gt; </h2>
+            </div>
+            <div class="carrito">
+                <button class="" id="btn-carrito">
+                    <img src="..\img\carrito-de-compras2.png" alt="">
+                </button>
+            </div>
+            <div class="login">
+                <button id="btn-banner">
+                    <img id="login-img"  src="..\img\Avatar-User.jpg" alt="">
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Menú desplegable fuera del grid -->
+        <ul id="menu" class="botones">
+            <li><img class="nav-li" src="../img/Panel-Iconos-Recientes.png" alt=""></img>Recientes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Destacado.png" alt="">Destacados</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Accion.png" alt="">Acción</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Aventura.png" alt="">Aventura</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Deporte.png" alt="">Deportes</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Playing cards.png" alt="">Cartas</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Strategy.png" alt="">Estrategia</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Clasic.png" alt="">Clasicos</li>
+            <li><img class="nav-li" src="../img/Panel-Iconos-Inicio.png" alt="">Inicio</li>
+        </ul>
+
+        <!-- Form Carrito fuera del grid -->
+        <div id="cartForm" class="cart-form hidden">
+            <form>
+                <h3>Mi Carrito</h3>
+                <hr class="linea-carrito">
+                <div class="cart-item">
+                    <img src="../img/Juego - Red Read.jpeg" alt="">
+                    <p>Red Read Redemption</p>
+                    <p>u$10</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+               
+                <div class="cart-item">
+                    <img src="../img/Juego -Bioshok.jpeg" alt="">
+                    <p>Bioshock</p>
+                    <p>u$12</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+              
+                <div class="cart-item">
+                    <img src="../img/Juego -Mortal Combat.jpeg" alt="">
+                    <p>Mortal Kombat</p>
+                    <p>u$8</p>
+                    <button class="cart-remove" type="button">X</button>
+                </div>
+                    <hr class="linea-carrito">
+               <div class="btn-cart">
+
+                   <button class="cart-confirm" type="submit">Finalizar Compra</button>
+               </div>
+            </form>
+        </div>
+
+
+
+        <!-- Banner Gamer -->
+         <ul id="banner" class="banner-gamer">
+            <li><img id="banner-img" src="../img/Avatar-User.jpg" alt=""></li>
+            <li><h2>¡Hola Johnny!</h2></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Historial.png" alt="">Historial de comentarios</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Configuracion.png" alt="">Configuracion de cuenta</a></li>
+            <li><a href="#"><img src="../img/Panel-Iconos-Acti-Frecuente.png" alt="">Actividades frecuentes</a></li>
+            <li><a href="../index.html"><img src="../img/Panel-Iconos-Salir.png" alt="">Salir</a></li>
+         </ul>
+
+
+
+    </header>
+
+
+    <main class="grid_body">  
+
+    <section class="breadcrumb">
+        <a class="bread-naranja" href="../html/main.html">
+                <h4>Home /</h4>
+            </a><a class="bread-naranja" href="">
+                <h4>Adventure /</h4>
+            </a><a class="bread-Blanco" href="">
+                <h4>Super Peg Solitaire</h4>
+            </a>
+    </section>
+
+    <aside class="game">
+                <!-- Canvas donde se dibuja todo el juego -->
+        <div class="canvas-container">
+            <canvas id="game-canvas" width="890" height="690"></canvas>
+            
+            <!-- Overlay de inicio con botón centrado -->
+            <div id="start-overlay" class="start-overlay active">
+                <button id="start-btn-canvas" class="start-btn">Comenzar a Jugar</button>
+            </div>
+        </div>
+
+   
+
+    <div class="game-info-panel hidden">
+            <div class="info-item">
+                <span class="info-label">Movimientos:</span>
+                <span id="moves-count" class="info-value">0</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Fichas restantes:</span>
+                <span id="pegs-count" class="info-value">32</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Tiempo:</span>
+                <span id="timer-display" class="info-value timer-display">02:00</span>
+            </div>
+            <button id="reset-btn" class="control-btn">Reiniciar Juego</button>
+        </div>
+
+        <div id="victory-message" class="victory-message hidden">
+            <h2>¡Felicitaciones!</h2>
+            <p>Has completado el juego en <span id="final-moves">0</span> movimientos</p>
+            <p>Tiempo restante: <span id="final-time" style="color: #27ae60; font-weight: bold;">00:00</span></p>
+            <button id="play-again-btn" class="control-btn">Jugar de Nuevo</button>
+        </div>
+
+         </aside>
+
+    <article class="list_img">
+       <ul>
+                <li><img src="../img/pegSolitaireEspacial2.png" alt=""></li>
+                <li><img src="../img/pegSolitaireEspacial3.png" alt=""></li>
+                <li><img src="../img/pegSolitaireEspacial4.png" alt=""></li>
+            </ul>
+    </article>
+
+    <article id="lista_juegos_similares" class="juegos_similares list_img_2">
+            <h3>Juegos similares</h3>
+    </article>
+
+    
+    <section class="instrucciones">
+        <h3>Instrucciones</h3>
+        <li>Haz clic en una ficha para seleccionarla</li>
+        <li>Haz clic en un espacio válido para mover</li>
+        <li>Una ficha puede saltar sobre otra adyacente si hay un espacio vacío al otro lado</li>
+        <li>La ficha saltada se elimina del tablero</li>
+        <li>El objetivo es dejar solo una ficha en el tablero en la posición central</li>
+    </section>
+
+    <section class="main_section">
+
+        <section class="descripcionJuego">
+            <h3>Peg Solitaire Espacial</h3>
+            <p>Peg Solitaire Espacial es una variante del clásico juego de mesa Peg Solitaire, ambientada en un entorno
+                espacial futurista. El objetivo del juego es eliminar todas las piezas (pings) del tablero excepto una,
+                siguiendo las reglas tradicionales de salto y eliminación. La temática espacial añade un toque visual
+                atractivo, con gráficos que representan un tablero flotante en el espacio y piezas diseñadas como
+                pequeños satélites o naves espaciales. El juego desafía la lógica y la estrategia del jugador,
+                ofreciendo diferentes niveles de dificultad y tableros con configuraciones variadas para mantener el
+                interés y la rejugabilidad.</p>
+
+        </section>
+
+        <section class="comentario_1">
+            <div class="comentario_first">
+                <li><img src="../img/Avatar-User.jpg" alt="avatar"></li>
+            </div>
+        
+            <div class="comentario_1_header">
+                <div>
+                <p><span>Johnny</span></p>
+               <textarea class="comentario_textarea" name="comentario" id="texto_comentario" cols="90" rows="2"
+                            placeholder="Escribe aqui tu comentario..."></textarea>             
+                 <hr>   
+                <button class=" btn btn_publicar" type="button">Publicar...</button>
+            </div>
+        </section>
+        
+        <section class="comentarios">
+            <div class="comentario_first">
+                <li><img src="../img/javi.jpg" alt="avatar"></li>
+            </div>
+            <div>
+                <div class="comentario_1_header">
+                    <p><span>Javito</span></p>
+                    <time>18/06/2024</time>
+                </div>
+                <p>Vi el final antes de empezar....Derroté el tablero en 12 movimientos... El universo me aplaudió.
+                    <br>El juego solo confirmó lo que ya sabía: soy leyenda.</p>
+                <div class="comentario_second">
+                    <li><img src="../img/pulgar-abajo.png" alt=""></li>
+                    <li>
+                        <p>110</p>
+                    </li>
+                    <li><img src="../img/pulgar-arriba.png" alt=""></li>
+                    <li>
+                        <button class="btn" type="button">Responder</button>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+        <section class="comentarios">
+            <div class="comentario_first">
+                <li><img src="../img/fede.jpg" alt="avatar"></li>
+            </div>
+            <div>
+                <div class="comentario_1_header">
+                    <p><span>Fede</span></p>
+                    <time>16/06/2024</time>
+                </div>
+                <p>Yo lo jugué mientras cocinaba. Perdí, pero la lasaña salió perfecta. Prioridades, chicos.</p>
+                <div class="comentario_second">
+                    <li><img src="../img/pulgar-abajo.png" alt=""></li>
+                    <li>
+                        <p>47</p>
+                    </li>
+                    <li><img src="../img/pulgar-arriba.png" alt=""></li>
+                    <li>
+                        <button class="btn" type="button">Responder</button>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+        <section class="comentarios">
+            <div class="comentario_first">
+                <li><img src="../img/cristian.jpg" alt="avatar"></li>
+            </div>
+            <div>
+                <div class="comentario_1_header">
+                    <p><span>Il Capo</span></p>
+                    <time>15/06/2024</time>
+                </div>
+                <p>Jugué con música épica de fondo. Me sentí en una película...Me pasé el nivel final sin saber cómo...
+                    <br>Creo que fue intervención divina o un bug amistoso. </p>
+                <div class="comentario_second">
+                    <li><img src="../img/pulgar-abajo.png" alt=""></li>
+                    <li>
+                        <p>226</p>
+                    </li>
+                    <li><img src="../img/pulgar-arriba.png" alt=""></li>
+                    <li>
+                        <button class="btn" type="button">Responder</button>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+         <section class="comentarios">
+            <div class="comentario_first">
+                <li><img src="../img/rambo.jpg" alt="avatar"></li>
+            </div>
+            <div>
+                <div class="comentario_1_header">
+                    <p><span>John Salchichon</span></p>
+                    <time>12/06/2024</time>
+                </div>
+                <p>“Este juego es como la batalla: te movés, te disparan, y si no pensás, te atrapa.”</p>
+                <div class="comentario_second">
+                    <li><img src="../img/pulgar-abajo.png" alt=""></li>
+                    <li>
+                        <p>79</p>
+                    </li>
+                    <li><img src="../img/pulgar-arriba.png" alt=""></li>
+                    <li>
+                        <button class="btn" type="button">Responder</button>
+                    </li>
+                </div>
+            </div>
+        </section>
+
+    </section>
+    </main>
+
+   
+
+    <footer class="gridFooter">
+
+        <div class="col-up">
+            <hr class="linea">
+        </div>
+        <div class="col1">
+            <img src="..\img\logo.png" alt="">
+        </div>
+        <div class="col2 borde-parcial">
+            <h3>Navegación</h3>
+            <div class="col2_li_div">
+                <li class="col2_li">Inicio</li>
+                <li class="col2_li">Categorias</li>
+                <li class="col2_li">Juegos Populares</li>
+                <li class="col2_li">Nuevos Lanzamientos</li>
+            </div>
+        </div>
+        <div class="col3 borde-parcial">
+            <h3>Acerca de Nosotros</h3>
+            <li class="col2_li">Contactos</li>
+            <li class="col2_li">Datos Breves</li>
+            <li class="col2_li">Noticias</li>
+
+        </div>
+        <div class="col4 borde-parcial">
+            <h3>Información</h3>
+            <li class="col2_li">Politica de Privacidad</li>
+            <li class="col2_li">Terminos y Condiciones</li>
+            <li class="col2_li">Politicas de cookies</li>
+
+        </div>
+        <div class="col5 borde-parcial">
+            <h3>Soporte</h3>
+            <li class="col2_li">FAQ</li>
+            <li class="col2_li">Centro de Atencion</li>
+            <li class="col2_li">Reportar un Problema</li>
+
+        </div>
+
+        <div class="col6 borde-parcial">
+            <h3>Contáctenos</h3>
+            <div class="col6_img">
+                <img src="..\img\instagram.png" alt="">
+                <img src="..\img\facebook.png" alt="">
+                <img src="..\img\whatsapp.png" alt="">
+            </div>
+        </div>
+
+        <div class="col_dwn">
+            <p>“Al navegar por LadriZone, estás aceptando nuestras reglas del juego."</p>
+            <p>LadriZone ™ y © 2025 Todos los derechos reservados.</p>
+            <p>Copyright © - LadriZone, Inc. Games ©</p>
+        </div>
+    </footer>
+
+    
+    <script src="../js/hamburguesa.js"></script>
+    <script src="../js/juego.js"></script>
+    
+    <!-- JS Peg - Orden correcto de dependencias -->
+    
+    
+    <script type="module" src="../js/peg/main.js"></script>       
+
+</body>
+
+</html>

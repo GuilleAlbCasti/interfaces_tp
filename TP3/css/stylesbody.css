@@ -70,8 +70,8 @@
     transform: scale(1.0); /* Sin escala en móvil */
 }
 
-/*Loader y spiner*/
-#loader { 
+/* Contenedor principal del loading */
+.loading-container { 
     width: 100%; 
     height: 100%; 
     position: fixed; 
@@ -86,34 +86,105 @@
 
 }
 
-#loader h2 {
-    font-size: 20px;
-    color: #ff5722;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+/* Clase para ocultar el loading */
+.loading-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Cuadrado animado*/
+/* Contenedor del cuadrado SVG */
+.square-loader {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 50px;
+}
+
+/* Cuadrado de fondo (hueco con borde blanco) */
+.square-bg {
+  fill: none; /* Sin relleno, solo el borde */
+  stroke: rgba(255, 255, 255, 0.3); /* Borde blanco semi-transparente */
+  stroke-width: 5; /* Grosor del borde de 5px */
+}
+
+/* Cuadrado animado que recorre el contorno */
+.square-animated {
+  fill: none; /* Sin relleno, solo el borde */
+  stroke: white; /* Borde blanco sólido */
+  stroke-width: 5; /* Grosor del borde de 5px */
+
+  /* 
+    stroke-dasharray: define el patrón de líneas discontinuas
+    Calculamos el perímetro del cuadrado: 80 * 4 = 320
+    Usamos 320 para que la línea cubra todo el perímetro
+  */
+  stroke-dasharray: 320;
+
+  /*
+    stroke-dashoffset: desplaza el inicio de la línea
+    Empezamos con 320 (línea invisible) y animamos a 0 (línea completa)
+  */
+  stroke-dashoffset: 320;
+
+  /* Animación que recorre el contorno */
+  animation: drawSquare 5s ease-in-out infinite;
+}
+
+/*
+  Animación que simula el recorrido del contorno del cuadrado
+  - 0%: La línea está completamente oculta (offset = 320)
+  - 100%: La línea recorre todo el contorno (offset = 0)
+*/
+@keyframes drawSquare {
+  0% {
+    stroke-dashoffset: 320;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Contenedor de la barra de progreso */
+.progress-bar-container {
+  width: 400px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Barra de progreso que se llena */
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: white;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Texto del porcentaje */
+.loading-percentage {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Texto informativo */
+.loading-text {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 
-
-#logo-spiner {
-    width: auto;
-    height: 400px;
-    animation: girar 2s linear infinite;
-}
-
-@keyframes girar {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-
-
-.spinner {
+/* .spinner {
     width: 80%;
     max-width: 300px;
     height: 30px;
@@ -129,7 +200,7 @@
     50% { background-size: 70%; }
     75% { background-size: 90%; }
     100% { background-size: 100%; }
-}
+} */
 
 
 

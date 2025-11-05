@@ -158,15 +158,11 @@ class MenuPrincipal {
         }
 
         // Título
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 72px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('BLOCKA', this.anchoCanvas / 2, 120);
+        this.dibujarTextoConEstilo(ctx, 'BLOCKA', this.anchoCanvas / 2, 120, 72, '#ffffff', 5, 15, 5);
 
         // Subtítulo
-        ctx.font = '24px Arial';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('Rompecabezas de Imágenes de famosos de la tecnología', this.anchoCanvas / 2, 180);
+        this.dibujarTextoConEstilo(ctx, 'Rompecabezas de Imágenes de famosos de la tecnología', this.anchoCanvas / 2, 180, 24, '#ffffff', 3, 8, 3);
 
         // Dibujar todos los botones
         for (let i = 0; i < this.botones.length; i++) {
@@ -174,9 +170,38 @@ class MenuPrincipal {
         }
 
         // Nota
+<<<<<<< HEAD
         ctx.fillStyle = '#ffffff';
         ctx.font = '20px Arial';
         ctx.fillText('Haz clic en "Piezas" para cambiar la dificultad', this.anchoCanvas / 2, this.altoCanvas - 40);
+=======
+        this.dibujarTextoConEstilo(ctx, 'Haz clic en "Piezas" para cambiar la dificultad', this.anchoCanvas / 2, this.altoCanvas - 40, 16, '#ffffff', 2, 5, 2);
+    }
+
+    dibujarTextoConEstilo(ctx, texto, x, y, tamaño, colorRelleno, grosorBorde, shadowBlur, shadowOffset) {
+        ctx.font = `bold ${tamaño}px Arial`;
+        
+        // Sombra
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        ctx.shadowBlur = shadowBlur;
+        ctx.shadowOffsetX = shadowOffset;
+        ctx.shadowOffsetY = shadowOffset;
+        
+        // Borde negro
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = grosorBorde;
+        ctx.strokeText(texto, x, y);
+        
+        // Relleno
+        ctx.fillStyle = colorRelleno;
+        ctx.fillText(texto, x, y);
+        
+        // Limpiar sombra
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+>>>>>>> c0ea1a34612162721bd3567dca437d1b00491d01
     }
 
     dibujarBoton(ctx, boton) {
