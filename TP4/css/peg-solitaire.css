@@ -1,6 +1,5 @@
 /* Estilos para la pantalla de inicio del Peg Solitaire */
 
-
 .start-overlay {
     position: absolute;
     top: 0;
@@ -71,7 +70,6 @@
     /* background-color: #03045E; */
     background-color: rgba(14, 9, 43, 0.95);
     padding: 15px 5px;
-  
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     width: 100px;
 }
@@ -230,7 +228,6 @@
   transform: translateY(-2px) scale(1.02);
 }
 
-
 .victory-message {
   position: absolute;
   top: 430px;
@@ -336,5 +333,3 @@
     opacity: 1;
   }
 }
-
-

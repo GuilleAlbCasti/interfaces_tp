@@ -3,8 +3,6 @@
 //Arreglo global para almacenar los juegos
 juegos = [];
 
-
-
 // Función para cargar datos de juegos desde la API
 async function cargarDatosDeJuegos() {
   const response = await fetch('https://vj.interfaces.jima.com.ar/api');
@@ -18,12 +16,12 @@ async function cargarDatosDeJuegos() {
     console.error('Error al cargar los datos:', response.statusText);
   }
 }
+
 //Lógica del loader con porcentaje
 const loader = document.getElementById('loader');
 const cargandoElement = document.getElementById('cargando');
-
 let porcentaje = 0;
-const duracionTotal = 5000; // 5 segundos
+const duracionTotal = 3000; // 3 segundos
 const intervalo = 50; // Actualizar cada 50ms
 const incremento = (100 * intervalo) / duracionTotal;
 
@@ -46,8 +44,7 @@ const intervaloCarga = setInterval(() => {
   }
 }, intervalo);
 
-
-///////////////////////////////////CARDS///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////CARDS/////////////////////////////////
 // Función para mostrar los juegos en los carrouseles chicos en el DOM
 async function mostrarJuegos(juegosXcaregoria, genero) {
   const main = document.getElementById('cards');
@@ -213,11 +210,10 @@ function crearCard(juego, estilo) {
   ${generarEstrellas(juego.rating)}
   <button class="btn-ver-mas">Ver más</button>
   `;
-
   }
-
   return juegoDiv;
 }
+
 // Función para filtrar juegos por género
 function juegosPorGenero(genero) {
   const juegosFiltrados = [];
@@ -230,12 +226,14 @@ function juegosPorGenero(genero) {
   }
   return juegosFiltrados;
 }
+
 // Función para obtener los 10 juegos más valorados
 function juegosMasValorados() {
   const temp = [...juegos]; // Crear copia del array
   temp.sort((a, b) => b.rating - a.rating);
   return temp.slice(0, 10);
 }
+
 // Función para mostrar los juegos más valorados en el carrousel grande
 async function mostrarJuegosMasValorados() {
   const carrousel = document.getElementById('carrousel');
@@ -258,13 +256,8 @@ async function inicializar() {
   await mostrarJuegos(juegosPorGenero('Indie'), "Indie");
   
   // Inicializar botones de navegación del carrusel
-  setupCarrouselButtons();
-
-  
+  setupCarrouselButtons();  
 }
-
-
-
 
 // Navegación simple con botones laterales del carrusel Grande
 function setupCarrouselButtons() {

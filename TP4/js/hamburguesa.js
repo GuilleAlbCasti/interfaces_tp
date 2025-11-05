@@ -4,18 +4,15 @@ let btnMenu = document.querySelector("#btn-menu");
 let menu = document.querySelector("#menu");
 let icon = document.querySelector("#menu-icon");
 
-
 btnMenu.addEventListener('click', verMenu);
 
 function verMenu() {
     menu.classList.toggle("nav-li-cerrar");
    
     // Alternar imagen
-  const abierto = "../img/menu-abierto.png";
-  const cerrado = "../img/menu-cerrado.png";
-
-  icon.src = icon.src.includes("menu-abierto") ? cerrado : abierto;
-
+    const abierto = "../img/menu-abierto.png";
+    const cerrado = "../img/menu-cerrado.png";
+    icon.src = icon.src.includes("menu-abierto") ? cerrado : abierto;
 }  
 
 //Banner Gamer

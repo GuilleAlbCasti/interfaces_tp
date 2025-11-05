@@ -1,5 +1,5 @@
 
-// FUNCIÓN PARA MOSTRAR EL FOOTER
+// FUNCIÓN PARA MOSTRAR EL FOOTER (ANULADO PORQUE SE DECICIÓ AGREGARLO EN CADA HTML)
 /*
 document.addEventListener('DOMContentLoaded', function() {
     fetch('html/footer.html')

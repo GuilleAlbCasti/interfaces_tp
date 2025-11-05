@@ -30,21 +30,18 @@ function crearImagen(juego, clase) {
     juegoImg.alt = juego.name;
     juegoImg.className = clase;
     link.appendChild(juegoImg);
-
     return link;
 }
 
 // Función para mostrar los 10 juegos más valorados en el DOM
 async function mostrarJuegosMasValorados() {
   const main = document.getElementById('lista_juegos_similares');  
-
   const juegosValorados = juegosMasValorados(); 
 
   juegosValorados.forEach(juego => {
     const juegoDiv = crearImagen(juego, 'juego-valorado');
     main.appendChild(juegoDiv);
   });
-  
 }
 
 // Cargar datos y mostrar juegos al cargar la página
