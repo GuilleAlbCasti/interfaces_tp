@@ -1,0 +1,66 @@
+@keyframes scroll {
+    0% {background-position-x: 0px;}
+    100% {background-position-x: -1920px;}
+} 
+
+@keyframes vuelo {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes aleteo {
+  from { background-position: 0 0; }
+  to { background-position: -448px 0; } /* mueve 4 frames */
+}
+
+.layer {
+    min-height: 500px;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+    background-repeat: repeat-x;
+    background-size: cover;
+    background-position: bottom center;
+}
+
+.layer-5 {
+    background-image: url("../img/parallax/layer_05.png");
+    animation: scroll 25s infinite linear;
+}
+
+.layer-4 {
+    background-image: url("../img/parallax/layer_04.png");
+    animation: scroll 20s infinite linear;
+}
+
+.layer-3 {
+    background-image: url("../img/parallax/layer_03.png");
+    animation: scroll 15s infinite linear;
+}
+
+.layer-2 {
+    background-image: url("../img/parallax/layer_02.png");
+    animation: scroll 10s infinite linear;
+}
+
+.layer-1 {
+    background-image: url("../img/parallax/layer_01.png");
+    animation: scroll 5s infinite linear;
+}
+
+.mosquito {
+    position: absolute;
+    bottom: 100px;
+    left: 200px;
+    width: 100px;
+    height: 80px;
+    background-image: url("../img/mosquito/Mosquito.png");
+    background-repeat: no-repeat;
+    background-size: 448px 80px;
+    z-index: 10;
+    animation: vuelo 1.5s ease-in-out infinite, 
+    aleteo 0.4s steps(4) infinite;
+}
