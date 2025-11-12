@@ -70,20 +70,27 @@ class Model {
     const rowDiff = targetRow - fromRow;
     const colDiff = targetCol - fromCol;
 
-    // El movimiento debe ser exactamente 2 posiciones (saltar sobre una ficha)
-    // Movimiento horizontal (misma fila, 2 columnas de diferencia)
-    if (rowDiff === 0 && Math.abs(colDiff) === 2) {
-      const middleCol = fromCol + colDiff / 2;
-      // Debe haber una ficha en el medio
-      return this.tablero.tieneFicha(fromRow, middleCol);
+    // El movimiento debe ser exactamente 3 posiciones (saltar sobre 2 fichas)
+    // Movimiento horizontal (misma fila, 3 columnas de diferencia)
+    if (rowDiff === 0 && Math.abs(colDiff) === 3) {
+      // Verificar que hay 2 fichas consecutivas en el medio
+      const dir = colDiff > 0 ? 1 : -1;
+      const ficha1Col = fromCol + dir;
+      const ficha2Col = fromCol + (dir * 2);
+      return this.tablero.tieneFicha(fromRow, ficha1Col) && 
+             this.tablero.tieneFicha(fromRow, ficha2Col);
+    }
+    
+    // Movimiento vertical (misma columna, 3 filas de diferencia)
+    if (colDiff === 0 && Math.abs(rowDiff) === 3) {
+      // Verificar que hay 2 fichas consecutivas en el medio
+      const dir = rowDiff > 0 ? 1 : -1;
+      const ficha1Row = fromRow + dir;
+      const ficha2Row = fromRow + (dir * 2);
+      return this.tablero.tieneFicha(ficha1Row, fromCol) && 
+             this.tablero.tieneFicha(ficha2Row, fromCol);
     }
 
-    // Movimiento vertical (misma columna, 2 filas de diferencia)
-    if (colDiff === 0 && Math.abs(rowDiff) === 2) {
-      const middleRow = fromRow + rowDiff / 2;
-      // Debe haber una ficha en el medio
-      return this.tablero.tieneFicha(middleRow, fromCol);
-    }
     return false;
   }
 
@@ -96,18 +103,30 @@ class Model {
     // Calcular la posición de la ficha que se va a saltar
     const rowDiff = targetRow - fromRow;
     const colDiff = targetCol - fromCol;
-    const middleRow = fromRow + rowDiff / 2;
-    const middleCol = fromCol + colDiff / 2;
-
-    // Realizar el movimiento:
-    // 1. Quitar la ficha del origen
-    this.tablero.setCelda(fromRow, fromCol, 2);
-
-    // 2. Eliminar la ficha saltada
-    this.tablero.setCelda(middleRow, middleCol, 2);
-
-    // 3. Colocar la ficha en el destino
-    this.tablero.setCelda(targetRow, targetCol, 1);
+    
+    if (rowDiff === 0) {
+      // Movimiento horizontal
+      const dir = colDiff > 0 ? 1 : -1;
+      const ficha1Col = fromCol + dir;
+      const ficha2Col = fromCol + (dir * 2);
+      
+      // Realizar el movimiento:
+      this.tablero.setCelda(fromRow, fromCol, 2);        // Quitar ficha de origen
+      this.tablero.setCelda(fromRow, ficha1Col, 2);      // Eliminar 1ª ficha saltada
+      this.tablero.setCelda(fromRow, ficha2Col, 2);      // Eliminar 2ª ficha saltada
+      this.tablero.setCelda(targetRow, targetCol, 1);    // Colocar en destino
+    } else {
+      // Movimiento vertical
+      const dir = rowDiff > 0 ? 1 : -1;
+      const ficha1Row = fromRow + dir;
+      const ficha2Row = fromRow + (dir * 2);
+      
+      // Realizar el movimiento:
+      this.tablero.setCelda(fromRow, fromCol, 2);        // Quitar ficha de origen
+      this.tablero.setCelda(ficha1Row, fromCol, 2);      // Eliminar 1ª ficha saltada
+      this.tablero.setCelda(ficha2Row, fromCol, 2);      // Eliminar 2ª ficha saltada
+      this.tablero.setCelda(targetRow, targetCol, 1);    // Colocar en destino
+    }
 
     // Incrementar contador de movimientos
     this.moves++;
