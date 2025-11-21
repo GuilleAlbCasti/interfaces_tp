@@ -37,6 +37,8 @@ body {
     align-items: flex-start;
     padding: 5px 0 0 0;
     margin-left: 5px;
+    position: relative;
+    z-index: 10000;
 
 }
 .breadcrumb a {

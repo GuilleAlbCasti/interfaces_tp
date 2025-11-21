@@ -1,0 +1,367 @@
+#game-container {
+  position: relative;
+  width: 890px;
+  height: 680px;
+  margin: 10px auto 0 10px;
+  overflow: hidden;
+}
+
+/* ==================== OVERLAY DE INICIO ==================== */
+.start-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10000;
+  background: linear-gradient(135deg, #66eab1 0%, #c5ee77 100%);
+}
+
+.start-overlay.active {
+  pointer-events: auto; 
+}
+
+.start-btn {
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  pointer-events: auto;
+  font-family: 'Anton', sans-serif;
+}
+
+.start-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.start-btn:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.start-overlay.hidden {
+  display: none;
+}
+
+/* ==================== ESTADÍSTICAS DEL JUEGO ==================== */
+.game-stats {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.game-stats.hidden {
+  display: none;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== OVERLAY DE GAME OVER ==================== */
+.gameover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(88, 85, 85, 0.85);
+  z-index: 10001;
+  transition: opacity 0.3s ease-out;
+}
+
+.gameover-overlay.hidden {
+  display: none;
+}
+
+.gameover-content {
+  text-align: center;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.gameover-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 48px;
+  color: #ff4444;
+  text-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+  margin-bottom: 30px;
+  letter-spacing: 4px;
+}
+
+.game-results {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px 40px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 40px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.result-value {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.restart-btn {
+  padding: 20px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Anton', sans-serif;
+}
+
+.restart-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.restart-btn:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== VAMPIRO (JUGADOR) ==================== */
+#vampire {
+  position: absolute;
+  left: 100px;
+  top: 300px;
+  width: 75px;
+  height: 50px;
+  background-image: url('../img/batParallax/Murcielago.png');
+  background-size: 225px 50px;
+  background-repeat: no-repeat;
+  animation: vampire-fly 0.6s steps(3) infinite;
+  z-index: 9999;
+  transition: top 0.1s ease-out, transform 0.2s ease-out;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+}
+
+@keyframes vampire-fly {
+  0% { background-position: 0 0; }
+  100% { background-position: -225px 0; }
+}
+
+/* Efecto Bernoulli: rotación cuando se eleva o cae */
+.vampire-rising {
+  transform: rotate(-15deg);
+}
+
+.vampire-falling {
+  transform: rotate(10deg);
+}
+
+/* ==================== EXPLOSIÓN ==================== */
+#explosion {
+  position: absolute;
+  left: 100px;
+  top: 300px;
+  width: 75px;
+  height: 75px;
+  background-image: url('../img/batParallax/explosion.png');
+  background-size: 525px 75px;
+  background-repeat: no-repeat;
+  animation: explode 0.6s steps(8) forwards;
+  z-index: 10000;
+  display: none;
+  filter: drop-shadow(0 0 10px rgba(255, 150, 0, 0.8));
+}
+
+#explosion.active {
+  display: block;
+}
+
+@keyframes explode {
+  0% { 
+    background-position: 0 0;
+    transform: scale(1);
+  }
+  100% { 
+    background-position: -525px 0;
+    transform: scale(1.5);
+  }
+}
+
+/* ==================== TUBOS (PIPES) ==================== */
+#pipes-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 85;
+  pointer-events: none;
+}
+
+.pipe {
+  position: absolute;
+  width: 60px;
+  background-color: #4CAF50;
+  border: 3px solid #2E7D32;
+  box-shadow: inset -5px 0 10px rgba(0,0,0,0.3);
+}
+
+.pipe-top {
+  top: 0;
+  border-bottom: 5px solid #1B5E20;
+}
+
+.pipe-bottom {
+  bottom: 0;
+  border-top: 5px solid #1B5E20;
+}
+
+/* ==================== PARALLAX LAYERS ==================== */
+@keyframes scroll {
+    0% {background-position-x: 0px;}
+    100% {background-position-x: -1920px;}
+}
+
+.layer {
+    min-height: 500px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: repeat-x;
+  background-size: cover;
+}
+
+.layer-1 {      
+  background-image: url("../img/batParallax/spre_free_back_0.png");   
+  animation: scroll 8s infinite linear;
+  background-size: 215% 100%;
+
+}
+
+.layer-2 {      
+    background-image: url("../img/batParallax/spre_free_back_1.png"); 
+    animation: scroll 10s infinite linear;
+    background-size: 215% 100%;
+
+
+  }
+
+  .layer-3 {      
+    background-image: url("../img/batParallax/spre_free_back_2.png"); 
+    animation: scroll 12s infinite linear;
+    background-size: 215% 100%;
+    
+  
+  
+  }
+
+  .layer-4 {        
+    background-image: url("../img/batParallax/spre_free_back_3.png");     
+    animation: scroll 14s infinite linear;
+
+    background-size: 215% 100%;
+  }
+
+  .layer-5 {        
+    background-image: url("../img/batParallax/spre_free_back_4.png");     
+    animation: scroll 16s infinite linear;
+     background-size: 215% 100%;
+
+
+  }
+
+  .layer-6 {        
+    background-image: url("../img/batParallax/spre_free_back_5.png");     
+    animation: scroll 18s infinite linear;
+    background-size: 215% 100%;
+   
+    
+
+  }
+
+.layer-7 {        
+    background-image: url("../img/batParallax/spre_free_back_6.png");     
+    animation: scroll 20s infinite linear;
+  
+  }
+
+  
+
+
+  
