@@ -19,7 +19,9 @@
   align-items: center;
   pointer-events: none;
   z-index: 10000;
-  background: linear-gradient(135deg, #66eab1 0%, #c5ee77 100%);
+  background-image: url(../img/BatFlapping_2.png);
+  background-size: cover;
+  background-position: center;
 }
 
 .start-overlay.active {
