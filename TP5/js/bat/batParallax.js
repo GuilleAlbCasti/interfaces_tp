@@ -73,6 +73,14 @@ let vidas = 3;                 // Cantidad de vidas del jugador
 let ultimoPuntajeVidaExtra = 0; // Último puntaje en el que se dio vida extra
 let inmune = false;            // Bandera de inmunidad temporal después de colisión
 
+// Variables del sistema de inmunidad por puntos
+const PUNTOS_PARA_INMUNIDAD = 50;  // Cada 50 puntos se activa inmunidad
+const DURACION_INMUNIDAD = 10;      // Duración de inmunidad en segundos
+let inmunePorPuntos = false;        // Flag de inmunidad activa por puntos
+let tiempoInmunidad = 0;            // Tiempo restante de inmunidad
+let temporizadorInmunidad = null;   // Intervalo del contador de inmunidad
+let ultimoPuntajeInmunidad = 0;     // Último puntaje en el que se dio inmunidad
+
 // ============================================================
 // PASO 3: OBTENER ELEMENTOS HTML
 // ============================================================
@@ -82,6 +90,7 @@ const vampiro = document.getElementById('vampire');
 const contenedorTubos = document.getElementById('pipes-container');
 const contenedorHongos = document.getElementById('mushrooms-container');
 const notificacionPuntos = document.getElementById('points-notification');
+const displayInmunidad = document.getElementById('immunity-display');
 const explosion = document.getElementById('explosion');
 const explosionCtx = explosion ? explosion.getContext('2d') : null;
 
@@ -214,6 +223,11 @@ function actualizarDisplay() {
     }
     if (scoreDisplay) {
         scoreDisplay.textContent = puntaje;
+    }
+    
+    // Verificar si el jugador alcanzó múltiplo de 50 puntos para dar inmunidad
+    if (puntaje > 0 && puntaje % PUNTOS_PARA_INMUNIDAD === 0 && puntaje !== ultimoPuntajeInmunidad) {
+        activarInmunidad();
     }
 }
 
@@ -549,6 +563,87 @@ function mostrarNotificacionPuntos(x, y) {
     }, 1000);
 }
 
+/**
+ * Activa el modo de inmunidad por 10 segundos
+ * Permite al vampiro pasar por tubos sin colisionar
+ */
+function activarInmunidad() {
+    console.log('activarInmunidad() llamada - puntaje:', puntaje);
+    
+    // Marcar que se dio inmunidad en este puntaje
+    ultimoPuntajeInmunidad = puntaje;
+    
+    // Activar flag de inmunidad
+    inmunePorPuntos = true;
+    tiempoInmunidad = DURACION_INMUNIDAD;
+    
+    console.log('Estado inmunidad:', {inmunePorPuntos, tiempoInmunidad, displayInmunidad: !!displayInmunidad});
+    
+    // Mostrar el display de inmunidad
+    if (displayInmunidad) {
+        displayInmunidad.classList.remove('hidden');
+        displayInmunidad.classList.add('active');
+        actualizarDisplayInmunidad();
+        console.log('Display de inmunidad mostrado');
+    } else {
+        console.error('displayInmunidad no encontrado!');
+    }
+    
+    // Agregar efecto visual al vampiro
+    if (vampiro) {
+        vampiro.classList.add('immune');
+    }
+    
+    // Iniciar contador regresivo de inmunidad
+    if (temporizadorInmunidad) {
+        clearInterval(temporizadorInmunidad);
+    }
+    
+    temporizadorInmunidad = setInterval(() => {
+        tiempoInmunidad--;
+        actualizarDisplayInmunidad();
+        
+        // Si el tiempo de inmunidad se acabó
+        if (tiempoInmunidad <= 0) {
+            desactivarInmunidad();
+        }
+    }, 1000);
+}
+
+/**
+ * Desactiva el modo de inmunidad
+ */
+function desactivarInmunidad() {
+    inmunePorPuntos = false;
+    tiempoInmunidad = 0;
+    
+    // Ocultar el display
+    if (displayInmunidad) {
+        displayInmunidad.classList.remove('active');
+        displayInmunidad.classList.add('hidden');
+    }
+    
+    // Quitar efecto visual del vampiro
+    if (vampiro) {
+        vampiro.classList.remove('immune');
+    }
+    
+    // Detener el temporizador
+    if (temporizadorInmunidad) {
+        clearInterval(temporizadorInmunidad);
+        temporizadorInmunidad = null;
+    }
+}
+
+/**
+ * Actualiza el display del tiempo de inmunidad restante
+ */
+function actualizarDisplayInmunidad() {
+    if (displayInmunidad) {
+        displayInmunidad.textContent = `INMUNE: ${tiempoInmunidad}s`;
+    }
+}
+
 // Actualizar todos los tubos (moverlos y eliminar los que salen de pantalla)
 function actualizarTubos() {
     const vampiroX = 100; // Posición horizontal del vampiro
@@ -567,6 +662,12 @@ function actualizarTubos() {
             tubo.contado = true;
             puntaje++;
             actualizarDisplay();
+            
+            // Verificar si se debe activar inmunidad cada 50 puntos
+            if (puntaje > 0 && puntaje % PUNTOS_PARA_INMUNIDAD === 0 && puntaje !== ultimoPuntajeInmunidad) {
+                console.log('Activando inmunidad por alcanzar', puntaje, 'puntos');
+                activarInmunidad();
+            }
         }
         
         // Si los tubos salieron de la pantalla
@@ -582,6 +683,11 @@ function actualizarTubos() {
 
 // Verificar colisiones entre el vampiro y los tubos
 function verificarColisiones() {
+    // Si el vampiro tiene inmunidad por puntos, no detectar colisiones con tubos
+    if (inmunePorPuntos) {
+        return;
+    }
+    
     // Obtener la posición y tamaño del vampiro
     const vampiroX = 100; // Posición horizontal fija del vampiro
     const vampiroY = posicionVertical;
@@ -616,6 +722,11 @@ function gameOver() {
     juegoActivo = false;
     clearInterval(temporizadorTubos);
     clearInterval(temporizadorCuentaRegresiva);
+    
+    // Detener inmunidad si estaba activa
+    if (temporizadorInmunidad) {
+        clearInterval(temporizadorInmunidad);
+    }
     
     // Ocultar el vampiro
     vampiro.style.display = 'none';
@@ -683,6 +794,24 @@ function reiniciarJuego() {
     vidas = 3;
     ultimoPuntajeVidaExtra = 0;
     inmune = false;
+    
+    // Resetear sistema de inmunidad por puntos
+    inmunePorPuntos = false;
+    tiempoInmunidad = 0;
+    ultimoPuntajeInmunidad = 0;
+    if (temporizadorInmunidad) {
+        clearInterval(temporizadorInmunidad);
+        temporizadorInmunidad = null;
+    }
+    
+    // Ocultar display de inmunidad y quitar efecto visual
+    if (displayInmunidad) {
+        displayInmunidad.classList.remove('active');
+        displayInmunidad.classList.add('hidden');
+    }
+    if (vampiro) {
+        vampiro.classList.remove('immune');
+    }
     
     // Ocultar overlay de game over
     const gameoverOverlay = document.getElementById("gameover-overlay");
