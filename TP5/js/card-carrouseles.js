@@ -194,6 +194,25 @@ function crearCard(juego, estilo) {
   <a href="../html/blocka.html" class="btn-ver-mas">Ver más</a>
   `;
   }
+    else if (juego.name === "Red Dead Redemption 2") {
+    juego.name = "BatFlapping";
+    juego.background_image = "../img/batflapping_2.png";
+    juegoDiv.className = estilo;
+    juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
+    juegoDiv.innerHTML = `
+  <h2>${juego.name}</h2>
+  ${(() => {
+        let html = '<p> ';
+        for (let i = 0; i < juego.genres.length; i++) {
+          html += `${juego.genres[i].name} `;
+        }
+        return html + '</p>';
+      })()}
+  <p class="valoracion-label"></p>
+  ${generarEstrellas(juego.rating)}
+  <a href="../html/juegoBatParallax.html" class="btn-ver-mas">Ver más</a>
+  `;
+  }
   else {
     juegoDiv.className = estilo;
     juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
