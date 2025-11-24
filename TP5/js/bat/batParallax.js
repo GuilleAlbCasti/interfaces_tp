@@ -25,7 +25,7 @@
 // ============================================================
 // PASO 1: CONFIGURACIÓN DEL JUEGO
 // ============================================================
-// Aquí guardamos todos los números importantes del juego
+
 
 const GRAVEDAD = 0.2;              // Qué tan rápido cae el vampiro (más alto = cae más rápido)
 const FUERZA_DE_SALTO = -6;        // Qué tan fuerte salta hacia arriba (negativo porque sube)
@@ -48,7 +48,7 @@ const TIEMPO_LIMITE = 60;         // Tiempo límite del juego en segundos
 // ============================================================
 // PASO 2: VARIABLES DEL JUEGO
 // ============================================================
-// Guardamos la información que cambia mientras jugamos
+
 
 let posicionVertical = 300;   // Dónde está el vampiro en el eje Y (altura)
 let velocidad = 0;            // Qué tan rápido se mueve (positivo = baja, negativo = sube)
@@ -66,15 +66,18 @@ const PUNTOS_POR_HONGO = 10;    // Puntos que otorga atrapar un hongo
 // Variables de tiempo y puntaje
 let tiempoRestante = TIEMPO_LIMITE; // Tiempo restante en segundos
 let temporizadorCuentaRegresiva = null; // Intervalo de la cuenta regresiva
-let puntaje = 0;               // Cantidad de tubos pasados exitosamente
+let puntaje = 0;               // Cantidad de tubos pasados en la ronda actual
+let puntajeTotal = 0;          // Puntos totales acumulados en todas las rondas
 
 // Variables del sistema de vidas
 let vidas = 3;                 // Cantidad de vidas del jugador
 let ultimoPuntajeVidaExtra = 0; // Último puntaje en el que se dio vida extra
+const PUNTOS_PARA_VIDA_EXTRA = 100; // Cada 100 puntos se otorga una vida extra
 let inmune = false;            // Bandera de inmunidad temporal después de colisión
+const DURACION_INMUNIDAD_COLISION = 2000; // 2 segundos de inmunidad después de colisión entre vidas
 
 // Variables del sistema de inmunidad por puntos
-const PUNTOS_PARA_INMUNIDAD = 50;  // Cada 50 puntos se activa inmunidad
+const PUNTOS_PARA_INMUNIDAD = 50;  // Cada 50 puntos se activa inmunidad (rangos: 50-99, 100-149, 150-199, etc.)
 const DURACION_INMUNIDAD = 10;      // Duración de inmunidad en segundos
 let inmunePorPuntos = false;        // Flag de inmunidad activa por puntos
 let tiempoInmunidad = 0;            // Tiempo restante de inmunidad
@@ -213,22 +216,50 @@ function iniciarCuentaRegresiva() {
     }, 1000);
 }
 
-// Actualizar displays del timer y puntaje
+// Actualizar displays del timer, puntaje y vidas
 function actualizarDisplay() {
     const timerDisplay = document.getElementById("timer-display");
     const scoreDisplay = document.getElementById("score-display");
+    const livesDisplay = document.getElementById("lives-display");
     
     if (timerDisplay) {
         timerDisplay.textContent = tiempoRestante;
     }
     if (scoreDisplay) {
-        scoreDisplay.textContent = puntaje;
+        // Mostrar puntos totales acumulados + puntos de la ronda actual
+        scoreDisplay.textContent = puntajeTotal + puntaje;
     }
+    if (livesDisplay) {
+        livesDisplay.textContent = vidas;
+    }
+}
+
+/**
+ * Muestra un overlay temporal con el estado del juego después de una colisión
+ */
+function mostrarEstadoTemporal() {
+    // Pausar el juego brevemente
+    juegoEnCurso = false;
     
-    // Verificar si el jugador alcanzó múltiplo de 50 puntos para dar inmunidad
-    if (puntaje > 0 && puntaje % PUNTOS_PARA_INMUNIDAD === 0 && puntaje !== ultimoPuntajeInmunidad) {
-        activarInmunidad();
-    }
+    // Crear overlay temporal
+    const estadoOverlay = document.createElement('div');
+    estadoOverlay.className = 'estado-temporal';
+    estadoOverlay.innerHTML = `
+        <div class="estado-content">
+            <h2>¡Vida Perdida!</h2>
+            <p>Vidas Restantes: <span class="highlight">${vidas}</span></p>
+            <p>Puntos Totales: <span class="highlight">${puntajeTotal}</span></p>
+            <p>Tiempo Restante: <span class="highlight">${tiempoRestante}s</span></p>
+            <p class="continue-msg">Continuando en unos momentos...</p>
+        </div>
+    `;
+    document.body.appendChild(estadoOverlay);
+
+    // Remover overlay y continuar después de 2 segundos
+    setTimeout(() => {
+        estadoOverlay.remove();
+        juegoEnCurso = true;
+    }, 2000);
 }
 
 // BOTÓN "COMENZAR A JUGAR"
@@ -369,7 +400,7 @@ function actualizarVampiro() {
 function crearTubos() {
     // Calculamos una altura aleatoria para el espacio entre los tubos
     // El espacio debe estar entre el tope superior + margen y el tope inferior - margen
-    const margenSeguridad = 100;
+    const margenSeguridad = 100; //Crea un "colchón" de 100 píxeles arriba y abajo para garantizar que el hueco no toque los bordes superior e inferior
     const alturaMinima = TOPE_SUPERIOR + margenSeguridad;
     const alturaMaxima = TOPE_INFERIOR - ESPACIO_ENTRE_TUBOS - margenSeguridad;
     
@@ -527,8 +558,51 @@ function verificarColisionHongo() {
         // Si hay colisión en ambos ejes, el vampiro atrapó el hongo
         if (colisionHorizontal && colisionVertical) {
             // --- PASO 4: DAR PUNTOS AL JUGADOR ---
+            const puntajeAnterior = puntaje;
             puntaje += PUNTOS_POR_HONGO;
+            
+            console.log('HONGO ATRAPADO! Puntos:', puntajeAnterior, '->', puntaje);
+            
             actualizarDisplay();
+            
+            // Calcular el puntaje total actual (acumulado + ronda actual)
+            const puntajeTotalAnterior = puntajeTotal + puntajeAnterior;
+            const puntajeTotalActual = puntajeTotal + puntaje;
+            
+            // Verificar si cruzamos un múltiplo de 100 para vida extra
+            const multiploVidaAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_VIDA_EXTRA);
+            const multiploVidaActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_VIDA_EXTRA);
+            
+            // Si cruzamos a un nuevo múltiplo de 100
+            if (multiploVidaActual > multiploVidaAnterior && multiploVidaActual > 0) {
+                vidas++;
+                ultimoPuntajeVidaExtra = multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA;
+                actualizarDisplay();
+                console.log('¡VIDA EXTRA por hongo! Total vidas:', vidas, '| Puntos totales:', puntajeTotalActual, '| Múltiplo:', multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA);
+                
+                // Mostrar notificación de vida extra
+                mostrarNotificacionVidaExtra();
+            }
+            
+            // Verificar si cruzamos un múltiplo de 50 para activar inmunidad
+            const multiploInmunidadAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_INMUNIDAD);
+            const multiploInmunidadActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_INMUNIDAD);
+            
+            console.log('Verificación Inmunidad tras hongo:', {
+                puntajeTotalAnterior,
+                puntajeTotalActual,
+                multiploInmunidadAnterior,
+                multiploInmunidadActual,
+                ultimoPuntajeInmunidad,
+                deberiaCruzar: multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0
+            });
+            
+            // Si cruzamos a un nuevo múltiplo de 50 (50, 100, 150, ...)
+            if (multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0) {
+                const multiploAlcanzado = multiploInmunidadActual * PUNTOS_PARA_INMUNIDAD;
+                console.log('✓✓✓ ACTIVANDO INMUNIDAD por hongo - Múltiplo:', multiploAlcanzado, 'Puntos totales:', puntajeTotalActual);
+                activarInmunidad(multiploAlcanzado);
+            }
             
             // --- PASO 5: MOSTRAR NOTIFICACIÓN DE PUNTOS ---
             mostrarNotificacionPuntos(hongo.posicionX, hongo.posicionY);
@@ -537,6 +611,29 @@ function verificarColisionHongo() {
             hongo.elemento.remove();  // Quitar del DOM
             hongos.splice(i, 1);      // Quitar del array
         }
+    }
+}
+
+/**
+ * Muestra una notificación cuando se gana una vida extra
+ */
+function mostrarNotificacionVidaExtra() {
+    const displayVidaExtra = document.getElementById('vida-extra-display');
+    
+    if (displayVidaExtra) {
+        // Mostrar el display
+        displayVidaExtra.classList.remove('hidden');
+        displayVidaExtra.classList.add('active');
+        
+        console.log('Display de vida extra mostrado');
+        
+        // Ocultar después de 2 segundos
+        setTimeout(() => {
+            displayVidaExtra.classList.remove('active');
+            displayVidaExtra.classList.add('hidden');
+        }, 2000);
+    } else {
+        console.error('displayVidaExtra no encontrado!');
     }
 }
 
@@ -567,17 +664,17 @@ function mostrarNotificacionPuntos(x, y) {
  * Activa el modo de inmunidad por 10 segundos
  * Permite al vampiro pasar por tubos sin colisionar
  */
-function activarInmunidad() {
-    console.log('activarInmunidad() llamada - puntaje:', puntaje);
+function activarInmunidad(puntajeTotalActual) {
+    console.log('activarInmunidad() llamada - puntaje total actual:', puntajeTotalActual);
     
-    // Marcar que se dio inmunidad en este puntaje
-    ultimoPuntajeInmunidad = puntaje;
+    // Marcar que se dio inmunidad en este puntaje total
+    ultimoPuntajeInmunidad = puntajeTotalActual;
     
     // Activar flag de inmunidad
     inmunePorPuntos = true;
     tiempoInmunidad = DURACION_INMUNIDAD;
     
-    console.log('Estado inmunidad:', {inmunePorPuntos, tiempoInmunidad, displayInmunidad: !!displayInmunidad});
+    console.log('Estado inmunidad:', {inmunePorPuntos, tiempoInmunidad, ultimoPuntajeInmunidad, displayInmunidad: !!displayInmunidad});
     
     // Mostrar el display de inmunidad
     if (displayInmunidad) {
@@ -644,6 +741,80 @@ function actualizarDisplayInmunidad() {
     }
 }
 
+/**
+ * Función que se llama cuando el vampiro colisiona con un tubo
+ * Acumula puntos, resta 1 vida, muestra estado y continúa el juego
+ * Solo hace game over cuando vidas = 0
+ */
+function colisionConTubo() {
+    // Si ya está en proceso de game over, no hacer nada
+    if (!juegoActivo) {
+        return;
+    }
+    
+    // Activar inmunidad inmediatamente para evitar colisiones múltiples
+    inmune = true;
+    
+    console.log('¡COLISIÓN CON TUBO!');
+    
+    // Acumular puntos de esta ronda al total
+    puntajeTotal += puntaje;
+    console.log('Puntos de esta ronda:', puntaje);
+    console.log('Puntos totales acumulados:', puntajeTotal);
+    
+    // Restar una vida
+    vidas--;
+    console.log('Vidas restantes:', vidas);
+    
+    // Verificar si al acumular puntos alcanzamos un múltiplo de 50 para inmunidad
+    const proximoMultiplo = Math.floor(ultimoPuntajeInmunidad / PUNTOS_PARA_INMUNIDAD) * PUNTOS_PARA_INMUNIDAD + PUNTOS_PARA_INMUNIDAD;
+    
+    console.log('Verificación Inmunidad en Colisión:', {
+        puntajeTotal,
+        ultimoPuntajeInmunidad,
+        proximoMultiplo,
+        alcanzado: puntajeTotal >= proximoMultiplo
+    });
+    
+    // Si alcanzamos o superamos el próximo múltiplo de 50
+    if (puntajeTotal >= proximoMultiplo && proximoMultiplo >= PUNTOS_PARA_INMUNIDAD) {
+        console.log('✓✓✓ ACTIVANDO INMUNIDAD POR ACUMULACIÓN - Múltiplo:', proximoMultiplo, 'Puntos totales:', puntajeTotal);
+        // Pasamos el múltiplo exacto, no el puntaje actual
+        activarInmunidad(proximoMultiplo);
+    }
+    
+    // Verificar si se acabaron las vidas
+    if (vidas <= 0) {
+        // Desactivar el juego inmediatamente para evitar más colisiones
+        juegoActivo = false;
+        
+        // Game over definitivo
+        gameOver();
+    } else {
+        // Eliminar todos los tubos que están cerca del vampiro para evitar colisiones inmediatas
+        limpiarTubosCercanos();
+        
+        // Mostrar estado temporal y continuar
+        mostrarEstadoTemporal();
+        
+        // Resetear posición del vampiro
+        posicionVertical = 300;
+        velocidad = 0;
+        
+        // Resetear puntaje del round actual (pero mantener puntajeTotal)
+        puntaje = 0;
+        
+        // Actualizar display
+        actualizarDisplay();
+        
+        // Desactivar inmunidad después de 3 segundos
+        setTimeout(() => {
+            inmune = false;
+            console.log('Inmunidad temporal desactivada');
+        }, 3000);
+    }
+}
+
 // Actualizar todos los tubos (moverlos y eliminar los que salen de pantalla)
 function actualizarTubos() {
     const vampiroX = 100; // Posición horizontal del vampiro
@@ -660,13 +831,50 @@ function actualizarTubos() {
         // Si el vampiro pasó el tubo y aún no se contó
         if (!tubo.contado && tubo.posicionX + ANCHO_TUBO < vampiroX) {
             tubo.contado = true;
+            const puntajeAnterior = puntaje;
             puntaje++;
+            
+            console.log('PUNTO SUMADO:', puntaje, '| Anterior:', puntajeAnterior);
+            
             actualizarDisplay();
             
-            // Verificar si se debe activar inmunidad cada 50 puntos
-            if (puntaje > 0 && puntaje % PUNTOS_PARA_INMUNIDAD === 0 && puntaje !== ultimoPuntajeInmunidad) {
-                console.log('Activando inmunidad por alcanzar', puntaje, 'puntos');
-                activarInmunidad();
+            // Calcular el puntaje total actual (acumulado + ronda actual)
+            const puntajeTotalActual = puntajeTotal + puntaje;
+            const puntajeTotalAnterior = puntajeTotal + puntajeAnterior;
+            
+            // Verificar si cruzamos un múltiplo de 100 para vida extra
+            const multiploVidaAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_VIDA_EXTRA);
+            const multiploVidaActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_VIDA_EXTRA);
+            
+            // Si cruzamos a un nuevo múltiplo de 100
+            if (multiploVidaActual > multiploVidaAnterior && multiploVidaActual > 0) {
+                vidas++;
+                ultimoPuntajeVidaExtra = multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA;
+                actualizarDisplay();
+                console.log('¡VIDA EXTRA! Total vidas:', vidas, '| Puntos totales:', puntajeTotalActual, '| Múltiplo:', multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA);
+                
+                // Mostrar notificación de vida extra
+                mostrarNotificacionVidaExtra();
+            }
+            
+            // Verificar si cruzamos un múltiplo de 50 para activar inmunidad
+            const multiploInmunidadAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_INMUNIDAD);
+            const multiploInmunidadActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_INMUNIDAD);
+            
+            console.log('Verificación Inmunidad:', {
+                puntajeTotalAnterior,
+                puntajeTotalActual,
+                multiploInmunidadAnterior,
+                multiploInmunidadActual,
+                ultimoPuntajeInmunidad,
+                deberiaCruzar: multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0
+            });
+            
+            // Si cruzamos a un nuevo múltiplo de 50 (50, 100, 150, ...)
+            if (multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0) {
+                const multiploAlcanzado = multiploInmunidadActual * PUNTOS_PARA_INMUNIDAD;
+                console.log('✓✓✓ ACTIVANDO INMUNIDAD - Múltiplo:', multiploAlcanzado, 'Puntos totales:', puntajeTotalActual);
+                activarInmunidad(multiploAlcanzado);
             }
         }
         
@@ -681,10 +889,32 @@ function actualizarTubos() {
     }
 }
 
+/**
+ * Elimina los tubos que están cerca del vampiro para evitar colisiones inmediatas después de reiniciar
+ */
+function limpiarTubosCercanos() {
+    const vampiroX = 100;
+    const rangoLimpieza = 300; // Limpiar tubos en un rango de 300px
+    
+    for (let i = tubos.length - 1; i >= 0; i--) {
+        const tubo = tubos[i];
+        
+        // Si el tubo está cerca del vampiro
+        if (tubo.posicionX > vampiroX - rangoLimpieza && tubo.posicionX < vampiroX + rangoLimpieza) {
+            // Eliminarlo del DOM
+            tubo.elementoSuperior.remove();
+            tubo.elementoInferior.remove();
+            // Eliminarlo del array
+            tubos.splice(i, 1);
+            console.log('Tubo cercano eliminado en posición:', tubo.posicionX);
+        }
+    }
+}
+
 // Verificar colisiones entre el vampiro y los tubos
 function verificarColisiones() {
-    // Si el vampiro tiene inmunidad por puntos, no detectar colisiones con tubos
-    if (inmunePorPuntos) {
+    // Si el vampiro tiene inmunidad (por puntos o por colisión reciente), no detectar colisiones
+    if (inmunePorPuntos || inmune) {
         return;
     }
     
@@ -704,13 +934,13 @@ function verificarColisiones() {
             
             // Verificar si choca con el tubo superior
             if (vampiroY < tubo.alturaEspacio) {
-                gameOver();
+                colisionConTubo();
                 return;
             }
             
             // Verificar si choca con el tubo inferior
             if (vampiroY + vampiroAlto > tubo.alturaTuboInferior) {
-                gameOver();
+                colisionConTubo();
                 return;
             }
         }
@@ -744,13 +974,18 @@ function gameOver() {
             
             // Actualizar resultados finales
             const finalScore = document.getElementById("final-score");
+            const finalLives = document.getElementById("final-lives");
             const finalTime = document.getElementById("final-time");
             
             if (finalScore) {
-                finalScore.textContent = puntaje;
+                // Mostrar puntos totales acumulados (ya incluye los puntos de la última ronda)
+                finalScore.textContent = puntajeTotal;
+            }
+            if (finalLives) {
+                finalLives.textContent = vidas;
             }
             if (finalTime) {
-                finalTime.textContent = tiempoRestante + "s";
+                finalTime.textContent = tiempoRestante + " s";
             }
             
             // Ocultar estadísticas
@@ -770,7 +1005,20 @@ function gameOver() {
 
 // Función para reiniciar el juego
 function reiniciarJuego() {
-    // Resetear variables del juego
+    // Si quedan vidas, es un reinicio de ronda (mantener puntos totales y vidas)
+    // Si no quedan vidas, es un reinicio completo
+    const esReinicioCompleto = vidas <= 0;
+    
+    if (esReinicioCompleto) {
+        console.log('Reinicio completo - Sin vidas');
+        vidas = 3;
+        puntajeTotal = 0;
+        ultimoPuntajeVidaExtra = 0;
+    } else {
+        console.log('Reinicio de ronda - Vidas:', vidas, 'Puntos totales:', puntajeTotal);
+    }
+    
+    // Resetear variables de la ronda actual
     posicionVertical = 300;
     velocidad = 0;
     juegoActivo = true;
@@ -790,9 +1038,7 @@ function reiniciarJuego() {
     });
     hongos = [];
     
-    // Resetear sistema de vidas
-    vidas = 3;
-    ultimoPuntajeVidaExtra = 0;
+    // Resetear bandera de inmunidad temporal
     inmune = false;
     
     // Resetear sistema de inmunidad por puntos

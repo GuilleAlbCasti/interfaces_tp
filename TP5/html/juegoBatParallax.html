@@ -104,7 +104,7 @@
                 </a><a class="bread-naranja" href="">
                     <h4>Adventure /</h4>
                 </a><a class="bread-Blanco" href="">
-                    <h4>Super Peg Solitaire</h4>
+                    <h4>Flappy-Bat</h4>
                 </a>
         </section>
         <aside class="game" id="game-container">
@@ -129,13 +129,20 @@
                     <span id="timer-display" class="stat-value">60</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Tubos pasados:</span>
+                    <span class="stat-label">Puntos:</span>
                     <span id="score-display" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Vidas:</span>
+                    <span id="lives-display" class="stat-value">3</span>
                 </div>
             </div>
             
             <!-- Display de inmunidad -->
             <div id="immunity-display" class="immunity-display hidden">INMUNE: 10s</div>
+            
+            <!-- Display de vida extra -->
+            <div id="vida-extra-display" class="vida-extra-display hidden">❤️ +1 VIDA</div>
             
             <!-- Overlay de Game Over -->
             <div id="gameover-overlay" class="gameover-overlay hidden">
@@ -143,8 +150,12 @@
                     <h2 class="gameover-title">¡GAME OVER!</h2>
                     <div class="game-results">
                         <div class="result-item">
-                            <span class="result-label">Tubos pasados:</span>
+                            <span class="result-label">Puntos Totales:</span>
                             <span id="final-score" class="result-value">0</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Vidas Restantes:</span>
+                            <span id="final-lives" class="result-value">0</span>
                         </div>
                         <div class="result-item">
                             <span class="result-label">Tiempo restante:</span>
