@@ -20,7 +20,7 @@
   pointer-events: none;
   z-index: 10000;
   background-image: url(../img/BatFlapping_2.png);
-  background-size: cover;
+  background-size: 100% 140%;
   background-position: center;
 }
 
@@ -110,7 +110,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(88, 85, 85, 0.85);
+  background-color: rgba(2, 48, 69, 0.99);
   z-index: 10001;
   transition: opacity 0.3s ease-out;
 }
@@ -280,6 +280,26 @@
   bottom: 0;
   border-top: 5px solid #1B5E20;
 }
+
+ 
+/* Tubos en modo rápido - Paleta amarillo limón verdoso */
+.pipe.fast-mode {
+    background-color: #a0c251; /* Amarillo limón verdoso */
+    border-color: #787830; /* Borde amarillo lima oscuro */
+    box-shadow: 
+        inset -5px 0 10px rgba(0,0,0,0.4), /* Sombra interior más pronunciada */
+        0 0 12px rgba(175, 180, 43, 0.4); /* Brillo amarillo verdoso */
+}
+
+.pipe-top.fast-mode {
+    border-bottom-color: #675e11; /* Borde inferior amarillo oliva oscuro */
+}
+
+.pipe-bottom.fast-mode {
+    border-top-color: #685f0e; /* Borde superior amarillo oliva oscuro */
+}
+
+
 
 /* ==================== HONGOS BONUS ==================== */
 #mushrooms-container {
@@ -454,14 +474,14 @@
 .layer-1 {      
   background-image: url("../img/batParallax/spre_free_back_0.png");   
   animation: scroll 8s infinite linear;
-  background-size: 215% 100%;
+  background-size: 216% 100%;
 
 }
 
 .layer-2 {      
     background-image: url("../img/batParallax/spre_free_back_1.png"); 
     animation: scroll 10s infinite linear;
-    background-size: 215% 100%;
+    background-size: 216% 100%;
 
 
   }
@@ -469,7 +489,7 @@
   .layer-3 {      
     background-image: url("../img/batParallax/spre_free_back_2.png"); 
     animation: scroll 12s infinite linear;
-    background-size: 215% 100%;
+    background-size: 216% 100%;
     
   
   
@@ -479,13 +499,13 @@
     background-image: url("../img/batParallax/spre_free_back_3.png");     
     animation: scroll 14s infinite linear;
 
-    background-size: 215% 100%;
+    background-size: 216% 100%;
   }
 
   .layer-5 {        
     background-image: url("../img/batParallax/spre_free_back_4.png");     
     animation: scroll 16s infinite linear;
-     background-size: 215% 100%;
+     background-size: 216% 100%;
 
 
   }
@@ -493,7 +513,7 @@
   .layer-6 {        
     background-image: url("../img/batParallax/spre_free_back_5.png");     
     animation: scroll 18s infinite linear;
-    background-size: 215% 100%;
+    background-size: 216% 100%;
    
     
 

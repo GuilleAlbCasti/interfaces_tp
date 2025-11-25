@@ -1,27 +1,3 @@
-/*
- * ============================================================
- * JUEGO DE VUELO DEL VAMPIRO
- * ============================================================
- * Este archivo controla el movimiento del vampiro que vuela
- * usando física simple (gravedad + saltos)
- * 
- * CONTROLES:
- * - Presiona ESPACIO o haz CLIC para que el vampiro vuele hacia arriba
- * 
- * MECÁNICAS DEL JUEGO:
- * 1. TUBOS: Aparecen cada 3 segundos, el vampiro debe pasar por el espacio
- * 2. HONGOS BONUS: Aparecen con 30% de probabilidad sobre los tubos
- *    - Emergen desde detrás del tubo con una animación de 2 segundos
- *    - Otorgan +10 puntos al ser atrapados
- * 3. SISTEMA DE VIDAS: 3 vidas iniciales, +1 vida cada 50 puntos
- * 4. TIEMPO LÍMITE: 120 segundos (2 minutos)
- * 
- * POSICIONAMIENTO DE HONGOS:
- * - Centrados horizontalmente en el tubo inferior
- * - 60px por encima del borde superior del tubo inferior
- * - Comienzan detrás del tubo (z-index: 80) y emergen al frente (z-index: 100)
- */
-
 // ============================================================
 // PASO 1: CONFIGURACIÓN DEL JUEGO
 // ============================================================
@@ -41,9 +17,11 @@ const VELOCIDAD_TUBO = 3;          // Qué tan rápido se mueven los tubos
 const ANCHO_TUBO = 60;             // Ancho de los tubos en píxeles
 const ESPACIO_ENTRE_TUBOS = 200;   // Espacio vertical entre tubo superior e inferior
 const INTERVALO_TUBOS = 2000;      // Cada cuánto aparece un par de tubos (milisegundos)
+const INTERVALO_TUBOS_POST = 1500; // Cada cuánto aparece un par de tubos luego de los 30 segundos
 
 // Configuración de tiempo
 const TIEMPO_LIMITE = 60;         // Tiempo límite del juego en segundos
+const SET_TIEMPO_RESTANTE = 50;    // Seteo (segundos restantes) en que cambia la velocidad de tubos
 
 // ============================================================
 // PASO 2: VARIABLES DEL JUEGO
@@ -57,6 +35,7 @@ let juegoActivo = true;       // Si el juego está corriendo o pausado
 let tubos = [];               // Lista de todos los tubos en pantalla
 let temporizadorTubos = null; // Para controlar cuándo aparecen tubos
 let juegoIniciado = false;    // Si el juego ha sido iniciado con el botón
+let barraEspaciadoraBloqueada = false; // Control temporal para bloquear la barra espaciadora
 
 // Variables de hongos bonus
 let hongos = [];              // Lista de todos los hongos bonus en pantalla
@@ -77,129 +56,33 @@ let inmune = false;            // Bandera de inmunidad temporal después de coli
 const DURACION_INMUNIDAD_COLISION = 2000; // 2 segundos de inmunidad después de colisión entre vidas
 
 // Variables del sistema de inmunidad por puntos
-const PUNTOS_PARA_INMUNIDAD = 50;  // Cada 50 puntos se activa inmunidad (rangos: 50-99, 100-149, 150-199, etc.)
+const PUNTOS_PARA_INMUNIDAD = 50;  // Cada 50 puntos se activa inmunidad 
 const DURACION_INMUNIDAD = 10;      // Duración de inmunidad en segundos
 let inmunePorPuntos = false;        // Flag de inmunidad activa por puntos
 let tiempoInmunidad = 0;            // Tiempo restante de inmunidad
 let temporizadorInmunidad = null;   // Intervalo del contador de inmunidad
 let ultimoPuntajeInmunidad = 0;     // Último puntaje en el que se dio inmunidad
 
+// Variables del sistema de velocidad de tubos
+let modoRapido = false;             // Flag que indica si el juego está en modo rápido (tubos rojos)
+
 // ============================================================
 // PASO 3: OBTENER ELEMENTOS HTML
 // ============================================================
-// Conectamos con los elementos que están en el HTML
+
 
 const vampiro = document.getElementById('vampire');
 const contenedorTubos = document.getElementById('pipes-container');
 const contenedorHongos = document.getElementById('mushrooms-container');
 const notificacionPuntos = document.getElementById('points-notification');
 const displayInmunidad = document.getElementById('immunity-display');
-const explosion = document.getElementById('explosion');
-const explosionCtx = explosion ? explosion.getContext('2d') : null;
+
+
 
 // ============================================================
-// PASO 3.5: SISTEMA DE EXPLOSIÓN CON CANVAS
+// PASO 4: FUNCIONES DE TIEMPO Y DISPLAY
 // ============================================================
 
-let particulas = [];
-let explosionActiva = false;
-
-class Particula {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.velocidadX = (Math.random() - 0.5) * 8;
-        this.velocidadY = (Math.random() - 0.5) * 8;
-        this.vida = 1.0;
-        this.tamano = Math.random() * 4 + 2;
-        this.color = this.generarColor();
-    }
-    
-    generarColor() {
-        const colores = [
-            { r: 255, g: 100, b: 0 },   // Naranja
-            { r: 255, g: 200, b: 0 },   // Amarillo
-            { r: 255, g: 50, b: 0 },    // Rojo-naranja
-            { r: 255, g: 255, b: 100 }  // Amarillo claro
-        ];
-        return colores[Math.floor(Math.random() * colores.length)];
-    }
-    
-    actualizar() {
-        this.x += this.velocidadX;
-        this.y += this.velocidadY;
-        this.velocidadX *= 0.95;
-        this.velocidadY *= 0.95;
-        this.vida -= 0.02;
-        this.tamano *= 0.96;
-    }
-    
-    dibujar(ctx) {
-        ctx.save();
-        ctx.globalAlpha = this.vida;
-        
-        // Gradiente radial para cada partícula
-        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.tamano);
-        gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 1)`);
-        gradient.addColorStop(0.5, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.5)`);
-        gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0)`);
-        
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.tamano, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-    }
-}
-
-function crearExplosion(x, y) {
-    if (!explosionCtx) return;
-    
-    explosionActiva = true;
-    particulas = [];
-    
-    // Crear 30 partículas desde el centro
-    for (let i = 0; i < 30; i++) {
-        particulas.push(new Particula(x, y));
-    }
-    
-    // Mostrar canvas
-    explosion.classList.add('active');
-    
-    // Animar explosión
-    animarExplosion();
-}
-
-function animarExplosion() {
-    if (!explosionActiva || !explosionCtx) return;
-    
-    // Limpiar canvas
-    explosionCtx.clearRect(0, 0, 75, 75);
-    
-    // Actualizar y dibujar partículas
-    for (let i = particulas.length - 1; i >= 0; i--) {
-        particulas[i].actualizar();
-        particulas[i].dibujar(explosionCtx);
-        
-        // Eliminar partículas muertas
-        if (particulas[i].vida <= 0) {
-            particulas.splice(i, 1);
-        }
-    }
-    
-    // Continuar animación si quedan partículas
-    if (particulas.length > 0) {
-        requestAnimationFrame(animarExplosion);
-    } else {
-        explosionActiva = false;
-        explosion.classList.remove('active');
-    }
-}
-
-// ============================================================
-// PASO 4: CONFIGURAR CONTROLES
-// ============================================================
-// Hacer que el vampiro salte cuando presionas teclas o haces clic
 
 // Función de cuenta regresiva
 function iniciarCuentaRegresiva() {
@@ -209,11 +92,41 @@ function iniciarCuentaRegresiva() {
         tiempoRestante--;
         actualizarDisplay();
         
+        // *** CAMBIAR VELOCIDAD DE TUBOS CUANDO LLEGA AL TIEMPO CONFIGURADO ***
+        // Cuando quedan SET_TIEMPO_RESTANTE segundos (ej: 30 segundos restantes = 30 segundos jugados)
+        if (tiempoRestante === SET_TIEMPO_RESTANTE) {
+            // Activar modo rápido (los nuevos tubos se crearán con clase fast-mode)
+            modoRapido = true;
+            
+            // Detener el temporizador actual de tubos
+            clearInterval(temporizadorTubos);
+            
+            // CREAR UN TUBO INMEDIATAMENTE antes de cambiar el intervalo
+            crearTubos();
+
+            // Reiniciar con la nueva velocidad (más rápido)
+            temporizadorTubos = setInterval(crearTubos, INTERVALO_TUBOS_POST);
+
+            
+        }
+        
         // Si el tiempo se acaba, terminar el juego
         if (tiempoRestante <= 0) {
             gameOver();
         }
     }, 1000);
+}
+
+//Cambia el color de todos los tubos existentes agregando una clase CSS
+ 
+function cambiarColorTubos() {
+    // Recorrer todos los tubos existentes
+    tubos.forEach(tubo => {
+        // Agregar clase 'fast-mode' a ambos tubos del par
+        tubo.elementoSuperior.classList.add('fast-mode');
+        tubo.elementoInferior.classList.add('fast-mode');
+    });
+    
 }
 
 // Actualizar displays del timer, puntaje y vidas
@@ -250,7 +163,6 @@ function mostrarEstadoTemporal() {
             <p>Vidas Restantes: <span class="highlight">${vidas}</span></p>
             <p>Puntos Totales: <span class="highlight">${puntajeTotal}</span></p>
             <p>Tiempo Restante: <span class="highlight">${tiempoRestante}s</span></p>
-            <p class="continue-msg">Continuando en unos momentos...</p>
         </div>
     `;
     document.body.appendChild(estadoOverlay);
@@ -262,11 +174,22 @@ function mostrarEstadoTemporal() {
     }, 2000);
 }
 
+
+// ============================================================
+// PASO 5: CONFIGURAR CONTROLES
+// ============================================================
+// Hacer que el vampiro salte cuando presionas teclas o haces clic
+
 // BOTÓN "COMENZAR A JUGAR"
 const startBtnBat = document.getElementById("start-btn-bat");
 
 if (startBtnBat) {
     startBtnBat.addEventListener("click", () => {
+        // Inicializar el canvas de explosión (debe hacerse cuando el DOM está listo)
+        if (typeof inicializarExplosionCanvas === 'function') {
+            inicializarExplosionCanvas();
+        }
+        
         juegoIniciado = true;
         juegoActivo = true;
         
@@ -305,9 +228,14 @@ if (restartBtnBat) {
 document.addEventListener('keydown', function(evento) {
     const teclaBarra = evento.code === 'Space';
     
-    if (teclaBarra && juegoIniciado && juegoActivo) {
+    // Siempre prevenir el desplazamiento si la barra está bloqueada o si el juego está activo
+    if (teclaBarra && (juegoIniciado || barraEspaciadoraBloqueada)) {
         evento.preventDefault(); // Evitar que la página se desplace
-        hacerSaltar();
+        
+        // Solo hacer saltar si el juego está activo y no está bloqueada
+        if (juegoActivo && !barraEspaciadoraBloqueada) {
+            hacerSaltar();
+        }
     }
 });
 
@@ -320,9 +248,9 @@ document.addEventListener('click', function(evento) {
 });
 
 // ============================================================
-// PASO 5: FUNCIÓN PARA SALTAR
+// PASO 6: FUNCIÓN PARA SALTAR
 // ============================================================
-// Hace que el vampiro suba cuando se llama
+
 
 function hacerSaltar() {
     // Aplicar fuerza hacia arriba
@@ -339,16 +267,16 @@ function hacerSaltar() {
 }
 
 // ============================================================
-// PASO 6: ACTUALIZAR EL VAMPIRO
+// PASO 7: ACTUALIZAR EL VAMPIRO
 // ============================================================
-// Esta función se ejecuta muchas veces por segundo
+
 
 function actualizarVampiro() {
-    // --- 6.1: Aplicar Gravedad ---
+    // --- Aplicar Gravedad ---
     // La gravedad hace que el vampiro caiga constantemente
     velocidad = velocidad + GRAVEDAD;
     
-    // --- 6.2: Limitar la Velocidad ---
+    // --- Limitar la Velocidad ---
     // No dejar que caiga o suba demasiado rápido
     if (velocidad > VELOCIDAD_MAXIMA_CAIDA) {
         velocidad = VELOCIDAD_MAXIMA_CAIDA;
@@ -357,11 +285,11 @@ function actualizarVampiro() {
         velocidad = VELOCIDAD_MAXIMA_SUBIDA;
     }
     
-    // --- 6.3: Mover al Vampiro ---
+    // ---  Mover al Vampiro ---
     // Cambiar su posición según la velocidad
     posicionVertical = posicionVertical + velocidad;
     
-    // --- 6.4: Animación Visual ---
+    // ---  Animación Visual ---
     // Si está cayendo rápido, inclinarlo hacia abajo
     const estaCayendo = velocidad > 2;
     const estaSubiendo = velocidad < -2;
@@ -373,7 +301,7 @@ function actualizarVampiro() {
         vampiro.classList.remove('vampire-falling');
     }
     
-    // --- 6.5: Evitar que Salga de la Pantalla ---
+    // --- Evitar que Salga de la Pantalla ---
     // Si toca el techo
     if (posicionVertical < TOPE_SUPERIOR) {
         posicionVertical = TOPE_SUPERIOR;
@@ -387,13 +315,13 @@ function actualizarVampiro() {
         vampiro.classList.remove('vampire-falling');
     }
     
-    // --- 6.6: Aplicar la Nueva Posición al HTML ---
+    // --- Aplicar la Nueva Posición al HTML ---
     vampiro.style.top = posicionVertical + 'px';
 }
 
 
 // ============================================================
-// PASO 7: FUNCIONES DE TUBOS (PIPES)
+// PASO 8: FUNCIONES DE TUBOS (PIPES)
 // ============================================================
 
 // Crear un par de tubos (superior e inferior) con un espacio en el medio
@@ -410,6 +338,12 @@ function crearTubos() {
     // --- CREAR TUBO SUPERIOR ---
     const tuboSuperior = document.createElement('div');
     tuboSuperior.className = 'pipe pipe-top';
+    
+    // Si estamos en modo rápido, agregar la clase fast-mode inmediatamente
+    if (modoRapido) {
+        tuboSuperior.classList.add('fast-mode');
+    }
+    
     tuboSuperior.style.left = '890px';
     tuboSuperior.style.height = alturaEspacio + 'px';
     contenedorTubos.appendChild(tuboSuperior);
@@ -417,6 +351,12 @@ function crearTubos() {
     // --- CREAR TUBO INFERIOR ---
     const tuboInferior = document.createElement('div');
     tuboInferior.className = 'pipe pipe-bottom';
+    
+    // Si estamos en modo rápido, agregar la clase fast-mode inmediatamente
+    if (modoRapido) {
+        tuboInferior.classList.add('fast-mode');
+    }
+    
     tuboInferior.style.left = '890px';
     const alturaTuboInferior = TOPE_INFERIOR + 100 - (alturaEspacio + ESPACIO_ENTRE_TUBOS);
     tuboInferior.style.height = alturaTuboInferior + 'px';
@@ -432,29 +372,36 @@ function crearTubos() {
         contado: false  // Para saber si ya sumamos el punto por este tubo
     });
     
-    // --- CREAR HONGO BONUS (30% DE PROBABILIDAD) ---
-    // Generamos un número aleatorio entre 0 y 1
+    // --- CREAR HONGO BONUS ---
     const numeroAleatorio = Math.random();
     
     // Si el número es menor a 0.3 (30% de probabilidad), creamos un hongo
     if (numeroAleatorio < PROBABILIDAD_HONGO) {
-        crearHongo(890, alturaEspacio);
+        crearHongo(890, alturaEspacio); 
+        //         ↑    ↑
+        //         |    └─ Posición Y (altura vertical)
+        //         └────── Posición X (890 píxeles desde la izquierda)
     }
 }
 
 // ============================================================
-// PASO 8: FUNCIONES DE HONGOS BONUS
+// PASO 9: FUNCIONES DE HONGOS BONUS
 // ============================================================
 
-/**
+/** javaDoc
  * Crea un hongo bonus que aparece sobre el tubo inferior
  * @param {number} posicionX - Posición horizontal inicial del hongo (donde está el tubo)
  * @param {number} alturaEspacio - Altura donde termina el tubo superior (inicio del espacio)
+ *
+ * POSICIONAMIENTO DE HONGOS:
+ * - Centrados horizontalmente en el tubo inferior
+ * - 60px por encima del borde superior del tubo inferior
+ * - Comienzan detrás del tubo (z-index: 80) y emergen al frente (z-index: 100)
  */
+
 function crearHongo(posicionX, alturaEspacio) {
     // Verificar que existe el contenedor de hongos
     if (!contenedorHongos) {
-        console.error('No se encontró el contenedor de hongos');
         return;
     }
     
@@ -483,13 +430,17 @@ function crearHongo(posicionX, alturaEspacio) {
     
     // --- PASO 5: AGREGAR EL HONGO AL DOM ---
     contenedorHongos.appendChild(hongo);
-    console.log('Hongo creado en:', posicionXCentrada, posicionYHongo);
-    
+        
     // --- PASO 6: INICIAR LA ANIMACIÓN DE EMERGENCIA ---
-    // Pequeño delay para que el CSS pueda aplicar la posición inicial
+   /* Pequeño delay para que el CSS pueda aplicar la posición inicial
+            El delay permite que:
+            El navegador dibuje el hongo en su estado inicial (invisible, abajo)
+            Luego agregue la clase que activa la animación CSS
+            El navegador pueda animar suavemente el cambio de estado
+            Sin el delay: La animación no se vería porque el navegador aplicaría ambos estados al mismo tiempo.
+    */
     setTimeout(() => {
         hongo.classList.add('emerging');
-        console.log('Animación de hongo iniciada');
     }, 50);
     
     // --- PASO 7: GUARDAR EL HONGO EN NUESTRO ARRAY ---
@@ -557,12 +508,10 @@ function verificarColisionHongo() {
         
         // Si hay colisión en ambos ejes, el vampiro atrapó el hongo
         if (colisionHorizontal && colisionVertical) {
-            // --- PASO 4: DAR PUNTOS AL JUGADOR ---
+        // --- PASO 4: DAR PUNTOS AL JUGADOR ---
             const puntajeAnterior = puntaje;
             puntaje += PUNTOS_POR_HONGO;
-            
-            console.log('HONGO ATRAPADO! Puntos:', puntajeAnterior, '->', puntaje);
-            
+                  
             actualizarDisplay();
             
             // Calcular el puntaje total actual (acumulado + ronda actual)
@@ -578,7 +527,6 @@ function verificarColisionHongo() {
                 vidas++;
                 ultimoPuntajeVidaExtra = multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA;
                 actualizarDisplay();
-                console.log('¡VIDA EXTRA por hongo! Total vidas:', vidas, '| Puntos totales:', puntajeTotalActual, '| Múltiplo:', multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA);
                 
                 // Mostrar notificación de vida extra
                 mostrarNotificacionVidaExtra();
@@ -588,32 +536,27 @@ function verificarColisionHongo() {
             const multiploInmunidadAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_INMUNIDAD);
             const multiploInmunidadActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_INMUNIDAD);
             
-            console.log('Verificación Inmunidad tras hongo:', {
-                puntajeTotalAnterior,
-                puntajeTotalActual,
-                multiploInmunidadAnterior,
-                multiploInmunidadActual,
-                ultimoPuntajeInmunidad,
-                deberiaCruzar: multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0
-            });
-            
+                    
             // Si cruzamos a un nuevo múltiplo de 50 (50, 100, 150, ...)
             if (multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0) {
                 const multiploAlcanzado = multiploInmunidadActual * PUNTOS_PARA_INMUNIDAD;
-                console.log('✓✓✓ ACTIVANDO INMUNIDAD por hongo - Múltiplo:', multiploAlcanzado, 'Puntos totales:', puntajeTotalActual);
                 activarInmunidad(multiploAlcanzado);
             }
             
-            // --- PASO 5: MOSTRAR NOTIFICACIÓN DE PUNTOS ---
+        // --- PASO 5: MOSTRAR NOTIFICACIÓN DE PUNTOS ---
             mostrarNotificacionPuntos(hongo.posicionX, hongo.posicionY);
             
-            // --- PASO 6: ELIMINAR EL HONGO ---
+        // --- PASO 6: ELIMINAR EL HONGO ---
             hongo.elemento.remove();  // Quitar del DOM
             hongos.splice(i, 1);      // Quitar del array
         }
     }
 }
 
+
+// ============================================================
+// PASO 10: FUNCIONES DE NOTIFICACIONES E INMUNIDAD
+// ============================================================
 /**
  * Muestra una notificación cuando se gana una vida extra
  */
@@ -624,9 +567,7 @@ function mostrarNotificacionVidaExtra() {
         // Mostrar el display
         displayVidaExtra.classList.remove('hidden');
         displayVidaExtra.classList.add('active');
-        
-        console.log('Display de vida extra mostrado');
-        
+                
         // Ocultar después de 2 segundos
         setTimeout(() => {
             displayVidaExtra.classList.remove('active');
@@ -665,7 +606,6 @@ function mostrarNotificacionPuntos(x, y) {
  * Permite al vampiro pasar por tubos sin colisionar
  */
 function activarInmunidad(puntajeTotalActual) {
-    console.log('activarInmunidad() llamada - puntaje total actual:', puntajeTotalActual);
     
     // Marcar que se dio inmunidad en este puntaje total
     ultimoPuntajeInmunidad = puntajeTotalActual;
@@ -674,14 +614,11 @@ function activarInmunidad(puntajeTotalActual) {
     inmunePorPuntos = true;
     tiempoInmunidad = DURACION_INMUNIDAD;
     
-    console.log('Estado inmunidad:', {inmunePorPuntos, tiempoInmunidad, ultimoPuntajeInmunidad, displayInmunidad: !!displayInmunidad});
-    
     // Mostrar el display de inmunidad
     if (displayInmunidad) {
         displayInmunidad.classList.remove('hidden');
         displayInmunidad.classList.add('active');
         actualizarDisplayInmunidad();
-        console.log('Display de inmunidad mostrado');
     } else {
         console.error('displayInmunidad no encontrado!');
     }
@@ -754,31 +691,18 @@ function colisionConTubo() {
     
     // Activar inmunidad inmediatamente para evitar colisiones múltiples
     inmune = true;
-    
-    console.log('¡COLISIÓN CON TUBO!');
-    
+        
     // Acumular puntos de esta ronda al total
     puntajeTotal += puntaje;
-    console.log('Puntos de esta ronda:', puntaje);
-    console.log('Puntos totales acumulados:', puntajeTotal);
-    
+        
     // Restar una vida
     vidas--;
-    console.log('Vidas restantes:', vidas);
     
     // Verificar si al acumular puntos alcanzamos un múltiplo de 50 para inmunidad
     const proximoMultiplo = Math.floor(ultimoPuntajeInmunidad / PUNTOS_PARA_INMUNIDAD) * PUNTOS_PARA_INMUNIDAD + PUNTOS_PARA_INMUNIDAD;
-    
-    console.log('Verificación Inmunidad en Colisión:', {
-        puntajeTotal,
-        ultimoPuntajeInmunidad,
-        proximoMultiplo,
-        alcanzado: puntajeTotal >= proximoMultiplo
-    });
-    
+      
     // Si alcanzamos o superamos el próximo múltiplo de 50
     if (puntajeTotal >= proximoMultiplo && proximoMultiplo >= PUNTOS_PARA_INMUNIDAD) {
-        console.log('✓✓✓ ACTIVANDO INMUNIDAD POR ACUMULACIÓN - Múltiplo:', proximoMultiplo, 'Puntos totales:', puntajeTotal);
         // Pasamos el múltiplo exacto, no el puntaje actual
         activarInmunidad(proximoMultiplo);
     }
@@ -791,26 +715,59 @@ function colisionConTubo() {
         // Game over definitivo
         gameOver();
     } else {
-        // Eliminar todos los tubos que están cerca del vampiro para evitar colisiones inmediatas
+        // AÚN QUEDAN VIDAS - Mostrar explosión y continuar
+        
+        // 1. Mostrar explosión en la posición actual del vampiro
+        const explosionElement = document.getElementById('explosion');
+        if (explosionElement && typeof crearExplosion === 'function') {
+            // Calcular posición centrada del canvas en el vampiro
+            const vampiroLeft = 100;
+            const vampiroTop = posicionVertical;
+            const vampiroAncho = 75;
+            const vampiroAlto = 50;
+            const canvasSize = 75;
+            
+            const explosionLeft = vampiroLeft + (vampiroAncho / 2) - (canvasSize / 2);
+            const explosionTop = vampiroTop + (vampiroAlto / 2) - (canvasSize / 2);
+            
+            explosionElement.style.left = explosionLeft + 'px';
+            explosionElement.style.top = explosionTop + 'px';
+            
+            // Crear explosión
+            crearExplosion(37.5, 37.5);
+            
+            // Ocultar vampiro temporalmente
+            vampiro.style.display = 'none';
+            
+            // Esperar a que termine la explosión (600ms) antes de continuar
+            setTimeout(() => {
+                // Mostrar vampiro nuevamente
+                vampiro.style.display = 'block';
+                
+                // Ocultar canvas de explosión
+                explosionElement.classList.remove('active');
+            }, 600);
+        }
+        
+        // 2. Eliminar todos los tubos que están cerca del vampiro para evitar colisiones inmediatas
         limpiarTubosCercanos();
         
-        // Mostrar estado temporal y continuar
+        // 3. Mostrar estado temporal y continuar
         mostrarEstadoTemporal();
         
-        // Resetear posición del vampiro
+        // 4. Resetear posición del vampiro
         posicionVertical = 300;
         velocidad = 0;
         
-        // Resetear puntaje del round actual (pero mantener puntajeTotal)
+        // 5. Resetear puntaje del round actual (pero mantener puntajeTotal)
         puntaje = 0;
         
-        // Actualizar display
+        // 6. Actualizar display
         actualizarDisplay();
         
-        // Desactivar inmunidad después de 3 segundos
+        // 7. Desactivar inmunidad después de 3 segundos
         setTimeout(() => {
             inmune = false;
-            console.log('Inmunidad temporal desactivada');
         }, 3000);
     }
 }
@@ -833,9 +790,7 @@ function actualizarTubos() {
             tubo.contado = true;
             const puntajeAnterior = puntaje;
             puntaje++;
-            
-            console.log('PUNTO SUMADO:', puntaje, '| Anterior:', puntajeAnterior);
-            
+                 
             actualizarDisplay();
             
             // Calcular el puntaje total actual (acumulado + ronda actual)
@@ -851,7 +806,6 @@ function actualizarTubos() {
                 vidas++;
                 ultimoPuntajeVidaExtra = multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA;
                 actualizarDisplay();
-                console.log('¡VIDA EXTRA! Total vidas:', vidas, '| Puntos totales:', puntajeTotalActual, '| Múltiplo:', multiploVidaActual * PUNTOS_PARA_VIDA_EXTRA);
                 
                 // Mostrar notificación de vida extra
                 mostrarNotificacionVidaExtra();
@@ -861,19 +815,10 @@ function actualizarTubos() {
             const multiploInmunidadAnterior = Math.floor(puntajeTotalAnterior / PUNTOS_PARA_INMUNIDAD);
             const multiploInmunidadActual = Math.floor(puntajeTotalActual / PUNTOS_PARA_INMUNIDAD);
             
-            console.log('Verificación Inmunidad:', {
-                puntajeTotalAnterior,
-                puntajeTotalActual,
-                multiploInmunidadAnterior,
-                multiploInmunidadActual,
-                ultimoPuntajeInmunidad,
-                deberiaCruzar: multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0
-            });
-            
+                    
             // Si cruzamos a un nuevo múltiplo de 50 (50, 100, 150, ...)
             if (multiploInmunidadActual > multiploInmunidadAnterior && multiploInmunidadActual > 0) {
                 const multiploAlcanzado = multiploInmunidadActual * PUNTOS_PARA_INMUNIDAD;
-                console.log('✓✓✓ ACTIVANDO INMUNIDAD - Múltiplo:', multiploAlcanzado, 'Puntos totales:', puntajeTotalActual);
                 activarInmunidad(multiploAlcanzado);
             }
         }
@@ -906,7 +851,6 @@ function limpiarTubosCercanos() {
             tubo.elementoInferior.remove();
             // Eliminarlo del array
             tubos.splice(i, 1);
-            console.log('Tubo cercano eliminado en posición:', tubo.posicionX);
         }
     }
 }
@@ -947,11 +891,23 @@ function verificarColisiones() {
     }
 }
 
+// ============================================================
+// PASO 11: Funciones DE FIN DE JUEGO Y REINICIO
+// ============================================================
+
 // Función de fin de juego
 function gameOver() {
     juegoActivo = false;
     clearInterval(temporizadorTubos);
     clearInterval(temporizadorCuentaRegresiva);
+    
+    // Bloquear la barra espaciadora para evitar desplazamiento de pantalla
+    barraEspaciadoraBloqueada = true;
+    
+    // Desbloquear después de 2 segundos
+    setTimeout(() => {
+        barraEspaciadoraBloqueada = false;
+    }, 2000);
     
     // Detener inmunidad si estaba activa
     if (temporizadorInmunidad) {
@@ -962,9 +918,24 @@ function gameOver() {
     vampiro.style.display = 'none';
     
     // Mostrar explosión en la posición del vampiro
-    if (explosion) {
-        explosion.style.left = vampiro.style.left || '100px';
-        explosion.style.top = vampiro.style.top || posicionVertical + 'px';
+    const explosionElement = document.getElementById('explosion');
+    
+    if (explosionElement && typeof crearExplosion === 'function') {
+        // El canvas es 75x75px, el vampiro es 75x50px
+        // Centrar el canvas en el centro del vampiro
+        const vampiroLeft = 100; // Posición X fija del vampiro
+        const vampiroTop = posicionVertical; // Posición Y actual
+        const vampiroAncho = 75;
+        const vampiroAlto = 50;
+        const canvasSize = 75;
+        
+        // Calcular el centro del vampiro y restar la mitad del canvas para centrarlo
+        const explosionLeft = vampiroLeft + (vampiroAncho / 2) - (canvasSize / 2);
+        const explosionTop = vampiroTop + (vampiroAlto / 2) - (canvasSize / 2);
+        
+        explosionElement.style.left = explosionLeft + 'px';
+        explosionElement.style.top = explosionTop + 'px';
+        
         
         // Crear explosión con partículas en el centro del canvas (37.5, 37.5)
         crearExplosion(37.5, 37.5);
@@ -1010,7 +981,6 @@ function reiniciarJuego() {
     const esReinicioCompleto = vidas <= 0;
     
     if (esReinicioCompleto) {
-        console.log('Reinicio completo - Sin vidas');
         vidas = 3;
         puntajeTotal = 0;
         ultimoPuntajeVidaExtra = 0;
@@ -1041,6 +1011,9 @@ function reiniciarJuego() {
     // Resetear bandera de inmunidad temporal
     inmune = false;
     
+    // Desbloquear barra espaciadora
+    barraEspaciadoraBloqueada = false;
+    
     // Resetear sistema de inmunidad por puntos
     inmunePorPuntos = false;
     tiempoInmunidad = 0;
@@ -1049,6 +1022,9 @@ function reiniciarJuego() {
         clearInterval(temporizadorInmunidad);
         temporizadorInmunidad = null;
     }
+    
+    // Resetear modo rápido (volver a tubos verdes y velocidad normal)
+    modoRapido = false;
     
     // Ocultar display de inmunidad y quitar efecto visual
     if (displayInmunidad) {
@@ -1077,8 +1053,9 @@ function reiniciarJuego() {
     vampiro.classList.remove('vampire-falling', 'vampire-rising');
     
     // Ocultar explosión si estaba visible
-    if (explosion) {
-        explosion.classList.remove('active');
+    const explosionElement = document.getElementById('explosion');
+    if (explosionElement) {
+        explosionElement.classList.remove('active');
     }
     
     // Actualizar displays
@@ -1093,9 +1070,9 @@ function reiniciarJuego() {
 }
 
 // ============================================================
-// PASO 8: BUCLE PRINCIPAL DEL JUEGO
+// PASO 12: BUCLE PRINCIPAL DEL JUEGO
 // ============================================================
-// Este bucle se repite constantemente (60 veces por segundo aprox)
+
 
 function buclePrincipal() {
     // Solo ejecutar si el juego está activo
@@ -1122,8 +1099,3 @@ function buclePrincipal() {
     requestAnimationFrame(buclePrincipal);
 }
 
-// ============================================================
-// PASO 9: INICIAR EL JUEGO
-// ============================================================
-// El juego se iniciará cuando se presione el botón "Comenzar a Jugar"
-// No iniciamos automáticamente, esperamos el click del usuario
