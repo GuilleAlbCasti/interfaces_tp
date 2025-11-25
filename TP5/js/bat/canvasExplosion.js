@@ -1,5 +1,5 @@
 // ============================================================
-// PASO 3.5: SISTEMA DE EXPLOSIÓN CON CANVAS
+// SISTEMA DE EXPLOSIÓN CON CANVAS
 // ============================================================
 
 // Variables globales que serán accesibles desde cualquier script

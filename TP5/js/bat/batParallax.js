@@ -21,7 +21,7 @@ const INTERVALO_TUBOS_POST = 1500; // Cada cuánto aparece un par de tubos luego
 
 // Configuración de tiempo
 const TIEMPO_LIMITE = 60;         // Tiempo límite del juego en segundos
-const SET_TIEMPO_RESTANTE = 50;    // Seteo (segundos restantes) en que cambia la velocidad de tubos
+const SET_TIEMPO_RESTANTE = 30;    // Seteo (segundos restantes) en que cambia la velocidad de tubos
 
 // ============================================================
 // PASO 2: VARIABLES DEL JUEGO
