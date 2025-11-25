@@ -388,10 +388,10 @@ function crearTubos() {
 // PASO 9: FUNCIONES DE HONGOS BONUS
 // ============================================================
 
-/** javaDoc
+/**
  * Crea un hongo bonus que aparece sobre el tubo inferior
- * @param {number} posicionX - Posición horizontal inicial del hongo (donde está el tubo)
- * @param {number} alturaEspacio - Altura donde termina el tubo superior (inicio del espacio)
+ * posicionX - Posición horizontal inicial del hongo (donde está el tubo)
+ *  alturaEspacio - Altura donde termina el tubo superior (inicio del espacio)
  *
  * POSICIONAMIENTO DE HONGOS:
  * - Centrados horizontalmente en el tubo inferior

@@ -11,7 +11,11 @@ let explosionActiva = false;
 // Función para inicializar el canvas (llamada desde batParallax.js)
 function inicializarExplosionCanvas() {
     explosion = document.getElementById('explosion');
-    explosionCtx = explosion ? explosion.getContext('2d') : null;
+    if (explosion) {
+        explosionCtx = explosion.getContext('2d');
+    } else {
+        explosionCtx = null;
+    }
     
     // Hacer las variables accesibles globalmente
     window.explosion = explosion;
