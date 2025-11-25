@@ -196,7 +196,7 @@ function crearCard(juego, estilo) {
   }
     else if (juego.name === "Red Dead Redemption 2") {
     juego.name = "BatFlapping";
-    juego.background_image = "../img/Batflapping_2.png";
+    juego.background_image = "../img/BatFlapping_2.png";
     juegoDiv.className = estilo;
     juegoDiv.style.backgroundImage = `url('${juego.background_image}')`;
     juegoDiv.innerHTML = `
