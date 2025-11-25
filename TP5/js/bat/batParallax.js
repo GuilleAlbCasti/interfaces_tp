@@ -15,7 +15,11 @@ const TOPE_INFERIOR = 590;         // Borde inferior de la pantalla
 // Configuración de tubos (pipes)
 const VELOCIDAD_TUBO = 3;          // Qué tan rápido se mueven los tubos
 const ANCHO_TUBO = 60;             // Ancho de los tubos en píxeles
-const ESPACIO_ENTRE_TUBOS = 200;   // Espacio vertical entre tubo superior e inferior
+const ESPACIO_ENTRE_TUBOS = 200;   // Espacio vertical entre tubo superior e inferior (no usado con apertura dinámica)
+const APERTURA_INICIAL = 350;      // Apertura inicial máxima entre tubos
+const APERTURA_MINIMA = 150;       // Apertura mínima entre tubos
+const REDUCCION_APERTURA = 30;     // Cuántos píxeles se reduce la apertura cada intervalo
+const INTERVALO_REDUCCION_APERTURA = 5; // Cada cuántos segundos se reduce la apertura
 const INTERVALO_TUBOS = 2000;      // Cada cuánto aparece un par de tubos (milisegundos)
 const INTERVALO_TUBOS_POST = 1500; // Cada cuánto aparece un par de tubos luego de los 30 segundos
 
@@ -66,6 +70,10 @@ let ultimoPuntajeInmunidad = 0;     // Último puntaje en el que se dio inmunida
 // Variables del sistema de velocidad de tubos
 let modoRapido = false;             // Flag que indica si el juego está en modo rápido (tubos rojos)
 
+// Variables del sistema de apertura dinámica
+let aperturaActual = APERTURA_INICIAL;  // Apertura actual entre tubos
+let contadorReduccionApertura = 0;      // Contador de segundos para reducir la apertura
+
 // ============================================================
 // PASO 3: OBTENER ELEMENTOS HTML
 // ============================================================
@@ -91,6 +99,20 @@ function iniciarCuentaRegresiva() {
     temporizadorCuentaRegresiva = setInterval(() => {
         tiempoRestante--;
         actualizarDisplay();
+        
+        // *** REDUCIR APERTURA DE TUBOS CADA 5 SEGUNDOS ***
+        contadorReduccionApertura++;
+        if (contadorReduccionApertura % INTERVALO_REDUCCION_APERTURA === 0) {
+            // Reducir la apertura, pero no menos del mínimo
+            if (aperturaActual > APERTURA_MINIMA) {
+                aperturaActual -= REDUCCION_APERTURA;
+                // Asegurar que no baje del mínimo
+                if (aperturaActual < APERTURA_MINIMA) {
+                    aperturaActual = APERTURA_MINIMA;
+                }
+                console.log(`Apertura reducida a: ${aperturaActual}px`);
+            }
+        }
         
         // *** CAMBIAR VELOCIDAD DE TUBOS CUANDO LLEGA AL TIEMPO CONFIGURADO ***
         // Cuando quedan SET_TIEMPO_RESTANTE segundos (ej: 30 segundos restantes = 30 segundos jugados)
@@ -330,7 +352,7 @@ function crearTubos() {
     // El espacio debe estar entre el tope superior + margen y el tope inferior - margen
     const margenSeguridad = 100; //Crea un "colchón" de 100 píxeles arriba y abajo para garantizar que el hueco no toque los bordes superior e inferior
     const alturaMinima = TOPE_SUPERIOR + margenSeguridad;
-    const alturaMaxima = TOPE_INFERIOR - ESPACIO_ENTRE_TUBOS - margenSeguridad;
+    const alturaMaxima = TOPE_INFERIOR - aperturaActual - margenSeguridad;
     
     // Posición Y del borde inferior del tubo superior
     const alturaEspacio = Math.random() * (alturaMaxima - alturaMinima) + alturaMinima;
@@ -358,7 +380,7 @@ function crearTubos() {
     }
     
     tuboInferior.style.left = '890px';
-    const alturaTuboInferior = TOPE_INFERIOR + 100 - (alturaEspacio + ESPACIO_ENTRE_TUBOS);
+    const alturaTuboInferior = TOPE_INFERIOR + 100 - (alturaEspacio + aperturaActual);
     tuboInferior.style.height = alturaTuboInferior + 'px';
     contenedorTubos.appendChild(tuboInferior);
     
@@ -368,7 +390,7 @@ function crearTubos() {
         elementoInferior: tuboInferior,
         posicionX: 890,
         alturaEspacio: alturaEspacio,
-        alturaTuboInferior: alturaEspacio + ESPACIO_ENTRE_TUBOS,
+        alturaTuboInferior: alturaEspacio + aperturaActual,
         contado: false  // Para saber si ya sumamos el punto por este tubo
     });
     
@@ -418,9 +440,9 @@ function crearHongo(posicionX, alturaEspacio) {
     
     // --- PASO 3: CALCULAR LA POSICIÓN VERTICAL ---
     // El hongo debe aparecer justo arriba del tubo inferior
-    // alturaEspacio + ESPACIO_ENTRE_TUBOS = donde empieza el tubo inferior
+    // alturaEspacio + aperturaActual = donde empieza el tubo inferior
     // Le restamos 60px para que aparezca encima del tubo
-    const posicionYHongo = alturaEspacio + ESPACIO_ENTRE_TUBOS - 60;
+    const posicionYHongo = alturaEspacio + aperturaActual - 60;
     
     // --- PASO 4: APLICAR LAS POSICIONES AL ELEMENTO ---
     hongo.style.left = posicionXCentrada + 'px';
@@ -1025,6 +1047,10 @@ function reiniciarJuego() {
     
     // Resetear modo rápido (volver a tubos verdes y velocidad normal)
     modoRapido = false;
+    
+    // Resetear sistema de apertura dinámica
+    aperturaActual = APERTURA_INICIAL;
+    contadorReduccionApertura = 0;
     
     // Ocultar display de inmunidad y quitar efecto visual
     if (displayInmunidad) {
